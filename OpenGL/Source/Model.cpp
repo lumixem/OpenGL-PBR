@@ -50,6 +50,7 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "objectColour", colour);
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "lightColour", light->GetLightColour());
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
 	}
 }
 

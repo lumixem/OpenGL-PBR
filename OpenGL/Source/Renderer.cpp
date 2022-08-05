@@ -44,7 +44,7 @@ void Renderer::Render(ImGuiManager* imGui)
 	//light->Draw();
 	//light->Update(camera);
 
-	imGui->Slider3f("position", camera->GetPosition(), -2.f, 2.f);
+	imGui->Slider3f("position", plantR->GetPosition(), -2.f, 2.f);
 	imGui->Slider3f("rotation", plantR->GetRotation(), -30.f, 30.f);
 	imGui->Slider3f("scale", plantR->GetScale(), -5.f, 5.f);
 	imGui->Slider1f("scale factor", plantR->scaleFactor, -5.f, 5.f);

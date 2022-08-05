@@ -16,5 +16,7 @@ void main()
    gl_Position = projection * view * model * vec4(a_position, 1.0);
    fragmentPos = vec3(model * vec4(a_position, 1.0));
    textureCoords = a_textureCoords;
-   normals = a_normals;
+
+   //TODO: Calculate normal matrix on CPU and send as uniform instead of calculating on GPU
+   normals = mat3(transpose(inverse(model))) * a_normals;
 };

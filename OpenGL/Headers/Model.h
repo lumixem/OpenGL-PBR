@@ -13,7 +13,7 @@ struct aiNode;
 struct aiScene;
 struct aiMesh;
 struct aiMaterial;
-enum aiTextureType;
+enum aiTextureType : int;
 
 class Model
 {
