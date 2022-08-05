@@ -73,6 +73,12 @@ void ShaderManager::CheckProgramForErrors(GLuint programID)
 	}
 }
 
+void ShaderManager::SetFloat1f(GLuint shaderProgram, const char* uniform, float f)
+{
+	int location = glGetUniformLocation(shaderProgram, uniform);
+	glUniform1f(location, f);
+}
+
 void ShaderManager::SetInt3i(GLuint shaderProgram, const char* uniform, int x, int y, int z)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);

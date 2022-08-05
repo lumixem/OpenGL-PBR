@@ -51,4 +51,6 @@ private:
 	glm::vec3 scale;
 	glm::vec3 rotation;
 	glm::vec3 colour;
+	glm::vec3 specular;
+	float shininess;
 };

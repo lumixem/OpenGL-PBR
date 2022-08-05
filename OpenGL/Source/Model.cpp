@@ -19,6 +19,8 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	this->scale = glm::vec3(1.f, 1.f, 1.f);
 	this->rotation = glm::vec3(0.f, 0.f, 1.f);
 	this->colour = colour;
+	this->specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	this->shininess = 32.f;
 
 	bool loaded = LoadModel(filename);
 
@@ -48,9 +50,17 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "objectColour", colour);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "lightColour", light->GetLightColour());
+
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.ambient", colour);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.diffuse", colour);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.specular", specular);
+		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
+
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", 0.2f, 0.2f, 0.2f);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", 0.5f, 0.5f, 0.5f);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", 1.0f, 1.0f, 1.0f);
 	}
 }
 

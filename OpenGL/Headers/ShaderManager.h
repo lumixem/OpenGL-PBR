@@ -13,6 +13,7 @@ public:
 	GLuint LoadAndMakeShader(FileManager* fileManager, GLenum type, const char* filePath);
 	GLuint MakeShader(GLenum type, const char* shaderSrc);
 
+	void SetFloat1f(GLuint shaderProgram, const char* uniform, float f);
 	void SetInt3i(GLuint shaderProgram, const char* uniform, int x, int y, int z);
 	void SetFloat3f(GLuint shaderProgram, const char* uniform, float x, float y, float z);
 	void SetFloat3f(GLuint shaderProgram, const char* uniform, glm::vec3 vec);
