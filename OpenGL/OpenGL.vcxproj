@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\assimp\aabb.h" />
+    <ClInclude Include="Headers\assimp\ai_assert.h" />
+    <ClInclude Include="Headers\assimp\anim.h" />
+    <ClInclude Include="Headers\assimp\Base64.hpp" />
+    <ClInclude Include="Headers\assimp\BaseImporter.h" />
+    <ClInclude Include="Headers\assimp\Bitmap.h" />
+    <ClInclude Include="Headers\assimp\BlobIOSystem.h" />
+    <ClInclude Include="Headers\assimp\ByteSwapper.h" />
+    <ClInclude Include="Headers\assimp\camera.h" />
+    <ClInclude Include="Headers\assimp\cexport.h" />
+    <ClInclude Include="Headers\assimp\cfileio.h" />
+    <ClInclude Include="Headers\assimp\cimport.h" />
+    <ClInclude Include="Headers\assimp\ColladaMetaData.h" />
+    <ClInclude Include="Headers\assimp\color4.h" />
+    <ClInclude Include="Headers\assimp\commonMetaData.h" />
+    <ClInclude Include="Headers\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="Headers\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="Headers\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="Headers\assimp\config.h" />
+    <ClInclude Include="Headers\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="Headers\assimp\DefaultIOStream.h" />
+    <ClInclude Include="Headers\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="Headers\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="Headers\assimp\defs.h" />
+    <ClInclude Include="Headers\assimp\Exceptional.h" />
+    <ClInclude Include="Headers\assimp\Exporter.hpp" />
+    <ClInclude Include="Headers\assimp\fast_atof.h" />
+    <ClInclude Include="Headers\assimp\GenericProperty.h" />
+    <ClInclude Include="Headers\assimp\GltfMaterial.h" />
+    <ClInclude Include="Headers\assimp\Hash.h" />
+    <ClInclude Include="Headers\assimp\Importer.hpp" />
+    <ClInclude Include="Headers\assimp\importerdesc.h" />
+    <ClInclude Include="Headers\assimp\IOStream.hpp" />
+    <ClInclude Include="Headers\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="Headers\assimp\IOSystem.hpp" />
+    <ClInclude Include="Headers\assimp\light.h" />
+    <ClInclude Include="Headers\assimp\LineSplitter.h" />
+    <ClInclude Include="Headers\assimp\LogAux.h" />
+    <ClInclude Include="Headers\assimp\Logger.hpp" />
+    <ClInclude Include="Headers\assimp\LogStream.hpp" />
+    <ClInclude Include="Headers\assimp\material.h" />
+    <ClInclude Include="Headers\assimp\MathFunctions.h" />
+    <ClInclude Include="Headers\assimp\matrix3x3.h" />
+    <ClInclude Include="Headers\assimp\matrix4x4.h" />
+    <ClInclude Include="Headers\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="Headers\assimp\mesh.h" />
+    <ClInclude Include="Headers\assimp\metadata.h" />
+    <ClInclude Include="Headers\assimp\NullLogger.hpp" />
+    <ClInclude Include="Headers\assimp\ObjMaterial.h" />
+    <ClInclude Include="Headers\assimp\ParsingUtils.h" />
+    <ClInclude Include="Headers\assimp\pbrmaterial.h" />
+    <ClInclude Include="Headers\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="Headers\assimp\port\AndroidJNI\BundledAssetIOSystem.h" />
+    <ClInclude Include="Headers\assimp\postprocess.h" />
+    <ClInclude Include="Headers\assimp\Profiler.h" />
+    <ClInclude Include="Headers\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="Headers\assimp\qnan.h" />
+    <ClInclude Include="Headers\assimp\quaternion.h" />
+    <ClInclude Include="Headers\assimp\RemoveComments.h" />
+    <ClInclude Include="Headers\assimp\scene.h" />
+    <ClInclude Include="Headers\assimp\SceneCombiner.h" />
+    <ClInclude Include="Headers\assimp\SGSpatialSort.h" />
+    <ClInclude Include="Headers\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="Headers\assimp\SmallVector.h" />
+    <ClInclude Include="Headers\assimp\SmoothingGroups.h" />
+    <ClInclude Include="Headers\assimp\SpatialSort.h" />
+    <ClInclude Include="Headers\assimp\StandardShapes.h" />
+    <ClInclude Include="Headers\assimp\StreamReader.h" />
+    <ClInclude Include="Headers\assimp\StreamWriter.h" />
+    <ClInclude Include="Headers\assimp\StringComparison.h" />
+    <ClInclude Include="Headers\assimp\StringUtils.h" />
+    <ClInclude Include="Headers\assimp\Subdivision.h" />
+    <ClInclude Include="Headers\assimp\texture.h" />
+    <ClInclude Include="Headers\assimp\TinyFormatter.h" />
+    <ClInclude Include="Headers\assimp\types.h" />
+    <ClInclude Include="Headers\assimp\vector2.h" />
+    <ClInclude Include="Headers\assimp\vector3.h" />
+    <ClInclude Include="Headers\assimp\version.h" />
+    <ClInclude Include="Headers\assimp\Vertex.h" />
+    <ClInclude Include="Headers\assimp\XmlParser.h" />
+    <ClInclude Include="Headers\assimp\XMLTools.h" />
+    <ClInclude Include="Headers\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="Headers\Camera.h" />
+    <ClInclude Include="Headers\FileManager.h" />
+    <ClInclude Include="Headers\ImGuiManager.h" />
+    <ClInclude Include="Headers\Renderer.h" />
+    <ClInclude Include="Headers\ShaderManager.h" />
+    <ClInclude Include="Headers\stb_image.h" />
+    <ClInclude Include="Headers\Rectangle.h" />
+    <ClInclude Include="Headers\Window.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Headers\Precomp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Headers\Mesh.h" />
+    <ClInclude Include="Headers\Model.h" />
+    <ClInclude Include="Headers\Light.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Light.cpp" />
+    <ClCompile Include="Source\Model.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\Precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Source\FileManager.cpp" />
+    <ClCompile Include="Source\glad.c" />
+    <ClCompile Include="Source\ImGuiManager.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\ShaderManager.cpp" />
+    <ClCompile Include="Source\Rectangle.cpp" />
+    <ClCompile Include="Source\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Headers\assimp\color4.inl" />
+    <None Include="Headers\assimp\material.inl" />
+    <None Include="Headers\assimp\matrix3x3.inl" />
+    <None Include="Headers\assimp\matrix4x4.inl" />
+    <None Include="Headers\assimp\quaternion.inl" />
+    <None Include="Headers\assimp\SmoothingGroups.inl" />
+    <None Include="Headers\assimp\vector2.inl" />
+    <None Include="Headers\assimp\vector3.inl" />
+    <None Include="Resources\Shaders\fragShader.frag" />
+    <None Include="Resources\Shaders\lightFS.frag" />
+    <None Include="Resources\Shaders\lightVS.vert" />
+    <None Include="Resources\Shaders\vertShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\rainbow.jpg" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d30a4d30-1fcb-48cf-afb6-2e11b750b8c1}</ProjectGuid>
+    <RootNamespace>OpenGL</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)OpenGL\Headers;$(SolutionDir)OpenGL\imgui;$(SolutionDir)OpenGL\glm</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)OpenGL\Headers;$(SolutionDir)OpenGL\imgui;$(SolutionDir)OpenGL\glm</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)OpenGL\Headers;$(SolutionDir)OpenGL\imgui;$(SolutionDir)OpenGL\glm</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)OpenGL\Headers;$(SolutionDir)OpenGL\imgui;$(SolutionDir)OpenGL\glm</AdditionalIncludeDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>Precomp.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
