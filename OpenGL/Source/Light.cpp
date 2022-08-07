@@ -17,8 +17,8 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     fragmentShader = shaderManager->LoadAndMakeShader(_fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/lightFS.frag");
     shaderProgram = shaderManager->CreateProgram(vertexShader, fragmentShader);
 
-    //Vertices           //Texture coords
-    const float vertices[] = { 0.5f,  0.5f, 0.0f,  1.0f, 1.0f,  //top right
+								//Vertices           //Texture coords
+    const float vertices[] = {  0.5f,  0.5f, 0.0f,  1.0f, 1.0f,  //top right
                                 0.5f, -0.5f, 0.0f,  1.0f, 0.0f,  //bottom right
                                -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,  //bottom left
                                -0.5f,  0.5f, 0.0f,  0.0f, 1.0f   //top left
@@ -43,7 +43,7 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     glUseProgram(this->shaderProgram);
 
     //~~UNIFORMS
-    shaderManager->SetFloat3f(this->shaderProgram, "lightColour", lightColour);
+    shaderManager->SetFloat3f(this->shaderProgram, "light.diffuse", lightColour);
     shaderManager->SetFloat3f(this->shaderProgram, "lightPos", position);
 
     //~~VERTEX ATTRIBUTES

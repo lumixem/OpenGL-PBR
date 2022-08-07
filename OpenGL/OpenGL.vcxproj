@@ -127,6 +127,7 @@
     <ClInclude Include="Headers\Mesh.h" />
     <ClInclude Include="Headers\Model.h" />
     <ClInclude Include="Headers\Light.h" />
+    <ClInclude Include="Headers\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Light.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Source\ShaderManager.cpp" />
     <ClCompile Include="Source\Rectangle.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Headers\assimp\color4.inl" />

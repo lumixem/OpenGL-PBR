@@ -1,12 +1,14 @@
 #pragma once
 #include <vector>
 #include <glm/vec3.hpp>
+#include "Mesh.h"
 
 class FileManager;
 class ShaderManager;
 class Mesh;
 class Camera;
 class Light;
+class Texture;
 struct Vertex;
 struct Texture;
 struct aiNode;
@@ -18,7 +20,7 @@ enum aiTextureType : int;
 class Model
 {
 public:
-	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, glm::vec3 colour);
+	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, Texture* texture, glm::vec3 colour);
 
 	void Draw(ShaderManager* shaderManager, Camera* camera, Light* light);
 
@@ -42,10 +44,11 @@ private:
 	bool LoadModel(const char* filename);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Texture> LoadTextures(aiMaterial* mat, aiTextureType type);
+	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type, const char* name);
 
 	ShaderManager* shaderManager;
 	FileManager* fileManager;
+	Texture* texture;
 
 	glm::vec3 position;
 	glm::vec3 scale;

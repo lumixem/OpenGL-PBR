@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "ShaderManager.h"
 #include "FileManager.h"
+#include <string>
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager)
 {
@@ -54,13 +55,27 @@ void Mesh::Draw(ShaderManager* sm)
 {
 	glUseProgram(this->shaderProgram);
 
-	/*unsigned int textureNr;
+	unsigned int diffuseTextureNr = 1;
+	unsigned int specularTextureNr = 1;
+
 	for (size_t i = 0; i < textures.size(); ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + static_cast<int>(i));
+
+		std::string number;
+		std::string name = textures[i].type;
+
+		if (name == "texture_diffuse")
+			number = std::to_string(diffuseTextureNr++);
+		else if (name == "texture_specular")
+			number = std::to_string(specularTextureNr++);
+
+		std::string uniform = "material." + name += number;
+		shaderManager->SetInt1i(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
+
 		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
 	}
-	glActiveTexture(GL_TEXTURE0);*/
+	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);

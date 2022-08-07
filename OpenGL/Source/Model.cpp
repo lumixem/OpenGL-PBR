@@ -1,19 +1,22 @@
 #include "Model.h"
-#include "Mesh.h"
 #include "ShaderManager.h"
 #include "FileManager.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Texture.h"
+#pragma warning(push, 0)
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#pragma warning(pop)
 
-Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3 colour)
+Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager, Texture* _texture, glm::vec3 colour)
 {
 	shaderManager = _shaderManager;
 	fileManager = _fileManager;
+	texture = _texture;
 
 	this->position = glm::vec3(0.f, 0.f, 0.f);
 	this->scale = glm::vec3(1.f, 1.f, 1.f);
@@ -51,15 +54,13 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
 
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.ambient", colour);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.diffuse", colour);
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.specular", specular);
 		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
 
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", 0.2f, 0.2f, 0.2f);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", 0.5f, 0.5f, 0.5f);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", 0.5f, 0.5f, 0.5f);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", 0.8f, 0.8f, 0.8f);
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", 1.0f, 1.0f, 1.0f);
 	}
 }
@@ -124,6 +125,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			textureCoords.y = mesh->mTextureCoords[0][i].y;
 			vertex.textureCoords = textureCoords;
 		}
+		vertex.textureCoords = glm::vec2(0.f, 0.f);
+
 		vertices.push_back(vertex);
 	}
 
@@ -138,8 +141,31 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 	if (mesh->mMaterialIndex >= static_cast<unsigned int>(0))
 	{
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
+		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
+		std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
 	return Mesh{ vertices, indices, textures, shaderManager, fileManager };
+}
+
+std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType type, const char* name)
+{
+	std::vector<Mesh::Texture> textures;
+
+	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
+	{
+		aiString path;
+		mat->GetTexture(type, i, &path);
+		Mesh::Texture t;
+		t.textureID = texture->CreateTexture(path.C_Str());
+		t.type = name;
+		textures.push_back(t);
+	}
+
+	return textures;
 }

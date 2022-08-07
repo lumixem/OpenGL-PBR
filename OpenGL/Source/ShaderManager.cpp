@@ -1,6 +1,6 @@
 #include "ShaderManager.h"
 #include "FileManager.h"
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #pragma warning(push, 0)
 #include <glm/glm.hpp>
@@ -77,6 +77,12 @@ void ShaderManager::SetFloat1f(GLuint shaderProgram, const char* uniform, float 
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform1f(location, f);
+}
+
+void ShaderManager::SetInt1i(GLuint shaderProgram, const char* uniform, int i)
+{
+	int location = glGetUniformLocation(shaderProgram, uniform);
+	glUniform1i(location, i);
 }
 
 void ShaderManager::SetInt3i(GLuint shaderProgram, const char* uniform, int x, int y, int z)
