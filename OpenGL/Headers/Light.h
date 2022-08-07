@@ -26,6 +26,15 @@ public:
 	glm::vec3& GetLightColour() { return lightColour; } 
 	void SetLightColour(const glm::vec3 newColour) { lightColour = newColour; }
 
+	glm::vec3& GetAmbient() { return ambient; }
+	void SetAmbient(const glm::vec3 newAmbient) { ambient = newAmbient; }
+
+	glm::vec3& GetDiffuse() { return diffuse; }
+	void SetDiffuse(const glm::vec3 newDiffuse) { diffuse = newDiffuse; }
+
+	glm::vec3& GetSpecular() { return specular; }
+	void SetSpecular(const glm::vec3 newSpecular) { specular = newSpecular; }
+
 	float scaleFactor = 0.5;
 
 private:
@@ -35,7 +44,11 @@ private:
 	glm::vec3 position;
 	glm::vec3 scale;
 	glm::vec3 rotation;
+
 	glm::vec3 lightColour;
+	glm::vec3 diffuse;
+	glm::vec3 ambient;
+	glm::vec3 specular;
 
 	ShaderManager* shaderManager;
 };

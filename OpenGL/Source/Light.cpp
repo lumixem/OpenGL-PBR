@@ -10,6 +10,10 @@
 Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3 colour)
 {
     lightColour = colour;
+    diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+    ambient = glm::vec3(0.5f, 0.5f, 0.5f);
+    specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
 
     //~~SHADERS
     shaderManager = _shaderManager;
@@ -17,11 +21,11 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     fragmentShader = shaderManager->LoadAndMakeShader(_fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/lightFS.frag");
     shaderProgram = shaderManager->CreateProgram(vertexShader, fragmentShader);
 
-								//Vertices           //Texture coords
-    const float vertices[] = {  0.5f,  0.5f, 0.0f,  1.0f, 1.0f,  //top right
-                                0.5f, -0.5f, 0.0f,  1.0f, 0.0f,  //bottom right
-                               -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,  //bottom left
-                               -0.5f,  0.5f, 0.0f,  0.0f, 1.0f   //top left
+								//Vertices
+    const float vertices[] = {  0.5f,  0.5f, 0.0f,  //top right
+                                0.5f, -0.5f, 0.0f,  //bottom right
+                               -0.5f, -0.5f, 0.0f,  //bottom left
+                               -0.5f,  0.5f, 0.0f,  //top left
     };
 
     const unsigned int indices[] = { 0, 1, 3,
@@ -49,9 +53,6 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     //~~VERTEX ATTRIBUTES
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 
     //~~TRANSFORMS
     this->position = glm::vec3(0.f, 0.f, 0.f);

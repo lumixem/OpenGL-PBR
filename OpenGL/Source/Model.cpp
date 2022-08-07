@@ -59,9 +59,9 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", 0.5f, 0.5f, 0.5f);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", 0.8f, 0.8f, 0.8f);
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", 1.0f, 1.0f, 1.0f);
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
+		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
 	}
 }
 
@@ -159,12 +159,36 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType ty
 
 	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
-		aiString path;
+		/*aiString path;
 		mat->GetTexture(type, i, &path);
 		Mesh::Texture t;
 		t.textureID = texture->CreateTexture(path.C_Str());
 		t.type = name;
-		textures.push_back(t);
+		textures.push_back(t);*/
+
+		aiString path;
+		mat->GetTexture(type, i, &path);
+		bool skip = false;
+
+		for (size_t j = 0; j < loadedTextures.size(); ++j)
+		{
+			if (std::strcmp(loadedTextures[j].path.data(), path.C_Str()) == 0)
+			{
+				textures.push_back(loadedTextures[j]);
+				skip = true;
+				break;
+			}
+		}
+
+		if (!skip)
+		{
+			Mesh::Texture t;
+			t.textureID = texture->CreateTexture(path.C_Str());
+			t.type = name;
+			t.path = path.C_Str();
+			textures.push_back(t);
+			loadedTextures.push_back(t);
+		}
 	}
 
 	return textures;

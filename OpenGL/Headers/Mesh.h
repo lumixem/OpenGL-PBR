@@ -4,6 +4,7 @@
 #include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
 #include <vector>
+#include <string>
 
 class FileManager;
 class ShaderManager;
@@ -22,6 +23,7 @@ public:
 	{
 		unsigned int textureID;
 		const char* type;
+		std::string path;
 	};
 
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager);
