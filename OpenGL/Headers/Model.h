@@ -10,7 +10,6 @@ class Camera;
 class Light;
 class Texture;
 struct Vertex;
-struct Texture;
 struct aiNode;
 struct aiScene;
 struct aiMesh;
@@ -20,7 +19,7 @@ enum aiTextureType : int;
 class Model
 {
 public:
-	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, Texture* texture, glm::vec3 colour);
+	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, Texture* texture);
 
 	void Draw(ShaderManager* shaderManager, Camera* camera, Light* light);
 

@@ -12,7 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #pragma warning(pop)
 
-Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager, Texture* _texture, glm::vec3 colour)
+Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager, Texture* _texture)
 {
 	shaderManager = _shaderManager;
 	fileManager = _fileManager;
@@ -20,8 +20,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 
 	this->position = glm::vec3(0.f, 0.f, 0.f);
 	this->scale = glm::vec3(1.f, 1.f, 1.f);
-	this->rotation = glm::vec3(0.f, 0.f, 1.f);
-	this->colour = colour;
+	this->rotation = glm::vec3(0.f, -1.f, 0.f);
 	this->specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->shininess = 32.f;
 
@@ -45,10 +44,10 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 		meshes[i].Draw(sm);
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
-		meshes[i].rotationMatrix = glm::rotate(rotationMatrix, glm::radians(45.f), rotation);
+		meshes[i].rotationMatrix = glm::rotate(rotationMatrix, glm::radians(90.f), rotation);
 
 		//~~MVP
-		meshes[i].modelMatrix = meshes[i].translationMatrix * /*meshes[i].rotationMatrix **/ meshes[i].scaleMatrix;
+		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
 
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
@@ -67,8 +66,9 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 
 bool Model::LoadModel(const char* filename)
 {
+	printf("Model Filepath: %s\n", filename);
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
+	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate /*| aiProcess_FlipUVs*/ | aiProcess_JoinIdenticalVertices);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		printf("%s\n", importer.GetErrorString());
@@ -125,7 +125,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			textureCoords.y = mesh->mTextureCoords[0][i].y;
 			vertex.textureCoords = textureCoords;
 		}
-		vertex.textureCoords = glm::vec2(0.f, 0.f);
+		//vertex.textureCoords = glm::vec2(0.f, 0.f);
 
 		vertices.push_back(vertex);
 	}
@@ -159,14 +159,17 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType ty
 
 	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
-		/*aiString path;
-		mat->GetTexture(type, i, &path);
+		aiString str;
+		mat->GetTexture(type, i, &str);
 		Mesh::Texture t;
-		t.textureID = texture->CreateTexture(path.C_Str());
+		t.textureID = texture->CreateTexture(str.C_Str());
 		t.type = name;
-		textures.push_back(t);*/
+		t.path = str.C_Str();
+		textures.push_back(t);
 
-		aiString path;
+
+
+		/*aiString path;
 		mat->GetTexture(type, i, &path);
 		bool skip = false;
 
@@ -188,7 +191,7 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType ty
 			t.path = path.C_Str();
 			textures.push_back(t);
 			loadedTextures.push_back(t);
-		}
+		}*/
 	}
 
 	return textures;

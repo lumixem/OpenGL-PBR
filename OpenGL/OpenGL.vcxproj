@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\BaseObject.h" />
     <ClInclude Include="Headers\assimp\aabb.h" />
     <ClInclude Include="Headers\assimp\ai_assert.h" />
     <ClInclude Include="Headers\assimp\anim.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Headers\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\BaseObject.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />

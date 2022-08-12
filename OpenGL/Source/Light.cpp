@@ -3,6 +3,7 @@
 #include "FileManager.h"
 #include "Camera.h"
 #pragma warning(push, 0)
+#include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "glm/gtc/matrix_transform.hpp"
 #pragma warning(pop)
@@ -90,4 +91,12 @@ void Light::Update(Camera* camera)
     shaderManager->SetMatrix4fv(this->shaderProgram, "projection", camera->GetProjection());
     shaderManager->SetMatrix4fv(this->shaderProgram, "view", camera->GetView());
     shaderManager->SetMatrix4fv(this->shaderProgram, "model", modelMatrix);
+}
+
+void Light::Move()
+{
+    float time = glfwGetTime();
+    const float radius = 10.f;
+    this->position.x = sinf(time) * radius;
+    this->position.z = cosf(time) * radius;
 }

@@ -11,7 +11,9 @@ unsigned int Texture::CreateTexture(const char* path)
 {
 	std::string filename = path;
 	std::string directory = "Resources/";
-	filename = directory + filename;
+	//filename = directory + filename;
+	filename = "Resources/Textures/player_0.png";
+	printf("Texture filepath: %s\n", filename.c_str());
 
 	unsigned int texture;
 	glGenTextures(1, &texture);
@@ -21,7 +23,7 @@ unsigned int Texture::CreateTexture(const char* path)
 
 	if(data)
 	{
-		GLenum format;
+		GLint format = {};
 		if (channels == 1)
 			format = GL_RED;
 		else if (channels == 3)
