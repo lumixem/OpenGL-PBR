@@ -24,7 +24,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	this->specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->shininess = 32.f;
 
-	bool loaded = LoadModel(filename);
+	const bool loaded = LoadModel(filename);
 
 	if(!loaded)
 	{
@@ -32,7 +32,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	}
 }
 
-void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
+void Model::Draw(Camera* camera, Light* light)
 {
 	glm::mat4 translationMatrix = glm::mat4(1.f);
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
@@ -41,7 +41,7 @@ void Model::Draw(ShaderManager* sm, Camera* camera, Light* light)
 
 	for (size_t i = 0; i < meshes.size(); ++i)
 	{
-		meshes[i].Draw(sm);
+		meshes[i].Draw();
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
 		meshes[i].rotationMatrix = glm::rotate(rotationMatrix, glm::radians(90.f), rotation);
@@ -125,7 +125,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			textureCoords.y = mesh->mTextureCoords[0][i].y;
 			vertex.textureCoords = textureCoords;
 		}
-		//vertex.textureCoords = glm::vec2(0.f, 0.f);
+		else 
+			vertex.textureCoords = glm::vec2(0.f, 0.f);
 
 		vertices.push_back(vertex);
 	}
@@ -153,7 +154,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh{ vertices, indices, textures, shaderManager, fileManager };
 }
 
-std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, aiTextureType type, const char* name)
+std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureType type, const char* name)
 {
 	std::vector<Mesh::Texture> textures;
 

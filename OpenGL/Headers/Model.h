@@ -21,7 +21,8 @@ class Model
 public:
 	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, Texture* texture);
 
-	void Draw(ShaderManager* shaderManager, Camera* camera, Light* light);
+	void Draw(Camera* camera, Light* light);
+	bool LoadModel(const char* filename);
 
 	glm::vec3& GetPosition() { return position; } 
 	void SetPosition(const glm::vec3 newPos) { position = newPos; }
@@ -41,7 +42,6 @@ private:
 	std::vector<Mesh> meshes;
 	std::vector<Mesh::Texture> loadedTextures;
 
-	bool LoadModel(const char* filename);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type, const char* name);

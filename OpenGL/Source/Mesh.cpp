@@ -51,7 +51,7 @@ void Mesh::InitMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(ShaderManager* sm)
+void Mesh::Draw()
 {
 	glUseProgram(this->shaderProgram);
 

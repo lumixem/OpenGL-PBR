@@ -22,13 +22,13 @@ public:
 	struct Texture
 	{
 		unsigned int textureID;
-		const char* type;
+		std::string type;
 		std::string path;
 	};
 
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager);
 
-	void Draw(ShaderManager* shaderManager);
+	void Draw();
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

@@ -5,7 +5,7 @@
 
 Camera::Camera()
 {
-	position = glm::vec3(0.f, 1.5f, 2.5f);
+	position = glm::vec3(0.f, 1.5f, 2.f);
 	target = glm::vec3(0.f, 0.5f, 0.f);
 	direction = glm::normalize(position - target);
 	up = glm::vec3(0.f, 1.f, 0.f);

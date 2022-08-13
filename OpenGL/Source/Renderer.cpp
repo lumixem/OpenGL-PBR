@@ -1,43 +1,37 @@
 #include "Renderer.h"
 #include "ShaderManager.h"
 #include "FileManager.h"
-#include "Rectangle.h"
 #include "ImGuiManager.h"
 #include "Camera.h"
 #include "Model.h"
 #include "Light.h"
 #include "Texture.h"
-#include <vector>
-
-ShaderManager* shaderManager = new ShaderManager();
-FileManager* fileManager = new FileManager();
-Camera* camera = new Camera();
-Texture* texture = new Texture(fileManager);
-Model* plantR;
-Model* plantG;
-Model* plantB;
-Model* player;
-Light* light;
-std::vector<Model*> models;
+#include "Player.h"
+#include "ModelLibrary.h"
 
 void Renderer::Init()
 {
-	player = new Model("Resources/Models/player.obj", shaderManager, fileManager, texture);
-	models.push_back(player);
-
+	shaderManager = new ShaderManager();
+	fileManager = new FileManager();
+	camera = new Camera();
+	texture = new Texture(fileManager);
+	modelLibrary = new ModelLibrary(shaderManager, fileManager, texture);
+	player = new Player(modelLibrary);
 	light = new Light(shaderManager, fileManager);
+
+	objects.push_back(player);
 	light->SetPosition(glm::vec3(0.f, 1.f, 0.f));
 }
 
-void Renderer::Render(ImGuiManager* imGui)
+void Renderer::Render(ImGuiManager*)
 {
-	for (const auto& model : models)
+	for (const auto& object : objects)
 	{
-		model->Draw(shaderManager, camera, light);
+		object->model->Draw(camera, light);
 	}
 
-	imGui->Slider3f("position", player->GetPosition(), -2.f, 2.f);
-	imGui->Slider3f("rotation", player->GetRotation(), -30.f, 30.f);
-	imGui->Slider3f("scale", player->GetScale(), -5.f, 5.f);
-	imGui->Slider1f("scale factor", player->scaleFactor, -5.f, 5.f);
+	/*imGui->Slider3f("position", model->GetPosition(), -2.f, 2.f);
+	imGui->Slider3f("rotation", model->GetRotation(), -30.f, 30.f);
+	imGui->Slider3f("scale", model->GetScale(), -5.f, 5.f);
+	imGui->Slider1f("scale factor", model->scaleFactor, -5.f, 5.f);*/
 }
