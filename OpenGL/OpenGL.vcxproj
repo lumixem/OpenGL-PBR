@@ -131,6 +131,7 @@
     <ClInclude Include="Headers\Texture.h" />
     <ClInclude Include="Headers\Player.h" />
     <ClInclude Include="Headers\ModelLibrary.h" />
+    <ClInclude Include="Headers\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ModelLibrary.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Source\Rectangle.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
+    <ClCompile Include="Source\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Headers\assimp\color4.inl" />

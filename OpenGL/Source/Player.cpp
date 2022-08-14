@@ -10,17 +10,17 @@ Player::Player(const ModelLibrary* ml)
 	this->model->scaleFactor = 0.01f;
 }
 
-void Player::Init()
-{
-	
-}
-
-void Player::Draw()
-{
-
-}
-
-void Player::Update()
-{
-	
-}
+//void Player::Init()
+//{
+//	
+//}
+//
+//void Player::Draw()
+//{
+//
+//}
+//
+//void Player::Update()
+//{
+//	
+//}

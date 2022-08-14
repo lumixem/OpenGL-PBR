@@ -7,8 +7,9 @@ class Camera;
 class Texture;
 class ModelLibrary;
 class Light;
-class Player;
 class BaseObject;
+class Player;
+class Wall;
 class ImGuiManager;
 
 class Renderer
@@ -22,7 +23,9 @@ public:
 	Camera* camera;
 	Texture* texture;
 	ModelLibrary* modelLibrary;
-	Player* player;
 	Light* light;
+	Player* player;
+	Wall* wall;
+
 	std::vector<BaseObject*> objects;
 };

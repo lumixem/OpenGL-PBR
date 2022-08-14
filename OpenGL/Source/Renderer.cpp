@@ -8,6 +8,7 @@
 #include "Texture.h"
 #include "Player.h"
 #include "ModelLibrary.h"
+#include "Wall.h"
 
 void Renderer::Init()
 {
@@ -16,10 +17,12 @@ void Renderer::Init()
 	camera = new Camera();
 	texture = new Texture(fileManager);
 	modelLibrary = new ModelLibrary(shaderManager, fileManager, texture);
-	player = new Player(modelLibrary);
 	light = new Light(shaderManager, fileManager);
+	player = new Player(modelLibrary);
+	wall = new Wall(modelLibrary);
 
 	objects.push_back(player);
+	objects.push_back(wall);
 	light->SetPosition(glm::vec3(0.f, 1.f, 0.f));
 }
 
