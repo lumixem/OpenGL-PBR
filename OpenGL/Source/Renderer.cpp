@@ -22,7 +22,7 @@ void Renderer::Init()
 	wall = new Wall(modelLibrary);
 
 	objects.push_back(player);
-	objects.push_back(wall);
+	//objects.push_back(wall);
 	light->SetPosition(glm::vec3(0.f, 1.f, 0.f));
 }
 
@@ -32,6 +32,8 @@ void Renderer::Render(ImGuiManager*)
 	{
 		object->model->Draw(camera, light);
 	}
+
+	wall->model->DrawInstanced(camera, light);
 
 	/*imGui->Slider3f("position", model->GetPosition(), -2.f, 2.f);
 	imGui->Slider3f("rotation", model->GetRotation(), -30.f, 30.f);

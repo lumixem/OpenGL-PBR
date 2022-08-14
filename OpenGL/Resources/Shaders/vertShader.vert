@@ -6,6 +6,7 @@ layout(location = 2) in vec3 a_normals;
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
+uniform vec3 offsets[3];
 
 out vec2 textureCoords;
 out vec3 fragmentPos;
@@ -13,7 +14,8 @@ out vec3 normals;
 
 void main()
 {
-   gl_Position = projection * view * model * vec4(a_position, 1.0);
+   vec3 offset = offsets[gl_InstanceID];
+   gl_Position = projection * view * model * vec4(a_position + offset, 1.0);
    fragmentPos = vec3(model * vec4(a_position, 1.0));
    textureCoords = a_textureCoords;
 

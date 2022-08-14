@@ -22,6 +22,7 @@ public:
 	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager, Texture* texture);
 
 	void Draw(Camera* camera, Light* light);
+	void DrawInstanced(Camera* camera, Light* light);
 	bool LoadModel(const char* filename);
 
 	glm::vec3& GetPosition() { return position; } 
