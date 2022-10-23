@@ -14,6 +14,7 @@ public:
 	void Draw();
 	void Update(Camera* camera);
 	void Move();
+	void DrawImGui();
 
 	glm::vec3& GetPosition() { return position; }
 	void SetPosition(const glm::vec3 newPos) { position = newPos; }

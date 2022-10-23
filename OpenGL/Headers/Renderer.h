@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+class Window;
 class ShaderManager;
 class FileManager;
 class Camera;
@@ -16,7 +17,8 @@ class Renderer
 {
 public:
 	void Init();
-	void Render(ImGuiManager* imGui);
+	void Render();
+	void Shutdown();
 
 	ShaderManager* shaderManager;
 	FileManager* fileManager;
@@ -26,6 +28,8 @@ public:
 	Light* light;
 	Player* player;
 	Wall* wall;
+	Window* window;
+	ImGuiManager* imGui;
 
 	std::vector<BaseObject*> objects;
 };

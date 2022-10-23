@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "Window.h"
 #include "ShaderManager.h"
 #include "FileManager.h"
 #include "ImGuiManager.h"
@@ -10,8 +11,19 @@
 #include "ModelLibrary.h"
 #include "Wall.h"
 
+// Settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
 void Renderer::Init()
 {
+	window = new Window();
+	window->Init(SCR_WIDTH, SCR_HEIGHT);
+
+	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+	imGui->ImGui_CreateContext(window->glfwWindow);
+
+	imGui = new ImGuiManager();
 	shaderManager = new ShaderManager();
 	fileManager = new FileManager();
 	camera = new Camera();
@@ -23,20 +35,39 @@ void Renderer::Init()
 
 	objects.push_back(player);
 	//objects.push_back(wall);
-	light->SetPosition(glm::vec3(0.f, 1.f, 0.f));
 }
 
-void Renderer::Render(ImGuiManager*)
+void Renderer::Render()
 {
-	for (const auto& object : objects)
+	while (!window->WindowShouldClose())
 	{
-		object->model->Draw(camera, light);
+
+		glClearColor(1.f, 1.f, 1.f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		imGui->ImGui_NewFrame();
+
+		for (const auto& object : objects)
+		{
+			object->model->Draw(camera, light);
+		}
+
+		wall->model->DrawInstanced(camera, light);
+
+		imGui->ImGui_Render();
+
+		window->Update();
+
+		/*imGui->Slider3f("position", model->GetPosition(), -2.f, 2.f);
+		imGui->Slider3f("rotation", model->GetRotation(), -30.f, 30.f);
+		imGui->Slider3f("scale", model->GetScale(), -5.f, 5.f);
+		imGui->Slider1f("scale factor", model->scaleFactor, -5.f, 5.f);*/
 	}
+}
 
-	wall->model->DrawInstanced(camera, light);
-
-	/*imGui->Slider3f("position", model->GetPosition(), -2.f, 2.f);
-	imGui->Slider3f("rotation", model->GetRotation(), -30.f, 30.f);
-	imGui->Slider3f("scale", model->GetScale(), -5.f, 5.f);
-	imGui->Slider1f("scale factor", model->scaleFactor, -5.f, 5.f);*/
+void Renderer::Shutdown()
+{
+	imGui->ImGui_Shutdown();
+	window->Shutdown();
 }

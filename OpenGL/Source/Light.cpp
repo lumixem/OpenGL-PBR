@@ -56,7 +56,7 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     glEnableVertexAttribArray(0);
 
     //~~TRANSFORMS
-    this->position = glm::vec3(0.f, 0.f, 0.f);
+    this->position = glm::vec3(glm::vec3(0.f, 1.f, 0.f));
     this->scale = glm::vec3(1.f, 1.f, 1.f);
     this->rotation = glm::vec3(1.f, 0.f, 0.f);
 
@@ -99,4 +99,9 @@ void Light::Move()
     const float radius = 10.f;
     this->position.x = sinf(time) * radius;
     this->position.z = cosf(time) * radius;
+}
+
+void Light::DrawImGui()
+{
+
 }
