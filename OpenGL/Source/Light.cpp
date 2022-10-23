@@ -2,6 +2,8 @@
 #include "ShaderManager.h"
 #include "FileManager.h"
 #include "Camera.h"
+#include "ImGuiManager.h"
+#include "imgui.h"
 #pragma warning(push, 0)
 #include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -101,7 +103,9 @@ void Light::Move()
     this->position.z = cosf(time) * radius;
 }
 
-void Light::DrawImGui()
+void Light::DrawImGui(ImGuiManager* imGui)
 {
-
+	ImGui::Begin("Light");
+	ImGui::SliderFloat3("position", &position[0], -10.f, 10.f);
+    ImGui::End();
 }

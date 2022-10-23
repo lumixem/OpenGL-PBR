@@ -5,6 +5,7 @@
 class ShaderManager;
 class FileManager;
 class Camera;
+class ImGuiManager;
 
 class Light
 {
@@ -14,7 +15,7 @@ public:
 	void Draw();
 	void Update(Camera* camera);
 	void Move();
-	void DrawImGui();
+	void DrawImGui(ImGuiManager* imGui);
 
 	glm::vec3& GetPosition() { return position; }
 	void SetPosition(const glm::vec3 newPos) { position = newPos; }

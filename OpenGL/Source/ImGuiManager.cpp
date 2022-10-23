@@ -26,9 +26,6 @@ void ImGuiManager::ImGui_NewFrame()
 
 void ImGuiManager::ImGui_Render()
 {
-	//ImGui::Begin("Hello window!");
-	//ImGui::Text("Some text");
-	//ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

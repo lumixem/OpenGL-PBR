@@ -27,21 +27,18 @@ void Renderer::Init()
 	shaderManager = new ShaderManager();
 	fileManager = new FileManager();
 	camera = new Camera();
-	texture = new Texture(fileManager);
-	modelLibrary = new ModelLibrary(shaderManager, fileManager, texture);
+	modelLibrary = new ModelLibrary(shaderManager, fileManager);
 	light = new Light(shaderManager, fileManager);
 	player = new Player(modelLibrary);
 	wall = new Wall(modelLibrary);
 
 	objects.push_back(player);
-	//objects.push_back(wall);
 }
 
 void Renderer::Render()
 {
 	while (!window->WindowShouldClose())
 	{
-
 		glClearColor(1.f, 1.f, 1.f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,14 +52,10 @@ void Renderer::Render()
 
 		wall->model->DrawInstanced(camera, light);
 
+		light->DrawImGui(imGui);
 		imGui->ImGui_Render();
 
 		window->Update();
-
-		/*imGui->Slider3f("position", model->GetPosition(), -2.f, 2.f);
-		imGui->Slider3f("rotation", model->GetRotation(), -30.f, 30.f);
-		imGui->Slider3f("scale", model->GetScale(), -5.f, 5.f);
-		imGui->Slider1f("scale factor", model->scaleFactor, -5.f, 5.f);*/
 	}
 }
 

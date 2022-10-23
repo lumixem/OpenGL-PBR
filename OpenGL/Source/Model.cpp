@@ -12,11 +12,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #pragma warning(pop)
 
-Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager, Texture* _texture)
+Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager)
 {
 	shaderManager = _shaderManager;
 	fileManager = _fileManager;
-	texture = _texture;
+	texture = new Texture(_fileManager);
 
 	this->position = glm::vec3(0.f, 0.f, 0.f);
 	this->scale = glm::vec3(1.f, 1.f, 1.f);

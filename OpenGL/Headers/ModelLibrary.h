@@ -9,7 +9,7 @@ class Model;
 class ModelLibrary
 {
 public:
-	ModelLibrary(ShaderManager* shaderManager, FileManager* fileManager, Texture* texture);
+	ModelLibrary(ShaderManager* shaderManager, FileManager* fileManager);
 
 	Model* GetModel(const std::string& name) const;
 
