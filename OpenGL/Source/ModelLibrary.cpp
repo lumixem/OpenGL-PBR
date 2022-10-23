@@ -7,8 +7,11 @@ ModelLibrary::ModelLibrary(ShaderManager* shaderManager, FileManager* fileManage
 	plant->name = "Plant";
 	Model* fireExtinguisher = new Model("Resources/Models/korean_fire_extinguisher_01_4k.gltf", shaderManager, fileManager);
 	fireExtinguisher->name = "Fire Extinguisher";
+	Model* helmet = new Model("Resources/Models/DamagedHelmet.gltf", shaderManager, fileManager);
+	helmet->name = "Helmet";
 	models.insert({ "Player", plant });
 	models.insert({ "Wall", fireExtinguisher });
+	models.insert({ "Helmet", helmet });
 }
 
 Model* ModelLibrary::GetModel(const std::string& name) const

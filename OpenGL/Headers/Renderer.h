@@ -29,6 +29,7 @@ public:
 	Light* light;
 	Player* player;
 	Wall* wall;
+	Player* helmet;
 	Window* window;
 	ImGuiManager* imGui;
 

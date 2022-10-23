@@ -96,21 +96,21 @@
         }
     ],
     "images" : [
+      {
+        "uri": "textures/Default_albedo.jpg"
+      },
+      {
+        "uri": "textures/Default_metalRoughness.jpg"
+      },
         {
-            "uri" : "Default_albedo.jpg"
+            "uri" : "textures/Default_emissive.jpg"
         },
-        {
-            "uri" : "Default_metalRoughness.jpg"
-        },
-        {
-            "uri" : "Default_emissive.jpg"
-        },
-        {
-            "uri" : "Default_AO.jpg"
-        },
-        {
-            "uri" : "Default_normal.jpg"
-        }
+      {
+        "uri": "textures/Default_AO.jpg"
+      },
+      {
+        "uri": "textures/Default_normal.jpg"
+      }
     ],
     "materials" : [
         {

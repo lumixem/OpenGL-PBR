@@ -31,9 +31,11 @@ void Renderer::Init()
 	light = new Light(shaderManager, fileManager);
 	player = new Player(modelLibrary);
 	wall = new Wall(modelLibrary);
+	helmet = new Player(modelLibrary);
 
 	objects.push_back(player);
-	objects.push_back(wall);
+	//objects.push_back(wall);
+	//objects.push_back(helmet);
 }
 
 void Renderer::Render()

@@ -5,7 +5,7 @@
 
 Player::Player(const ModelLibrary* ml)
 {
-	this->model = ml->GetModel("Player");
+	this->model = ml->GetModel("Helmet");
 	this->model->SetPosition(glm::vec3(0.f, 0.f, -1.f));
 	this->model->scaleFactor = 1.f;
 }
