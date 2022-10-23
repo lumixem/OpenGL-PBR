@@ -33,13 +33,14 @@ void Renderer::Init()
 	wall = new Wall(modelLibrary);
 
 	objects.push_back(player);
+	objects.push_back(wall);
 }
 
 void Renderer::Render()
 {
 	while (!window->WindowShouldClose())
 	{
-		glClearColor(1.f, 1.f, 1.f, 1.0f);
+		glClearColor(colour.x, colour.y, colour.z , 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -48,10 +49,10 @@ void Renderer::Render()
 		for (const auto& object : objects)
 		{
 			object->model->Draw(camera, light);
+			object->model->DrawImGui();
 		}
 
-		wall->model->DrawInstanced(camera, light);
-
+		imGui->Slider3f("Background", colour, 0.f, 1.f);
 		light->DrawImGui(imGui);
 		imGui->ImGui_Render();
 

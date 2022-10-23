@@ -24,6 +24,7 @@ public:
 	void Draw(Camera* camera, Light* light);
 	void DrawInstanced(Camera* camera, Light* light);
 	bool LoadModel(const char* filename);
+	void DrawImGui();
 
 	glm::vec3& GetPosition() { return position; } 
 	void SetPosition(const glm::vec3 newPos) { position = newPos; }
@@ -38,6 +39,7 @@ public:
 	void SetColour(const glm::vec3 newColour) { colour = newColour; }
 
 	float scaleFactor = 1;
+	std::string name;
 
 private:
 	std::vector<Mesh> meshes;

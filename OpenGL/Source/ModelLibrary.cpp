@@ -3,10 +3,12 @@
 
 ModelLibrary::ModelLibrary(ShaderManager* shaderManager, FileManager* fileManager)
 {
-	Model* player = new Model("Resources/Models/player.obj", shaderManager, fileManager);
-	Model* wall = new Model("Resources/Models/wall.obj", shaderManager, fileManager);
-	models.insert({ "Player", player });
-	models.insert({ "Wall", wall });
+	Model* plant = new Model("Resources/Models/potted_plant_01_4k.gltf", shaderManager, fileManager);
+	plant->name = "Plant";
+	Model* fireExtinguisher = new Model("Resources/Models/korean_fire_extinguisher_01_4k.gltf", shaderManager, fileManager);
+	fireExtinguisher->name = "Fire Extinguisher";
+	models.insert({ "Player", plant });
+	models.insert({ "Wall", fireExtinguisher });
 }
 
 Model* ModelLibrary::GetModel(const std::string& name) const

@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Texture.h"
+#include "imgui.h"
 #pragma warning(push, 0)
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -228,4 +229,14 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 	}
 
 	return textures;
+}
+
+void Model::DrawImGui()
+{
+	ImGui::Begin(name.c_str());
+	ImGui::SliderFloat3("Position", &position[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Rotation", &rotation[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Scale", &scale[0], -10.f, 10.f);
+	ImGui::SliderFloat("ScaleFactor", &scaleFactor, -5.f, 5.f);
+	ImGui::End();
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <glm/vec3.hpp>
 
 class Window;
 class ShaderManager;
@@ -32,4 +33,6 @@ public:
 	ImGuiManager* imGui;
 
 	std::vector<BaseObject*> objects;
+
+	glm::vec3 colour = glm::vec3(1.f, 1.f, 1.f);
 };
