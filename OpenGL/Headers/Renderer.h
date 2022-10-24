@@ -34,5 +34,5 @@ public:
 	std::vector<BaseObject*> objects;
 	std::vector<Model*> models;
 
-	glm::vec3 colour = glm::vec3(1.f, 1.f, 1.f);
+	glm::vec3 colour = glm::vec3(0.f, 0.f, 0.f);
 };

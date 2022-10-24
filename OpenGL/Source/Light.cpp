@@ -17,7 +17,6 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     ambient = glm::vec3(0.5f, 0.5f, 0.5f);
     specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
-
     //~~SHADERS
     shaderManager = _shaderManager;
     vertexShader = shaderManager->LoadAndMakeShader(_fileManager, GL_VERTEX_SHADER, "Resources/Shaders/lightVS.vert");
@@ -58,7 +57,7 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     glEnableVertexAttribArray(0);
 
     //~~TRANSFORMS
-    this->position = glm::vec3(glm::vec3(0.f, 1.f, 0.f));
+    this->position = glm::vec3(glm::vec3(0.f, 2.f, 1.f));
     this->scale = glm::vec3(1.f, 1.f, 1.f);
     this->rotation = glm::vec3(1.f, 0.f, 0.f);
 
