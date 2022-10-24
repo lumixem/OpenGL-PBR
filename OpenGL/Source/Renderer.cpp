@@ -29,11 +29,12 @@ void Renderer::Init()
 	camera = new Camera();
 	modelLibrary = new ModelLibrary(shaderManager, fileManager);
 	light = new Light(shaderManager, fileManager);
-	player = new Player(modelLibrary);
-	wall = new Wall(modelLibrary);
-	helmet = new Player(modelLibrary);
-
-	objects.push_back(player);
+	//player = new Player(modelLibrary);
+	//wall = new Wall(modelLibrary);
+	//helmet = new Player(modelLibrary);
+	Model* model = new Model("Resources/Models/SciFiHelmet/SciFiHelmet.gltf", shaderManager, fileManager);
+	models.push_back(model);
+	//objects.push_back(player);
 	//objects.push_back(wall);
 	//objects.push_back(helmet);
 }
@@ -48,10 +49,10 @@ void Renderer::Render()
 
 		imGui->ImGui_NewFrame();
 
-		for (const auto& object : objects)
+		for (const auto& model : models)
 		{
-			object->model->Draw(camera, light);
-			object->model->DrawImGui();
+			model->Draw(camera, light);
+			model->DrawImGui();
 		}
 
 		imGui->Slider3f("Background", colour, 0.f, 1.f);

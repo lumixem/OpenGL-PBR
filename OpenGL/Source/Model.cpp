@@ -233,7 +233,7 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 
 void Model::DrawImGui()
 {
-	ImGui::Begin(name.c_str());
+	ImGui::Begin("Model");
 	ImGui::SliderFloat3("Position", &position[0], -10.f, 10.f);
 	ImGui::SliderFloat3("Rotation", &rotation[0], -10.f, 10.f);
 	ImGui::SliderFloat3("Scale", &scale[0], -10.f, 10.f);

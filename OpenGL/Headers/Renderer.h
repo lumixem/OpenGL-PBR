@@ -2,6 +2,7 @@
 #include <vector>
 #include <glm/vec3.hpp>
 
+class Model;
 class Window;
 class ShaderManager;
 class FileManager;
@@ -34,6 +35,7 @@ public:
 	ImGuiManager* imGui;
 
 	std::vector<BaseObject*> objects;
+	std::vector<Model*> models;
 
 	glm::vec3 colour = glm::vec3(1.f, 1.f, 1.f);
 };
