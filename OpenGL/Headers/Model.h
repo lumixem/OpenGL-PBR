@@ -45,9 +45,12 @@ private:
 	std::vector<Mesh> meshes;
 	std::vector<Mesh::Texture> loadedTextures;
 
+	void FindFolder();
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type, const char* name);
+
+	std::string filepath;
 
 	ShaderManager* shaderManager;
 	FileManager* fileManager;

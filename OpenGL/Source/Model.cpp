@@ -15,6 +15,9 @@
 
 Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager)
 {
+	filepath = filename;
+	FindFolder();
+
 	shaderManager = _shaderManager;
 	fileManager = _fileManager;
 	texture = new Texture(_fileManager);
@@ -110,6 +113,13 @@ bool Model::LoadModel(const char* filename)
 		ProcessNode(scene->mRootNode, scene);
 
 	return true;
+}
+
+void Model::FindFolder()
+{
+	size_t last = filepath.find_last_of("/");
+	filepath = filepath.substr(0, last);
+	filepath += "/";
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
@@ -220,7 +230,7 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 		if (!skip)
 		{
 			Mesh::Texture t;
-			t.textureID = texture->CreateTexture(path.C_Str());
+			t.textureID = texture->CreateTexture(path.C_Str(), filepath);
 			t.type = name;
 			t.path = path.C_Str();
 			textures.push_back(t);

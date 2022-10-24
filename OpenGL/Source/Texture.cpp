@@ -7,12 +7,10 @@ fileManager(fileManager)
 {
 }
 
-unsigned int Texture::CreateTexture(const char* path)
+unsigned int Texture::CreateTexture(const char* textureName, const std::string& filepath)
 {
-	std::string filename = path;
-	std::string directory = "Resources/Models/DamagedHelmet/";
-	filename = directory + filename;
-	//std::string filename = "Resources/Textures/player_0.png";
+	std::string filename = textureName;
+	filename = filepath + filename;
 	printf("Texture filepath: %s\n", filename.c_str());
 
 	unsigned int texture;
