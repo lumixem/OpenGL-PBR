@@ -119,49 +119,6 @@ bool Model::LoadModel(const char* filename)
 	return true;
 }
 
-void Model::FindFolder()
-{
-	size_t last = filepath.find_last_of("/");
-	filepath = filepath.substr(0, last);
-	filepath += "/";
-}
-
-void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
-{
-	glm::mat4 rotX = glm::mat4(1.0f);
-	glm::mat4 rotY = glm::mat4(1.0f);
-	glm::mat4 rotZ = glm::mat4(1.0f);
-
-	float radX = glm::radians(rotation.x);
-	float sinX = sinf(radX);
-	float cosX = cosf(radX);
-
-	rotX[1][1] = cosX;
-	rotX[2][1] = -sinX;
-	rotX[1][2] = sinX;
-	rotX[2][2] = cosX;
-
-	float radY = glm::radians(rotation.y);
-	float sinY = sinf(radY);
-	float cosY = cosf(radY);
-
-	rotY[0][0] = cosY;
-	rotY[2][0] = sinY;
-	rotY[0][2] = -sinY;
-	rotY[2][2] = cosY;
-
-	float radZ = glm::radians(rotation.z);
-	float sinZ = sinf(radZ);
-	float cosZ = cosf(radZ);
-
-	rotZ[0][0] = cosZ;
-	rotZ[1][0] = -sinZ;
-	rotZ[0][1] = sinZ;
-	rotZ[1][1] = cosZ;
-
-	rotationMatrix = rotX * rotY * rotZ;
-}
-
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
 {
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
@@ -230,7 +187,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
@@ -289,4 +246,47 @@ void Model::DrawImGui()
 	ImGui::SliderFloat3("Scale", &scale[0], -10.f, 10.f);
 	ImGui::SliderFloat("ScaleFactor", &scaleFactor, -5.f, 5.f);
 	ImGui::End();
+}
+
+void Model::FindFolder()
+{
+	size_t last = filepath.find_last_of("/");
+	filepath = filepath.substr(0, last);
+	filepath += "/";
+}
+
+void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
+{
+	glm::mat4 rotX = glm::mat4(1.0f);
+	glm::mat4 rotY = glm::mat4(1.0f);
+	glm::mat4 rotZ = glm::mat4(1.0f);
+
+	float radX = glm::radians(rotation.x);
+	float sinX = sinf(radX);
+	float cosX = cosf(radX);
+
+	rotX[1][1] = cosX;
+	rotX[2][1] = -sinX;
+	rotX[1][2] = sinX;
+	rotX[2][2] = cosX;
+
+	float radY = glm::radians(rotation.y);
+	float sinY = sinf(radY);
+	float cosY = cosf(radY);
+
+	rotY[0][0] = cosY;
+	rotY[2][0] = sinY;
+	rotY[0][2] = -sinY;
+	rotY[2][2] = cosY;
+
+	float radZ = glm::radians(rotation.z);
+	float sinZ = sinf(radZ);
+	float cosZ = cosf(radZ);
+
+	rotZ[0][0] = cosZ;
+	rotZ[1][0] = -sinZ;
+	rotZ[0][1] = sinZ;
+	rotZ[1][1] = cosZ;
+
+	rotationMatrix = rotX * rotY * rotZ;
 }
