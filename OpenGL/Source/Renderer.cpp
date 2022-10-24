@@ -29,7 +29,7 @@ void Renderer::Init()
 	camera = new Camera();
 	light = new Light(shaderManager, fileManager);
 	
-	Model* model = new Model("Resources/Models/Player/Player.fbx", shaderManager, fileManager);
+	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", shaderManager, fileManager);
 	models.push_back(model);
 }
 

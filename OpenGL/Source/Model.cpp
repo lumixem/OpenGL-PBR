@@ -24,7 +24,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 
 	this->position = glm::vec3(0.f, 0.f, 0.f);
 	this->scale = glm::vec3(1.f, 1.f, 1.f);
-	this->rotation = glm::vec3(0.f, -1.f, 0.f);
+	this->rotation = glm::vec3(0.f, 0.f, 0.f);
 	this->specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->shininess = 32.f;
 
@@ -43,12 +43,14 @@ void Model::Draw(Camera* camera, Light* light)
 	glm::mat4 rotationMatrix = glm::mat4(1.f);
 	glm::mat4 modelMatrix = glm::mat4(1.f);
 
+	CalculateRotationMatrix(rotationMatrix);
+
 	for (size_t i = 0; i < meshes.size(); ++i)
 	{
 		meshes[i].Draw();
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
-		meshes[i].rotationMatrix = glm::rotate(rotationMatrix, glm::radians(90.f), rotation);
+		meshes[i].rotationMatrix = rotationMatrix;
 
 		//~~MVP
 		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
@@ -75,12 +77,14 @@ void Model::DrawInstanced(Camera* camera, Light* light)
 	glm::mat4 rotationMatrix = glm::mat4(1.f);
 	glm::mat4 modelMatrix = glm::mat4(1.f);
 
+	CalculateRotationMatrix(rotationMatrix);
+
 	for (size_t i = 0; i < meshes.size(); ++i)
 	{
 		meshes[i].DrawInstanced();
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
-		meshes[i].rotationMatrix = glm::rotate(rotationMatrix, glm::radians(90.f), rotation);
+		meshes[i].rotationMatrix = rotationMatrix;
 
 		//~~MVP
 		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
@@ -120,6 +124,42 @@ void Model::FindFolder()
 	size_t last = filepath.find_last_of("/");
 	filepath = filepath.substr(0, last);
 	filepath += "/";
+}
+
+void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
+{
+	glm::mat4 rotX = glm::mat4(1.0f);
+	glm::mat4 rotY = glm::mat4(1.0f);
+	glm::mat4 rotZ = glm::mat4(1.0f);
+
+	float radX = glm::radians(rotation.x);
+	float sinX = sinf(radX);
+	float cosX = cosf(radX);
+
+	rotX[1][1] = cosX;
+	rotX[2][1] = -sinX;
+	rotX[1][2] = sinX;
+	rotX[2][2] = cosX;
+
+	float radY = glm::radians(rotation.y);
+	float sinY = sinf(radY);
+	float cosY = cosf(radY);
+
+	rotY[0][0] = cosY;
+	rotY[2][0] = sinY;
+	rotY[0][2] = -sinY;
+	rotY[2][2] = cosY;
+
+	float radZ = glm::radians(rotation.z);
+	float sinZ = sinf(radZ);
+	float cosZ = cosf(radZ);
+
+	rotZ[0][0] = cosZ;
+	rotZ[1][0] = -sinZ;
+	rotZ[0][1] = sinZ;
+	rotZ[1][1] = cosZ;
+
+	rotationMatrix = rotX * rotY * rotZ;
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
@@ -245,7 +285,7 @@ void Model::DrawImGui()
 {
 	ImGui::Begin("Model");
 	ImGui::SliderFloat3("Position", &position[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Rotation", &rotation[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Rotation", &rotation[0], -90.f, 90.f);
 	ImGui::SliderFloat3("Scale", &scale[0], -10.f, 10.f);
 	ImGui::SliderFloat("ScaleFactor", &scaleFactor, -5.f, 5.f);
 	ImGui::End();
