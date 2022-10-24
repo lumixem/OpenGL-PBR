@@ -28,9 +28,6 @@ public:
 	Texture* texture;
 	ModelLibrary* modelLibrary;
 	Light* light;
-	Player* player;
-	Wall* wall;
-	Player* helmet;
 	Window* window;
 	ImGuiManager* imGui;
 

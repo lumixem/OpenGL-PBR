@@ -27,16 +27,10 @@ void Renderer::Init()
 	shaderManager = new ShaderManager();
 	fileManager = new FileManager();
 	camera = new Camera();
-	modelLibrary = new ModelLibrary(shaderManager, fileManager);
 	light = new Light(shaderManager, fileManager);
-	//player = new Player(modelLibrary);
-	//wall = new Wall(modelLibrary);
-	//helmet = new Player(modelLibrary);
+	
 	Model* model = new Model("Resources/Models/SciFiHelmet/SciFiHelmet.gltf", shaderManager, fileManager);
 	models.push_back(model);
-	//objects.push_back(player);
-	//objects.push_back(wall);
-	//objects.push_back(helmet);
 }
 
 void Renderer::Render()
