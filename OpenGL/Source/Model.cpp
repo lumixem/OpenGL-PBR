@@ -25,7 +25,6 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	this->position = glm::vec3(0.f, 0.f, 0.f);
 	this->scale = glm::vec3(1.f, 1.f, 1.f);
 	this->rotation = glm::vec3(0.f, 0.f, 0.f);
-	this->specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->shininess = 32.f;
 
 	const bool loaded = LoadModel(filename);
@@ -59,7 +58,6 @@ void Model::Draw(Camera* camera, Light* light)
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
 
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.specular", specular);
 		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
 
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
@@ -93,7 +91,6 @@ void Model::DrawInstanced(Camera* camera, Light* light)
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
 		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
 
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "material.specular", specular);
 		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
 
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
@@ -189,6 +186,9 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+		std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
 	return Mesh{ vertices, indices, textures, shaderManager, fileManager };
