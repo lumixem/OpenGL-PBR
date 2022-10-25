@@ -7,9 +7,7 @@
 #include "Model.h"
 #include "Light.h"
 #include "Texture.h"
-#include "Player.h"
 #include "ModelLibrary.h"
-#include "Wall.h"
 
 // Settings
 const unsigned int SCR_WIDTH = 800;
