@@ -11,9 +11,6 @@ struct Material
 {
 	sampler2D texture_diffuse;
 	sampler2D texture_specular;
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
 	float shininess;
 };
 
@@ -30,28 +27,27 @@ uniform Light light;
 
 void main()
 {
-   //normal and directions
+   // Normal and Directions //
    vec3 normal = normalize(normals);
    vec3 lightDirection = normalize(light.position - fragmentPos);
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
 
-   //ambient
+   // Ambient //
    float ambientStrength = 0.3;
    vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse, textureCoords));;
 
-   //diffuse
+   // Diffuse //
    float diff = max(dot(normal, lightDirection), 0.0);
    vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse, textureCoords));  
 
-   //specular
+   // Specular //
    float specularStrength = 0.5;
    float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), material.shininess);
-   //vec3 specular = light.specular * (spec * material.specular);
    vec3 specular = light.specular * (spec * texture(material.texture_specular, textureCoords).g);
 
+   // Result //
    vec3 result = ambient + diffuse + specular;
    fragColour = vec4(result, 1.0);
-   //fragColour = texture2D(material.texture_diffuse1, textureCoords);
-   //fragColour = texture(material.texture_diffuse1, textureCoords) * vec4(result, 1.0);
+   //fragColour = texture2D(material.texture_diffuse, textureCoords);
 }
