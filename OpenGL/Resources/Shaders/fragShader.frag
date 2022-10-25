@@ -9,14 +9,8 @@ uniform vec3 cameraPos;
 
 struct Material
 {
-	sampler2D texture_diffuse1;
-	sampler2D texture_diffuse2;
-	sampler2D texture_diffuse3;
-	sampler2D texture_diffuse4;
-	sampler2D texture_specular1;
-	sampler2D texture_specular2;
-	sampler2D texture_specular3;
-	sampler2D texture_specular4;
+	sampler2D texture_diffuse;
+	sampler2D texture_specular;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
@@ -44,17 +38,17 @@ void main()
 
    //ambient
    float ambientStrength = 0.3;
-   vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, textureCoords));;
+   vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse, textureCoords));;
 
    //diffuse
    float diff = max(dot(normal, lightDirection), 0.0);
-   vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse1, textureCoords));  
+   vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse, textureCoords));  
 
    //specular
    float specularStrength = 0.5;
    float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), material.shininess);
    //vec3 specular = light.specular * (spec * material.specular);
-   vec3 specular = light.specular * (spec * texture(material.texture_specular1, textureCoords).g);
+   vec3 specular = light.specular * (spec * texture(material.texture_specular, textureCoords).g);
 
    vec3 result = ambient + diffuse + specular;
    fragColour = vec4(result, 1.0);

@@ -79,22 +79,12 @@ void Mesh::Draw()
 {
 	glUseProgram(this->shaderProgram);
 
-	unsigned int diffuseTextureNr = 1;
-	unsigned int specularTextureNr = 1;
-
 	for (size_t i = 0; i < textures.size(); ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + static_cast<int>(i));
 
-		std::string number;
 		std::string name = textures[i].type;
-
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseTextureNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularTextureNr++);
-
-		std::string uniform = "material." + name += number;
+		std::string uniform = "material." + name;
 		shaderManager->SetInt1i(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
@@ -109,22 +99,12 @@ void Mesh::DrawInstanced()
 {
 	glUseProgram(this->shaderProgram);
 
-	unsigned int diffuseTextureNr = 1;
-	unsigned int specularTextureNr = 1;
-
 	for (size_t i = 0; i < textures.size(); ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + static_cast<int>(i));
 
-		std::string number;
 		std::string name = textures[i].type;
-
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseTextureNr++);
-		else if (name == "texture_specular")
-			number = std::to_string(specularTextureNr++);
-
-		std::string uniform = "material." + name += number;
+		std::string uniform = "material." + name;
 		shaderManager->SetInt1i(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);

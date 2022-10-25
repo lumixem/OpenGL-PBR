@@ -15,18 +15,20 @@ const unsigned int SCR_HEIGHT = 600;
 
 void Renderer::Init()
 {
+	//Window::Init initializes the Window and also OpenGL that's why it should be called first before any OpenGL calls
 	window = new Window();
 	window->Init(SCR_WIDTH, SCR_HEIGHT);
-
-	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-	imGui->ImGui_CreateContext(window->glfwWindow);
 
 	imGui = new ImGuiManager();
 	shaderManager = new ShaderManager();
 	fileManager = new FileManager();
 	camera = new Camera();
 	light = new Light(shaderManager, fileManager);
-	
+
+	imGui->ImGui_CreateContext(window->glfwWindow);
+
+	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+
 	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", shaderManager, fileManager);
 	model->SetPosition(glm::vec3(0.f, 0.7f, 0.f));
 	model->SetRotation(glm::vec3(45.f, 0.f, 0.f));

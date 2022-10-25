@@ -19,22 +19,6 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 	int width, height, channels;
 	unsigned char* data = fileManager->LoadImage(filename.c_str(), &width, &height, &channels);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	if(data)
 	{
 		GLint format = {};

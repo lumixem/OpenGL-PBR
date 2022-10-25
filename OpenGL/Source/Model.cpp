@@ -200,16 +200,6 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 
 	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
-		/*aiString str;
-		mat->GetTexture(type, i, &str);
-		Mesh::Texture t;
-		t.textureID = texture->CreateTexture(str.C_Str());
-		t.type = name;
-		t.path = str.C_Str();
-		textures.push_back(t);*/
-
-
-
 		aiString path;
 		mat->GetTexture(type, i, &path);
 		bool skip = false;
