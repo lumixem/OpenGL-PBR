@@ -44,6 +44,7 @@ void Renderer::Render()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		imGui->ImGui_NewFrame();
+		camera->Update();
 
 		for (const auto& model : models)
 		{
@@ -52,7 +53,8 @@ void Renderer::Render()
 		}
 
 		imGui->Slider3f("Background", colour, 0.f, 1.f);
-		light->DrawImGui(imGui);
+		light->DrawImGui();
+		camera->DrawImGui();
 		imGui->ImGui_Render();
 
 		window->Update();

@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "imgui.h"
 #pragma warning(push, 0)
 #include <glm/gtc/matrix_transform.hpp>
 #pragma warning(pop)
@@ -10,7 +11,18 @@ Camera::Camera()
 	direction = glm::normalize(position - target);
 	up = glm::vec3(0.f, 1.f, 0.f);
 	right = glm::normalize(glm::cross(up, direction));
+}
 
+void Camera::Update()
+{
 	view = glm::lookAt(position, target, up);
 	projection = glm::perspective(glm::radians(55.f), 800.f / 600.f, 0.1f, 100.f);
+}
+
+void Camera::DrawImGui()
+{
+	ImGui::Begin("Camera");
+	ImGui::SliderFloat3("Position", &position[0], -5.f, 5.f);
+	ImGui::SliderFloat3("Target", &target[0], -5.f, 5.f);
+	ImGui::End();
 }

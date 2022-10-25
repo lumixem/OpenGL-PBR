@@ -6,6 +6,9 @@ class Camera
 public:
 	Camera();
 
+	void Update();
+	void DrawImGui();
+
 	glm::vec3& GetPosition() { return position; }
 	void SetPosition(glm::vec3 newPos) { position = newPos; }
 

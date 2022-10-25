@@ -102,9 +102,13 @@ void Light::Move()
     this->position.z = cosf(time) * radius;
 }
 
-void Light::DrawImGui(ImGuiManager* imGui)
+void Light::DrawImGui()
 {
 	ImGui::Begin("Light");
 	ImGui::SliderFloat3("position", &position[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Colour", &lightColour[0], 0.f, 1.f);
+	ImGui::SliderFloat3("Diffuse", &diffuse[0], 0.f, 1.f);
+	ImGui::SliderFloat3("Ambient", &ambient[0], 0.f, 1.f);
+	ImGui::SliderFloat3("Specular", &specular[0], 0.f, 1.f);
     ImGui::End();
 }
