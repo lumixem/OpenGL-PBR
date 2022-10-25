@@ -14,3 +14,5 @@ this renderer to show its features.
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [glm](https://glm.g-truc.net/0.9.9/)
 - [stb_image](https://github.com/nothings/stb)
+
+This project is licensed under the terms of the MIT license.
