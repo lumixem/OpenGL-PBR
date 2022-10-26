@@ -29,7 +29,7 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 		else if (channels == 4)
 			format = GL_RGBA;
 		else
-			printf("TEXTURE ERROR: Incorrect texture format\n");
+			printf("\nTEXTURE ERROR: Incorrect texture format\n");
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -44,7 +44,7 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 	}
 	else
 	{
-		printf("TEXTURE ERROR: Texture failed to load\n");
+		printf("\nTEXTURE ERROR: Texture failed to load\n");
 		fileManager->FreeImageData(data);
 	}
 

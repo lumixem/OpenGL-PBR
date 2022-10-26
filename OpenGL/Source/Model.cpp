@@ -65,6 +65,9 @@ void Model::Draw(Camera* camera, Light* light)
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
+
+		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
+		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);
 	}
 }
 
@@ -98,6 +101,9 @@ void Model::DrawInstanced(Camera* camera, Light* light)
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
+
+		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
+		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);
 	}
 }
 
@@ -199,11 +205,19 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
+		{
+			std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
+			if (!specularMaps.empty()) textureCheck.hasRougnessMap = true;
+			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		}
 
-		std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		if (material->GetTextureCount(aiTextureType_NORMALS) != 0)
+		{
+			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
+			if (!normalMaps.empty()) textureCheck.hasNormalMap = true;
+			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		}
 	}
 
 	return Mesh{ vertices, indices, textures, shaderManager, fileManager };

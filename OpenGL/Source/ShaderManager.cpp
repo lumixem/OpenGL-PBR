@@ -108,3 +108,9 @@ void ShaderManager::SetMatrix4fv(GLuint shaderProgram, const char* uniform, glm:
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
+void ShaderManager::SetBool(GLuint shaderProgram, const char* uniform, bool b)
+{
+	int location = glGetUniformLocation(shaderProgram, uniform);
+	glUniform1i(location, b);
+}

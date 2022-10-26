@@ -19,6 +19,7 @@ public:
 	void SetFloat3f(GLuint shaderProgram, const char* uniform, float x, float y, float z);
 	void SetFloat3f(GLuint shaderProgram, const char* uniform, glm::vec3 vec);
 	void SetMatrix4fv(GLuint shaderProgram, const char* uniform, glm::mat4 matrix);
+	void SetBool(GLuint shaderProgram, const char* uniform, bool b);
 
 	GLint shaderProgramID;
 

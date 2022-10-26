@@ -8,6 +8,12 @@ in mat3 TBN;
 
 uniform vec3 cameraPos;
 
+struct TextureCheck
+{
+	bool hasRoughnessMap;
+	bool hasNormalMap;
+};
+
 struct Material
 {
 	sampler2D texture_diffuse;
@@ -24,6 +30,7 @@ struct Light
 	vec3 specular;
 };
 
+uniform TextureCheck textureCheck;
 uniform Material material;
 uniform Light light;
 
@@ -31,9 +38,12 @@ void main()
 {
    // Normal and Directions //
    vec3 normal = normalize(normals);
-   normal = texture(material.texture_normal, textureCoords).rgb;
-   normal = normal * 2.0 - 1.0; 
-   normal = normalize(TBN * normal);
+   if(textureCheck.hasNormalMap)
+   {
+	normal = texture(material.texture_normal, textureCoords).rgb;
+	normal = normal * 2.0 - 1.0; 
+	normal = normalize(TBN * normal);
+   }
    vec3 lightDirection = normalize(light.position - fragmentPos);
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
