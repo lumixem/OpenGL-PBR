@@ -59,8 +59,13 @@ void main()
    // Specular //
    float specularStrength = 0.5;
    float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), material.shininess);
-   vec3 specular = light.specular * (spec * texture(material.texture_specular, textureCoords).g);
-
+   vec3 s = vec3(0.3, 0.3, 0.3);
+   vec3 specular = light.specular * (spec * s);
+   if(textureCheck.hasRoughnessMap)
+   {
+	specular = light.specular * (spec * texture(material.texture_specular, textureCoords).g);
+   }
+   
    // Result //
    vec3 result = ambient + diffuse + specular;
    fragColour = vec4(result, 1.0);
