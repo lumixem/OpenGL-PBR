@@ -46,15 +46,24 @@ void Renderer::Render()
 		imGui->ImGui_NewFrame();
 		camera->Update();
 
+		imGui->ImGui_DrawMenu();
+
 		for (const auto& model : models)
 		{
 			model->Draw(camera, light);
+			if(imGui->menu.showModels)
 			model->DrawImGui();
 		}
 
+		if(imGui->menu.showDebug)
 		imGui->Slider3f("Background", colour, 0.f, 1.f);
+
+		if(imGui->menu.showLight)
 		light->DrawImGui();
+
+		if(imGui->menu.showCamera)
 		camera->DrawImGui();
+
 		imGui->ImGui_Render();
 
 		window->Update();

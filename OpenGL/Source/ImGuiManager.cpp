@@ -30,6 +30,19 @@ void ImGuiManager::ImGui_Render()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
+void ImGuiManager::ImGui_DrawMenu()
+{
+	if(ImGui::BeginMainMenuBar())
+	{
+		ImGui::Checkbox("Debug", &menu.showDebug);
+		ImGui::Checkbox("Models", &menu.showModels);
+		ImGui::Checkbox("Camera", &menu.showCamera);
+		ImGui::Checkbox("Light", &menu.showLight);
+
+		ImGui::EndMainMenuBar();
+	}
+}
+
 void ImGuiManager::ImGui_Shutdown()
 {
 	ImGui_ImplOpenGL3_Shutdown();
