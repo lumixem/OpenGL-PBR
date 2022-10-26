@@ -31,7 +31,7 @@ void Renderer::Init()
 
 	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", shaderManager, fileManager);
 	model->SetPosition(glm::vec3(0.f, 0.7f, 0.f));
-	model->SetRotation(glm::vec3(45.f, 0.f, 0.f));
+	model->SetRotation(glm::vec3(0.f, 0.f, 0.f));
 	models.push_back(model);
 }
 

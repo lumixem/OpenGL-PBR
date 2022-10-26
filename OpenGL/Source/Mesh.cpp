@@ -38,6 +38,14 @@ void Mesh::InitMesh()
 	glUseProgram(this->shaderProgram);
 
 //~~VERTEX ATTRIBUTES
+	/*
+	 *	pos, pos, pos
+	 *	tex, tex,
+	 *	norm, norm, norm,
+	 *	tangent, tangent, tangent,
+	 *	bitangent, bitangent, bitangent
+	 */
+
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
@@ -47,7 +55,14 @@ void Mesh::InitMesh()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 5));
 
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 8));
+
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(float) * 11));
+
 //~~INSTANCING
+	//TODO: calculate only if instancing is required for the model
 	glm::vec3 translations[3];
 	int index = 0;
 	float offset = 3.f;

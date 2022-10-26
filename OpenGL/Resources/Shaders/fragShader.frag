@@ -4,6 +4,7 @@ out vec4 fragColour;
 in vec2 textureCoords;
 in vec3 normals;
 in vec3 fragmentPos;
+in mat3 TBN;
 
 uniform vec3 cameraPos;
 
@@ -30,6 +31,9 @@ void main()
 {
    // Normal and Directions //
    vec3 normal = normalize(normals);
+   normal = texture(material.texture_normal, textureCoords).rgb;
+   normal = normal * 2.0 - 1.0; 
+   normal = normalize(TBN * normal);
    vec3 lightDirection = normalize(light.position - fragmentPos);
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);

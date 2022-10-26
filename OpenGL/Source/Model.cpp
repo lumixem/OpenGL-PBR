@@ -105,7 +105,7 @@ bool Model::LoadModel(const char* filename)
 {
 	printf("Model Filepath: %s\n", filename);
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate /*| aiProcess_FlipUVs*/ | aiProcess_JoinIdenticalVertices);
+	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate /*| aiProcess_FlipUVs*/ | aiProcess_JoinIdenticalVertices | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		printf("%s\n", importer.GetErrorString());
@@ -164,6 +164,21 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 		else 
 			vertex.textureCoords = glm::vec2(0.f, 0.f);
+
+		if(mesh->HasTangentsAndBitangents())
+		{
+			glm::vec3 tangents;
+			tangents.x = mesh->mTangents[i].x;
+			tangents.y = mesh->mTangents[i].y;
+			tangents.z = mesh->mTangents[i].z;
+			vertex.tangent = tangents;
+
+			glm::vec3 biTangents;
+			biTangents.x = mesh->mBitangents[i].x;
+			biTangents.y = mesh->mBitangents[i].y;
+			biTangents.z = mesh->mBitangents[i].z;
+			vertex.biTangent = biTangents;
+		}
 
 		vertices.push_back(vertex);
 	}
