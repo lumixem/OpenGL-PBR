@@ -15,4 +15,8 @@ this renderer to show its features.
 - [glm](https://glm.g-truc.net/0.9.9/)
 - [stb_image](https://github.com/nothings/stb)
 
+### Resources:
+- https://learnopengl.com/
+- http://www.opengl-tutorial.org/
+
 This project is licensed under the terms of the MIT license.
