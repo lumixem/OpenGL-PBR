@@ -41,7 +41,7 @@ Rectangle::Rectangle(ShaderManager* _shaderManager, FileManager* _fileManager)
     glUseProgram(this->shaderProgram);
 
 //~~UNIFORMS
-    shaderManager->SetFloat3f(this->shaderProgram, "objectColour", 0.5f, 0.2f, 0.6f);
+    shaderManager->SetFloat3(this->shaderProgram, "objectColour", 0.5f, 0.2f, 0.6f);
 
 //~~TEXTURE
     int width, height, nrOfChannels;
@@ -106,7 +106,7 @@ void Rectangle::Update(Camera* camera)
 //~~MVP
     modelMatrix = translationMatrix * scaleMatrix;
 
-    shaderManager->SetMatrix4fv(this->shaderProgram, "projection", camera->GetProjection());
-    shaderManager->SetMatrix4fv(this->shaderProgram, "view", camera->GetView());
-    shaderManager->SetMatrix4fv(this->shaderProgram, "model", modelMatrix);
+    shaderManager->SetMatrix4f(this->shaderProgram, "projection", camera->GetProjection());
+    shaderManager->SetMatrix4f(this->shaderProgram, "view", camera->GetView());
+    shaderManager->SetMatrix4f(this->shaderProgram, "model", modelMatrix);
 }

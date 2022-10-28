@@ -80,7 +80,7 @@ void Mesh::InitMesh()
 
 	for (int i = 0; i < 3; ++i)
 	{
-		shaderManager->SetFloat3f(this->shaderProgram, std::string("offsets[" + std::to_string(i) + "]").c_str(), translations[i]);
+		shaderManager->SetFloat3(this->shaderProgram, std::string("offsets[" + std::to_string(i) + "]").c_str(), translations[i]);
 	}
 
 //~~CLEANUP
@@ -100,7 +100,7 @@ void Mesh::Draw()
 
 		std::string name = textures[i].type;
 		std::string uniform = "material." + name;
-		shaderManager->SetInt1i(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
+		shaderManager->SetInt1(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
 	}
@@ -120,7 +120,7 @@ void Mesh::DrawInstanced()
 
 		std::string name = textures[i].type;
 		std::string uniform = "material." + name;
-		shaderManager->SetInt1i(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
+		shaderManager->SetInt1(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
 	}

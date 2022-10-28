@@ -13,12 +13,13 @@ public:
 	GLuint LoadAndMakeShader(FileManager* fileManager, GLenum type, const char* filePath);
 	GLuint MakeShader(GLenum type, const char* shaderSrc);
 
-	void SetFloat1f(GLuint shaderProgram, const char* uniform, float f);
-	void SetInt1i(GLuint shaderProgram, const char* uniform, int i);
-	void SetInt3i(GLuint shaderProgram, const char* uniform, int x, int y, int z);
-	void SetFloat3f(GLuint shaderProgram, const char* uniform, float x, float y, float z);
-	void SetFloat3f(GLuint shaderProgram, const char* uniform, glm::vec3 vec);
-	void SetMatrix4fv(GLuint shaderProgram, const char* uniform, glm::mat4 matrix);
+	void SetFloat1(GLuint shaderProgram, const char* uniform, float f);
+	void SetInt1(GLuint shaderProgram, const char* uniform, int i);
+	void SetUnsignedInt1(GLuint shaderProgram, const char* uniform, unsigned int i);
+	void SetInt3(GLuint shaderProgram, const char* uniform, int x, int y, int z);
+	void SetFloat3(GLuint shaderProgram, const char* uniform, float x, float y, float z);
+	void SetFloat3(GLuint shaderProgram, const char* uniform, glm::vec3 vec);
+	void SetMatrix4f(GLuint shaderProgram, const char* uniform, glm::mat4 matrix);
 	void SetBool(GLuint shaderProgram, const char* uniform, bool b);
 
 	GLint shaderProgramID;

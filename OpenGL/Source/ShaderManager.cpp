@@ -73,37 +73,43 @@ void ShaderManager::CheckProgramForErrors(GLuint programID)
 	}
 }
 
-void ShaderManager::SetFloat1f(GLuint shaderProgram, const char* uniform, float f)
+void ShaderManager::SetFloat1(GLuint shaderProgram, const char* uniform, float f)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform1f(location, f);
 }
 
-void ShaderManager::SetInt1i(GLuint shaderProgram, const char* uniform, int i)
+void ShaderManager::SetInt1(GLuint shaderProgram, const char* uniform, int i)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform1i(location, i);
 }
 
-void ShaderManager::SetInt3i(GLuint shaderProgram, const char* uniform, int x, int y, int z)
+void ShaderManager::SetUnsignedInt1(GLuint shaderProgram, const char* uniform, unsigned int i)
+{
+	int location = glGetUniformLocation(shaderProgram, uniform);
+	glUniform1ui(location, i);
+}
+
+void ShaderManager::SetInt3(GLuint shaderProgram, const char* uniform, int x, int y, int z)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform3i(location, x, y, z);
 }
 
-void ShaderManager::SetFloat3f(GLuint shaderProgram, const char* uniform, float x, float y, float z)
+void ShaderManager::SetFloat3(GLuint shaderProgram, const char* uniform, float x, float y, float z)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform3f(location, x, y, z);
 }
 
-void ShaderManager::SetFloat3f(GLuint shaderProgram, const char* uniform, glm::vec3 vec)
+void ShaderManager::SetFloat3(GLuint shaderProgram, const char* uniform, glm::vec3 vec)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniform3f(location, vec.x, vec.y, vec.z);
 }
 
-void ShaderManager::SetMatrix4fv(GLuint shaderProgram, const char* uniform, glm::mat4 matrix)
+void ShaderManager::SetMatrix4f(GLuint shaderProgram, const char* uniform, glm::mat4 matrix)
 {
 	int location = glGetUniformLocation(shaderProgram, uniform);
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));

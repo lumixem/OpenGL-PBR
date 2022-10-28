@@ -58,18 +58,19 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		//~~MVP
 		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
 
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
+		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
+		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "view", camera->GetView());
+		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
 
-		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
+		shaderManager->SetFloat1(meshes[i].GetShaderProgram(), "material.shininess", shininess);
 
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
+		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
+		shaderManager->SetUnsignedInt1(meshes[i].GetShaderProgram(), "light.lightType", static_cast<unsigned int>(light->lightType));
 
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);

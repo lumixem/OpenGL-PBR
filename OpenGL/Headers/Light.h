@@ -7,9 +7,19 @@ class FileManager;
 class Camera;
 class ImGuiManager;
 
+enum class LightType
+{
+	Directional,
+	Point,
+	Spot
+};
+
 class Light
 {
 public:
+	//A simple light containing the necessary variables and is not visible in the scene
+	Light(LightType lightType);
+	//A visible 2D plane which represents the lights position and colour
 	Light(ShaderManager* shaderManager, FileManager* fileManager, glm::vec3 lightColour = glm::vec3(1.f, 1.f, 1.f));
 
 	void Draw();
@@ -42,12 +52,13 @@ public:
 	void SetDirection(const glm::vec3 newDirection) { position = newDirection; }
 
 	float scaleFactor = 0.5;
+	LightType lightType;
 
 private:
 	GLuint VBO, VAO, EBO;
 	GLuint vertexShader, fragmentShader, shaderProgram;
 
-	glm::vec3 position;
+	glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
 	glm::vec3 scale;
 	glm::vec3 rotation;
 
@@ -55,7 +66,7 @@ private:
 	glm::vec3 diffuse;
 	glm::vec3 ambient;
 	glm::vec3 specular;
-	glm::vec3 lightDirection; //For directional light
+	glm::vec3 lightDirection = glm::vec3(0.f, 0.f, 0.f); //For directional light
 
 	ShaderManager* shaderManager;
 };

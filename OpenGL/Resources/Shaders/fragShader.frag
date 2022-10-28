@@ -29,6 +29,7 @@ struct Light
 	vec3 diffuse;
 	vec3 specular;
 	vec3 direction;
+	uint lightType;
 };
 
 uniform TextureCheck textureCheck;
@@ -47,8 +48,15 @@ void main()
    }
 
    // Directions //
-   //vec3 lightDirection = normalize(light.position - fragmentPos);
-   vec3 lightDirection = normalize(light.direction);
+   vec3 lightDirection = vec3(0, 0, 0);
+   if(light.lightType == uint(0)) //Directional Light
+   {
+	lightDirection = normalize(light.direction); 
+   }
+   if(light.lightType == uint(1)) //Point Light
+   {
+	lightDirection = normalize(light.position - fragmentPos);
+   }
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
 

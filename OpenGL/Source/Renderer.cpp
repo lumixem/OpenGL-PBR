@@ -23,7 +23,7 @@ void Renderer::Init()
 	shaderManager = new ShaderManager();
 	fileManager = new FileManager();
 	camera = new Camera();
-	light = new Light(shaderManager, fileManager);
+	light = new Light(LightType::Point);
 
 	imGui->ImGui_CreateContext(window->glfwWindow);
 
@@ -48,25 +48,21 @@ void Renderer::Render()
 
 		imGui->ImGui_DrawMenu();
 
-		//for (int i = -2; i < 2; ++i)
-		//{
-			for (const auto& model : models)
-			{
-				//model->SetPosition(glm::vec3(i * 2, 0, -3));
-				model->Draw(camera, light, true);
-				if (imGui->menu.showModels)
-					model->DrawImGui();
-			}
-		//}
+		for (const auto& model : models)
+		{
+			model->Draw(camera, light, true);
+			if (imGui->menu.showModels)
+				model->DrawImGui();
+		}
 
 		if(imGui->menu.showDebug)
-		imGui->Slider3f("Background", colour, 0.f, 1.f);
+			imGui->Slider3f("Background", colour, 0.f, 1.f);
 
 		if(imGui->menu.showLight)
-		light->DrawImGui();
+			light->DrawImGui();
 
 		if(imGui->menu.showCamera)
-		camera->DrawImGui();
+			camera->DrawImGui();
 
 		imGui->ImGui_Render();
 

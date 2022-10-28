@@ -10,6 +10,27 @@
 #include "glm/gtc/matrix_transform.hpp"
 #pragma warning(pop)
 
+Light::Light(LightType lt)
+{
+    lightType = lt;
+    diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+    ambient = glm::vec3(0.5f, 0.5f, 0.5f);
+    specular = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    if(lightType == LightType::Directional)
+    {
+        lightDirection = glm::vec3(2.f, 1.f, 3.f);
+    }
+    else if(lightType == LightType::Point)
+    {
+        position = glm::vec3(glm::vec3(0.f, 2.f, 1.f));
+    }
+    else if(lightType == LightType::Spot)
+    {
+	    
+    }
+}
+
 Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3 colour)
 {
     lightColour = colour;
@@ -50,8 +71,8 @@ Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3
     glUseProgram(this->shaderProgram);
 
     //~~UNIFORMS
-    shaderManager->SetFloat3f(this->shaderProgram, "light.diffuse", lightColour);
-    shaderManager->SetFloat3f(this->shaderProgram, "lightPos", position);
+    shaderManager->SetFloat3(this->shaderProgram, "light.diffuse", lightColour);
+    shaderManager->SetFloat3(this->shaderProgram, "lightPos", position);
 
     //~~VERTEX ATTRIBUTES
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -90,9 +111,9 @@ void Light::Update(Camera* camera)
     //~~MVP
     modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 
-    shaderManager->SetMatrix4fv(this->shaderProgram, "projection", camera->GetProjection());
-    shaderManager->SetMatrix4fv(this->shaderProgram, "view", camera->GetView());
-    shaderManager->SetMatrix4fv(this->shaderProgram, "model", modelMatrix);
+    shaderManager->SetMatrix4f(this->shaderProgram, "projection", camera->GetProjection());
+    shaderManager->SetMatrix4f(this->shaderProgram, "view", camera->GetView());
+    shaderManager->SetMatrix4f(this->shaderProgram, "model", modelMatrix);
 }
 
 void Light::Move()
