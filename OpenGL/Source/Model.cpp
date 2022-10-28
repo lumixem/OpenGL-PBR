@@ -35,7 +35,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	}
 }
 
-void Model::Draw(Camera* camera, Light* light)
+void Model::Draw(Camera* camera, Light* light, bool instanced)
 {
 	glm::mat4 translationMatrix = glm::mat4(1.f);
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
@@ -46,7 +46,11 @@ void Model::Draw(Camera* camera, Light* light)
 
 	for (size_t i = 0; i < meshes.size(); ++i)
 	{
-		meshes[i].Draw();
+		if (!instanced)
+			meshes[i].Draw();
+		else if (instanced)
+			meshes[i].DrawInstanced();
+
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
 		meshes[i].rotationMatrix = rotationMatrix;
@@ -66,42 +70,6 @@ void Model::Draw(Camera* camera, Light* light)
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
 		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
-
-		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
-		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);
-	}
-}
-
-void Model::DrawInstanced(Camera* camera, Light* light)
-{
-	glm::mat4 translationMatrix = glm::mat4(1.f);
-	glm::mat4 scaleMatrix = glm::mat4(1.f);
-	glm::mat4 rotationMatrix = glm::mat4(1.f);
-	glm::mat4 modelMatrix = glm::mat4(1.f);
-
-	CalculateRotationMatrix(rotationMatrix);
-
-	for (size_t i = 0; i < meshes.size(); ++i)
-	{
-		meshes[i].DrawInstanced();
-		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
-		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
-		meshes[i].rotationMatrix = rotationMatrix;
-
-		//~~MVP
-		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
-
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "view", camera->GetView());
-		shaderManager->SetMatrix4fv(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
-
-		shaderManager->SetFloat1f(meshes[i].GetShaderProgram(), "material.shininess", shininess);
-
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
-		shaderManager->SetFloat3f(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
 
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);

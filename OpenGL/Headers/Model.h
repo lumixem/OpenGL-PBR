@@ -21,8 +21,7 @@ class Model
 public:
 	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager);
 
-	void Draw(Camera* camera, Light* light);
-	void DrawInstanced(Camera* camera, Light* light);
+	void Draw(Camera* camera, Light* light, bool instanced);
 	bool LoadModel(const char* filename);
 	void DrawImGui();
 

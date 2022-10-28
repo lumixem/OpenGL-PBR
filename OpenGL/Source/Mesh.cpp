@@ -71,9 +71,9 @@ void Mesh::InitMesh()
 		for (int x = 0; x < 3; x++)
 		{
 			glm::vec3 translation;
-			translation.x = 0.f;
+			translation.x = static_cast<float>(x) * 0.5f * -offset;
 			translation.y = 0.f;
-			translation.z = static_cast<float>(x) * -offset;
+			translation.z = 0.f;
 			translations[index++] = translation;
 		}
 	}

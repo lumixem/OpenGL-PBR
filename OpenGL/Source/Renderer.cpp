@@ -48,16 +48,16 @@ void Renderer::Render()
 
 		imGui->ImGui_DrawMenu();
 
-		for (int i = -2; i < 2; ++i)
-		{
+		//for (int i = -2; i < 2; ++i)
+		//{
 			for (const auto& model : models)
 			{
-				model->SetPosition(glm::vec3(i * 2, 0, -3));
-				model->Draw(camera, light);
+				//model->SetPosition(glm::vec3(i * 2, 0, -3));
+				model->Draw(camera, light, true);
 				if (imGui->menu.showModels)
 					model->DrawImGui();
 			}
-		}
+		//}
 
 		if(imGui->menu.showDebug)
 		imGui->Slider3f("Background", colour, 0.f, 1.f);
