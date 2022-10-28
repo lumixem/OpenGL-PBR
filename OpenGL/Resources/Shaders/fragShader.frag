@@ -28,6 +28,7 @@ struct Light
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
+	vec3 direction;
 };
 
 uniform TextureCheck textureCheck;
@@ -36,7 +37,7 @@ uniform Light light;
 
 void main()
 {
-   // Normal and Directions //
+   // Normals // 
    vec3 normal = normalize(normals);
    if(textureCheck.hasNormalMap)
    {
@@ -44,7 +45,10 @@ void main()
 	normal = normal * 2.0 - 1.0; 
 	normal = normalize(TBN * normal);
    }
-   vec3 lightDirection = normalize(light.position - fragmentPos);
+
+   // Directions //
+   //vec3 lightDirection = normalize(light.position - fragmentPos);
+   vec3 lightDirection = normalize(light.direction);
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
 

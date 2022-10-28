@@ -38,6 +38,9 @@ public:
 	glm::vec3& GetSpecular() { return specular; }
 	void SetSpecular(const glm::vec3 newSpecular) { specular = newSpecular; }
 
+	glm::vec3& GetDirection() { return lightDirection; }
+	void SetDirection(const glm::vec3 newDirection) { position = newDirection; }
+
 	float scaleFactor = 0.5;
 
 private:
@@ -52,6 +55,7 @@ private:
 	glm::vec3 diffuse;
 	glm::vec3 ambient;
 	glm::vec3 specular;
+	glm::vec3 lightDirection; //For directional light
 
 	ShaderManager* shaderManager;
 };

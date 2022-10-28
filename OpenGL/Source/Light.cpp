@@ -13,6 +13,7 @@
 Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3 colour)
 {
     lightColour = colour;
+    lightDirection = glm::vec3(2.f, 1.f, 3.f);
     diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
     ambient = glm::vec3(0.5f, 0.5f, 0.5f);
     specular = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -105,8 +106,8 @@ void Light::Move()
 void Light::DrawImGui()
 {
 	ImGui::Begin("Light");
-	ImGui::SliderFloat3("position", &position[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Colour", &lightColour[0], 0.f, 1.f);
+	ImGui::SliderFloat3("Position", &position[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Direction", &lightDirection[0], -10.f, 10.f);
 	ImGui::SliderFloat3("Diffuse", &diffuse[0], 0.f, 1.f);
 	ImGui::SliderFloat3("Ambient", &ambient[0], 0.f, 1.f);
 	ImGui::SliderFloat3("Specular", &specular[0], 0.f, 1.f);
