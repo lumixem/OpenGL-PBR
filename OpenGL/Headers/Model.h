@@ -38,7 +38,6 @@ public:
 	void SetColour(const glm::vec3 newColour) { colour = newColour; }
 
 	float scaleFactor = 1;
-	std::string name;
 
 private:
 	std::vector<Mesh> meshes;

@@ -1,7 +1,7 @@
 #include "ModelLibrary.h"
 #include "Model.h"
 
-ModelLibrary::ModelLibrary(ShaderManager* shaderManager, FileManager* fileManager)
+ModelLibrary::ModelLibrary(ShaderManager*, FileManager*)
 {
 	/*Model* plant = new Model("Resources/Models/potted_plant_01_4k.gltf", shaderManager, fileManager);
 	plant->name = "Plant";

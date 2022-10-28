@@ -118,7 +118,7 @@ void Light::Update(Camera* camera)
 
 void Light::Move()
 {
-    float time = glfwGetTime();
+    float time = static_cast<float>(glfwGetTime());
     const float radius = 10.f;
     this->position.x = sinf(time) * radius;
     this->position.z = cosf(time) * radius;
