@@ -30,8 +30,7 @@ public:
 
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager);
 
-	void Draw();
-	void DrawInstanced();
+	void Draw(bool instanced);
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

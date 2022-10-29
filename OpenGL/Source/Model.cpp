@@ -46,11 +46,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 	for (size_t i = 0; i < meshes.size(); ++i)
 	{
-		if (!instanced)
-			meshes[i].Draw();
-		else if (instanced)
-			meshes[i].DrawInstanced();
-
+		meshes[i].Draw(instanced);
 		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
 		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
 		meshes[i].rotationMatrix = rotationMatrix;

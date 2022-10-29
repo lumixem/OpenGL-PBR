@@ -50,7 +50,7 @@ void Renderer::Render()
 
 		for (const auto& model : models)
 		{
-			model->Draw(camera, light, true);
+			model->Draw(camera, light, false);
 			if (imGui->menu.showModels)
 				model->DrawImGui();
 		}

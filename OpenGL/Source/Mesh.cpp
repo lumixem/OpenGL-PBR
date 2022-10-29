@@ -90,7 +90,7 @@ void Mesh::InitMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw()
+void Mesh::Draw(bool instanced)
 {
 	glUseProgram(this->shaderProgram);
 
@@ -107,25 +107,12 @@ void Mesh::Draw()
 	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
-}
-
-void Mesh::DrawInstanced()
-{
-	glUseProgram(this->shaderProgram);
-
-	for (size_t i = 0; i < textures.size(); ++i)
+	if (!instanced)
 	{
-		glActiveTexture(GL_TEXTURE0 + static_cast<int>(i));
-
-		std::string name = textures[i].type;
-		std::string uniform = "material." + name;
-		shaderManager->SetInt1(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
-
-		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
+		glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
 	}
-	glActiveTexture(GL_TEXTURE0);
-
-	glBindVertexArray(VAO);
-	glDrawElementsInstanced(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0, 3);
+	else
+	{
+		glDrawElementsInstanced(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0, 3);
+	}
 }
