@@ -66,6 +66,7 @@ void main()
 	attenuation = 1.0 / (constant + linear * dist + quadratic * (dist * dist));
    }
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
+   vec3 halfwayDir = normalize(lightDirection + viewDirection);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
 
    // Ambient //
@@ -78,7 +79,7 @@ void main()
 
    // Specular //
    float specularStrength = 0.5;
-   float spec = pow(max(dot(viewDirection, reflectionDirection), 0.0), material.shininess);
+   float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
    vec3 s = vec3(0.3, 0.3, 0.3);
    vec3 specular = light.specular * (spec * s);
    if(textureCheck.hasRoughnessMap)

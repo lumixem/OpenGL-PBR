@@ -17,7 +17,7 @@ public:
 
 	struct Menu
 	{
-		bool showDebug = false;
+		bool showSettings = false;
 		bool showCamera = false;
 		bool showModels = false;
 		bool showLight = false;

@@ -8,6 +8,7 @@
 #include "Light.h"
 #include "Texture.h"
 #include "ModelLibrary.h"
+#include <imgui.h>
 
 // Settings
 const unsigned int SCR_WIDTH = 800;
@@ -55,8 +56,11 @@ void Renderer::Render()
 				model->DrawImGui();
 		}
 
-		if(imGui->menu.showDebug)
+		if (imGui->menu.showSettings)
+		{
 			imGui->Slider3f("Background", colour, 0.f, 1.f);
+			//ImGui::Checkbox("Blinn-Phong", )
+		}
 
 		if(imGui->menu.showLight)
 			light->DrawImGui();

@@ -34,7 +34,7 @@ void ImGuiManager::ImGui_DrawMenu()
 {
 	if(ImGui::BeginMainMenuBar())
 	{
-		ImGui::Checkbox("Debug", &menu.showDebug);
+		ImGui::Checkbox("Debug", &menu.showSettings);
 		ImGui::Checkbox("Models", &menu.showModels);
 		ImGui::Checkbox("Camera", &menu.showCamera);
 		ImGui::Checkbox("Light", &menu.showLight);
