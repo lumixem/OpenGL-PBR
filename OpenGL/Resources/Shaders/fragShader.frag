@@ -29,6 +29,7 @@ struct Light
 	vec3 diffuse;
 	vec3 specular;
 	vec3 direction;
+
 	uint lightType;
 };
 
@@ -49,13 +50,20 @@ void main()
 
    // Directions //
    vec3 lightDirection = vec3(0, 0, 0);
+   float attenuation = 1;
    if(light.lightType == uint(0)) //Directional Light
    {
 	lightDirection = normalize(light.direction); 
    }
    if(light.lightType == uint(1)) //Point Light
    {
+	float constant = 1.0;
+	float linear = 0.09;
+	float quadratic = 0.032;
+
 	lightDirection = normalize(light.position - fragmentPos);
+	float dist = length(light.position - fragmentPos);
+	attenuation = 1.0 / (constant + linear * dist + quadratic * (dist * dist));
    }
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 reflectionDirection = reflect(-lightDirection, normal);
@@ -76,6 +84,13 @@ void main()
    if(textureCheck.hasRoughnessMap)
    {
 	specular = light.specular * (spec * texture(material.texture_specular, textureCoords).g);
+   }
+
+   if(light.lightType == uint(1)) //Point Light
+   {
+	ambient  *= attenuation; 
+	diffuse  *= attenuation;
+	specular *= attenuation;
    }
    
    // Result //
