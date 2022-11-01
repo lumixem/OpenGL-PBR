@@ -22,7 +22,9 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 	if(data)
 	{
 		GLint format = {};
-		if (channels == 1)
+		if (m_SrgbFormat)
+			format = GL_SRGB;
+		else if (channels == 1)
 			format = GL_RED;
 		else if (channels == 3)
 			format = GL_RGB;

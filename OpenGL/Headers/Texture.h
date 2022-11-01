@@ -12,4 +12,8 @@ public:
 
 private:
 	FileManager* m_FileManager;
+
+	bool m_SrgbFormat;
+
+	friend class Model;
 };

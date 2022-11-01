@@ -98,4 +98,8 @@ void main()
    vec3 result = ambient + diffuse + specular;
    fragColour = vec4(result, 1.0);
    //fragColour = texture2D(material.texture_diffuse, textureCoords);
+
+   // Gamma Correction //
+   float gamma = 2.2;
+   fragColour.rgb = pow(fragColour.rgb, vec3(1.0 / gamma));
 }

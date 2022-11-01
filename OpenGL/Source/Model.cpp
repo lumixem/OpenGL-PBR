@@ -212,6 +212,10 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 		if (!skip)
 		{
 			Mesh::Texture t;
+			if (type == aiTextureType_DIFFUSE)
+				m_Texture->m_SrgbFormat = true;
+			else
+				m_Texture->m_SrgbFormat = false;
 			t.textureID = m_Texture->CreateTexture(path.C_Str(), m_Filepath);
 			t.type = name;
 			t.path = path.C_Str();
