@@ -21,5 +21,5 @@ public:
 		bool showCamera = false;
 		bool showModels = false;
 		bool showLight = false;
-	}menu;
+	}m_Menu;
 };

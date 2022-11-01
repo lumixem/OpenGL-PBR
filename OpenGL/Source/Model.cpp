@@ -66,7 +66,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
 		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
 		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
-		shaderManager->SetUnsignedInt1(meshes[i].GetShaderProgram(), "light.lightType", static_cast<unsigned int>(light->lightType));
+		shaderManager->SetUnsignedInt1(meshes[i].GetShaderProgram(), "light.lightType", static_cast<unsigned int>(light->m_LightType));
 
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
 		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);

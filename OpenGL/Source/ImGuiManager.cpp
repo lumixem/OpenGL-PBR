@@ -34,10 +34,10 @@ void ImGuiManager::ImGui_DrawMenu()
 {
 	if(ImGui::BeginMainMenuBar())
 	{
-		ImGui::Checkbox("Debug", &menu.showSettings);
-		ImGui::Checkbox("Models", &menu.showModels);
-		ImGui::Checkbox("Camera", &menu.showCamera);
-		ImGui::Checkbox("Light", &menu.showLight);
+		ImGui::Checkbox("Settings", &m_Menu.showSettings);
+		ImGui::Checkbox("Models", &m_Menu.showModels);
+		ImGui::Checkbox("Camera", &m_Menu.showCamera);
+		ImGui::Checkbox("Light", &m_Menu.showLight);
 
 		ImGui::EndMainMenuBar();
 	}

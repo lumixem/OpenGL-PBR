@@ -57,21 +57,21 @@ void Renderer::Render()
 		for (const auto& model : models)
 		{
 			model->Draw(camera, light, false);
-			if (imGui->menu.showModels)
+			if (imGui->m_Menu.showModels)
 				model->DrawImGui();
 		}
 
-		if (imGui->menu.showSettings)
+		if (imGui->m_Menu.showSettings)
 		{
 			imGui->Slider3f("Background", colour, 0.f, 1.f);
 			//ImGui::Checkbox("Blinn-Phong", )
 			ImGui::Checkbox("Wireframe", &wireframe);
 		}
 
-		if(imGui->menu.showLight)
+		if(imGui->m_Menu.showLight)
 			light->DrawImGui();
 
-		if(imGui->menu.showCamera)
+		if(imGui->m_Menu.showCamera)
 			camera->DrawImGui();
 
 		imGui->ImGui_Render();

@@ -27,46 +27,47 @@ public:
 	void Move();
 	void DrawImGui();
 
-	glm::vec3& GetPosition() { return position; }
-	void SetPosition(const glm::vec3 newPos) { position = newPos; }
+	glm::vec3& GetPosition() { return m_Position; }
+	void SetPosition(const glm::vec3 newPos) { m_Position = newPos; }
 
-	glm::vec3& GetScale() { return scale; }
-	void SetScale(const glm::vec3 newScale) { scale = newScale; }
+	glm::vec3& GetScale() { return m_Scale; }
+	void SetScale(const glm::vec3 newScale) { m_Scale = newScale; }
 
-	glm::vec3& GetRotation() { return rotation; }
-	void SetRotation(const glm::vec3 newRotation) { rotation = newRotation; }
+	glm::vec3& GetRotation() { return m_Rotation; }
+	void SetRotation(const glm::vec3 newRotation) { m_Rotation = newRotation; }
 
-	glm::vec3& GetLightColour() { return lightColour; } 
-	void SetLightColour(const glm::vec3 newColour) { lightColour = newColour; }
+	glm::vec3& GetLightColour() { return m_LightColour; } 
+	void SetLightColour(const glm::vec3 newColour) { m_LightColour = newColour; }
 
-	glm::vec3& GetAmbient() { return ambient; }
-	void SetAmbient(const glm::vec3 newAmbient) { ambient = newAmbient; }
+	glm::vec3& GetAmbient() { return m_Ambient; }
+	void SetAmbient(const glm::vec3 newAmbient) { m_Ambient = newAmbient; }
 
-	glm::vec3& GetDiffuse() { return diffuse; }
-	void SetDiffuse(const glm::vec3 newDiffuse) { diffuse = newDiffuse; }
+	glm::vec3& GetDiffuse() { return m_Diffuse; }
+	void SetDiffuse(const glm::vec3 newDiffuse) { m_Diffuse = newDiffuse; }
 
-	glm::vec3& GetSpecular() { return specular; }
-	void SetSpecular(const glm::vec3 newSpecular) { specular = newSpecular; }
+	glm::vec3& GetSpecular() { return m_Specular; }
+	void SetSpecular(const glm::vec3 newSpecular) { m_Specular = newSpecular; }
 
-	glm::vec3& GetDirection() { return lightDirection; }
-	void SetDirection(const glm::vec3 newDirection) { position = newDirection; }
+	glm::vec3& GetDirection() { return m_LightDirection; }
+	void SetDirection(const glm::vec3 newDirection) { m_Position = newDirection; }
 
-	float scaleFactor = 0.5;
-	LightType lightType;
+	LightType m_LightType;
 
 private:
-	GLuint VBO, VAO, EBO;
-	GLuint vertexShader, fragmentShader, shaderProgram;
+	GLuint m_VBO, m_VAO, m_EBO;
+	GLuint m_VertexShader, m_FragmentShader, m_ShaderProgram;
 
-	glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
-	glm::vec3 scale;
-	glm::vec3 rotation;
+	float m_ScaleFactor = 0.5;
 
-	glm::vec3 lightColour;
-	glm::vec3 diffuse;
-	glm::vec3 ambient;
-	glm::vec3 specular;
-	glm::vec3 lightDirection = glm::vec3(0.f, 0.f, 0.f); //For directional light
+	glm::vec3 m_Position = glm::vec3(0.f, 0.f, 0.f);
+	glm::vec3 m_Scale;
+	glm::vec3 m_Rotation;
 
-	ShaderManager* shaderManager;
+	glm::vec3 m_LightColour;
+	glm::vec3 m_Diffuse;
+	glm::vec3 m_Ambient;
+	glm::vec3 m_Specular;
+	glm::vec3 m_LightDirection = glm::vec3(0.f, 0.f, 0.f); //For directional light
+
+	ShaderManager* m_ShaderManager;
 };
