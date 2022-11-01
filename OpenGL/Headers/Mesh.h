@@ -36,15 +36,15 @@ public:
 	std::vector<unsigned int> m_Indices;
 	std::vector<Texture> m_Textures;
 
-	unsigned int GetShaderProgram() { return m_ShaderProgram; }
-
-	glm::mat4x4 m_ScaleMatrix, m_TranslationMatrix, m_RotationMatrix, m_ModelMatrix;
-
 private:
 	void InitMesh();
 
 	GLuint m_VBO, m_VAO, m_EBO;
 	GLuint m_VertexShader, m_FragmentShader, m_ShaderProgram;
 
+	glm::mat4x4 m_ScaleMatrix, m_TranslationMatrix, m_RotationMatrix, m_ModelMatrix;
+
 	ShaderManager* m_ShaderManager;
+
+	friend class Model; //So the Model class can access the private matrices and the shader program
 };
