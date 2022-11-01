@@ -44,6 +44,11 @@ void Renderer::Render()
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		if (wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 		imGui->ImGui_NewFrame();
 		camera->Update();
 
@@ -60,6 +65,7 @@ void Renderer::Render()
 		{
 			imGui->Slider3f("Background", colour, 0.f, 1.f);
 			//ImGui::Checkbox("Blinn-Phong", )
+			ImGui::Checkbox("Wireframe", &wireframe);
 		}
 
 		if(imGui->menu.showLight)

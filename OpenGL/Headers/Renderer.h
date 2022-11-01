@@ -35,4 +35,5 @@ public:
 	std::vector<Model*> models;
 
 	glm::vec3 colour = glm::vec3(0.f, 0.f, 0.f);
+	bool wireframe = false;
 };
