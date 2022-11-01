@@ -26,7 +26,7 @@ void Renderer::Init()
 	m_Camera = new Camera();
 	m_Light = new Light(LightType::Point);
 
-	m_ImGui->ImGui_CreateContext(m_Window->glfwWindow);
+	m_ImGui->ImGui_CreateContext(m_Window->m_GlfwWindow);
 
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 

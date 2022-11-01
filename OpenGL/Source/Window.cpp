@@ -17,15 +17,15 @@ int Window::Init(int SCRWIDTH, int SCRHEIGHT)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // glfw window creation
-    glfwWindow = glfwCreateWindow(SCRWIDTH, SCRHEIGHT, "Window", NULL, NULL);
-    if (glfwWindow == NULL)
+    m_GlfwWindow = glfwCreateWindow(SCRWIDTH, SCRHEIGHT, "Window", NULL, NULL);
+    if (m_GlfwWindow == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(glfwWindow);
-    glfwSetFramebufferSizeCallback(glfwWindow, framebuffer_size_callback);
+    glfwMakeContextCurrent(m_GlfwWindow);
+    glfwSetFramebufferSizeCallback(m_GlfwWindow, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -43,23 +43,23 @@ void Window::Update()
     ProcessInput();
 
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-    glfwSwapBuffers(glfwWindow);
+    glfwSwapBuffers(m_GlfwWindow);
     glfwPollEvents();
 }
 
 void Window::Shutdown()
 {
-    glfwDestroyWindow(glfwWindow);
+    glfwDestroyWindow(m_GlfwWindow);
     glfwTerminate();
 }
 
 void Window::ProcessInput()
 {
-    if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(glfwWindow, true);
+    if (glfwGetKey(m_GlfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_GlfwWindow, true);
 }
 
 bool Window::WindowShouldClose()
 {
-    return glfwWindowShouldClose(glfwWindow);
+    return glfwWindowShouldClose(m_GlfwWindow);
 }

@@ -3,7 +3,7 @@
 #include "FileManager.h"
 
 Texture::Texture(FileManager* fileManager) :
-fileManager(fileManager)
+m_FileManager(fileManager)
 {
 }
 
@@ -17,7 +17,7 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 	glGenTextures(1, &texture);
 
 	int width, height, channels;
-	unsigned char* data = fileManager->LoadImage(filename.c_str(), &width, &height, &channels);
+	unsigned char* data = m_FileManager->LoadImage(filename.c_str(), &width, &height, &channels);
 
 	if(data)
 	{
@@ -40,12 +40,12 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		fileManager->FreeImageData(data);
+		m_FileManager->FreeImageData(data);
 	}
 	else
 	{
 		printf("\nTEXTURE ERROR: Texture failed to load\n");
-		fileManager->FreeImageData(data);
+		m_FileManager->FreeImageData(data);
 	}
 
 	return texture;

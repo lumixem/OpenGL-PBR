@@ -11,5 +11,5 @@ public:
 	void ProcessInput();
 	bool WindowShouldClose();
 
-	GLFWwindow* glfwWindow;
+	GLFWwindow* m_GlfwWindow;
 };

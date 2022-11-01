@@ -22,10 +22,7 @@ public:
 	void SetMatrix4f(GLuint shaderProgram, const char* uniform, glm::mat4 matrix);
 	void SetBool(GLuint shaderProgram, const char* uniform, bool b);
 
-	GLint shaderProgramID;
-
 private:
 	void CheckShaderForErrors(GLuint shaderID);
 	void CheckProgramForErrors(GLuint programID);
 };
-
