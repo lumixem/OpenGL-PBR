@@ -16,5 +16,5 @@ ModelLibrary::ModelLibrary(ShaderManager*, FileManager*)
 
 Model* ModelLibrary::GetModel(const std::string& name) const
 {
-	return models.at(name);
+	return m_Models.at(name);
 }

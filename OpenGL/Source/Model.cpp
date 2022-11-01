@@ -15,17 +15,17 @@
 
 Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _fileManager)
 {
-	filepath = filename;
+	m_Filepath = filename;
 	FindFolder();
 
-	shaderManager = _shaderManager;
-	fileManager = _fileManager;
-	texture = new Texture(_fileManager);
+	m_ShaderManager = _shaderManager;
+	m_FileManager = _fileManager;
+	m_Texture = new Texture(_fileManager);
 
-	this->position = glm::vec3(0.f, 0.f, 0.f);
-	this->scale = glm::vec3(1.f, 1.f, 1.f);
-	this->rotation = glm::vec3(0.f, 0.f, 0.f);
-	this->shininess = 32.f;
+	this->m_Position = glm::vec3(0.f, 0.f, 0.f);
+	this->m_Scale = glm::vec3(1.f, 1.f, 1.f);
+	this->m_Rotation = glm::vec3(0.f, 0.f, 0.f);
+	this->m_Shininess = 32.f;
 
 	const bool loaded = LoadModel(filename);
 
@@ -44,32 +44,32 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 	CalculateRotationMatrix(rotationMatrix);
 
-	for (size_t i = 0; i < meshes.size(); ++i)
+	for (size_t i = 0; i < m_Meshes.size(); ++i)
 	{
-		meshes[i].Draw(instanced);
-		meshes[i].translationMatrix = glm::translate(translationMatrix, position);
-		meshes[i].scaleMatrix = glm::scale(scaleMatrix, scale * scaleFactor);
-		meshes[i].rotationMatrix = rotationMatrix;
+		m_Meshes[i].Draw(instanced);
+		m_Meshes[i].m_TranslationMatrix = glm::translate(translationMatrix, m_Position);
+		m_Meshes[i].m_ScaleMatrix = glm::scale(scaleMatrix, m_Scale * m_ScaleFactor);
+		m_Meshes[i].m_RotationMatrix = rotationMatrix;
 
 		//~~MVP
-		meshes[i].modelMatrix = meshes[i].translationMatrix * meshes[i].rotationMatrix * meshes[i].scaleMatrix;
+		m_Meshes[i].m_ModelMatrix = m_Meshes[i].m_TranslationMatrix * m_Meshes[i].m_RotationMatrix * m_Meshes[i].m_ScaleMatrix;
 
-		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
-		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "view", camera->GetView());
-		shaderManager->SetMatrix4f(meshes[i].GetShaderProgram(), "model", meshes[i].modelMatrix);
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].GetShaderProgram(), "projection", camera->GetProjection());
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].GetShaderProgram(), "view", camera->GetView());
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].GetShaderProgram(), "model", m_Meshes[i].m_ModelMatrix);
 
-		shaderManager->SetFloat1(meshes[i].GetShaderProgram(), "material.shininess", shininess);
+		m_ShaderManager->SetFloat1(m_Meshes[i].GetShaderProgram(), "material.shininess", m_Shininess);
 
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
-		shaderManager->SetFloat3(meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
-		shaderManager->SetUnsignedInt1(meshes[i].GetShaderProgram(), "light.lightType", static_cast<unsigned int>(light->m_LightType));
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "cameraPos", camera->GetPosition());
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "light.position", light->GetPosition());
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "light.ambient", light->GetAmbient());
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "light.diffuse", light->GetDiffuse());
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "light.specular", light->GetSpecular());
+		m_ShaderManager->SetFloat3(m_Meshes[i].GetShaderProgram(), "light.direction", light->GetDirection());
+		m_ShaderManager->SetUnsignedInt1(m_Meshes[i].GetShaderProgram(), "light.lightType", static_cast<unsigned int>(light->m_LightType));
 
-		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", textureCheck.hasRougnessMap);
-		shaderManager->SetBool(meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", textureCheck.hasNormalMap);
+		m_ShaderManager->SetBool(m_Meshes[i].GetShaderProgram(), "textureCheck.hasRoughnessMap", m_TextureCheck.hasRougnessMap);
+		m_ShaderManager->SetBool(m_Meshes[i].GetShaderProgram(), "textureCheck.hasNormalMap", m_TextureCheck.hasNormalMap);
 	}
 }
 
@@ -93,7 +93,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(ProcessMesh(mesh, scene));
+		m_Meshes.push_back(ProcessMesh(mesh, scene));
 	}
 
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)
@@ -174,19 +174,19 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
 			std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
-			if (!specularMaps.empty()) textureCheck.hasRougnessMap = true;
+			if (!specularMaps.empty()) m_TextureCheck.hasRougnessMap = true;
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_NORMALS) != 0)
 		{
 			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
-			if (!normalMaps.empty()) textureCheck.hasNormalMap = true;
+			if (!normalMaps.empty()) m_TextureCheck.hasNormalMap = true;
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 		}
 	}
 
-	return Mesh{ vertices, indices, textures, shaderManager, fileManager };
+	return Mesh{ vertices, indices, textures, m_ShaderManager, m_FileManager };
 }
 
 std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureType type, const char* name)
@@ -199,11 +199,11 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 		mat->GetTexture(type, i, &path);
 		bool skip = false;
 
-		for (size_t j = 0; j < loadedTextures.size(); ++j)
+		for (size_t j = 0; j < m_LoadedTextures.size(); ++j)
 		{
-			if (std::strcmp(loadedTextures[j].path.data(), path.C_Str()) == 0)
+			if (std::strcmp(m_LoadedTextures[j].path.data(), path.C_Str()) == 0)
 			{
-				textures.push_back(loadedTextures[j]);
+				textures.push_back(m_LoadedTextures[j]);
 				skip = true;
 				break;
 			}
@@ -212,11 +212,11 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 		if (!skip)
 		{
 			Mesh::Texture t;
-			t.textureID = texture->CreateTexture(path.C_Str(), filepath);
+			t.textureID = m_Texture->CreateTexture(path.C_Str(), m_Filepath);
 			t.type = name;
 			t.path = path.C_Str();
 			textures.push_back(t);
-			loadedTextures.push_back(t);
+			m_LoadedTextures.push_back(t);
 		}
 	}
 
@@ -226,18 +226,18 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 void Model::DrawImGui()
 {
 	ImGui::Begin("Model");
-	ImGui::SliderFloat3("Position", &position[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Rotation", &rotation[0], -90.f, 90.f);
-	ImGui::SliderFloat3("Scale", &scale[0], -10.f, 10.f);
-	ImGui::SliderFloat("ScaleFactor", &scaleFactor, -5.f, 5.f);
+	ImGui::SliderFloat3("Position", &m_Position[0], -10.f, 10.f);
+	ImGui::SliderFloat3("Rotation", &m_Rotation[0], -90.f, 90.f);
+	ImGui::SliderFloat3("Scale", &m_Scale[0], -10.f, 10.f);
+	ImGui::SliderFloat("ScaleFactor", &m_ScaleFactor, -5.f, 5.f);
 	ImGui::End();
 }
 
 void Model::FindFolder()
 {
-	size_t last = filepath.find_last_of("/");
-	filepath = filepath.substr(0, last);
-	filepath += "/";
+	size_t last = m_Filepath.find_last_of("/");
+	m_Filepath = m_Filepath.substr(0, last);
+	m_Filepath += "/";
 }
 
 void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
@@ -246,7 +246,7 @@ void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
 	glm::mat4 rotY = glm::mat4(1.0f);
 	glm::mat4 rotZ = glm::mat4(1.0f);
 
-	float radX = glm::radians(rotation.x);
+	float radX = glm::radians(m_Rotation.x);
 	float sinX = sinf(radX);
 	float cosX = cosf(radX);
 
@@ -255,7 +255,7 @@ void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
 	rotX[1][2] = sinX;
 	rotX[2][2] = cosX;
 
-	float radY = glm::radians(rotation.y);
+	float radY = glm::radians(m_Rotation.y);
 	float sinY = sinf(radY);
 	float cosY = cosf(radY);
 
@@ -264,7 +264,7 @@ void Model::CalculateRotationMatrix(glm::mat4& rotationMatrix)
 	rotY[0][2] = -sinY;
 	rotY[2][2] = cosY;
 
-	float radZ = glm::radians(rotation.z);
+	float radZ = glm::radians(m_Rotation.z);
 	float sinZ = sinf(radZ);
 	float cosZ = cosf(radZ);
 

@@ -14,5 +14,5 @@ public:
 	Model* GetModel(const std::string& name) const;
 
 private:
-	std::unordered_map<std::string, Model*> models;
+	std::unordered_map<std::string, Model*> m_Models;
 };

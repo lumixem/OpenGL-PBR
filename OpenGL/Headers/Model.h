@@ -25,23 +25,21 @@ public:
 	bool LoadModel(const char* filename);
 	void DrawImGui();
 
-	glm::vec3& GetPosition() { return position; } 
-	void SetPosition(const glm::vec3 newPos) { position = newPos; }
+	glm::vec3& GetPosition() { return m_Position; } 
+	void SetPosition(const glm::vec3 newPos) { m_Position = newPos; }
 
-	glm::vec3& GetScale() { return scale; }
-	void SetScale(const glm::vec3 newScale) { scale = newScale; }
+	glm::vec3& GetScale() { return m_Scale; }
+	void SetScale(const glm::vec3 newScale) { m_Scale = newScale; }
 
-	glm::vec3& GetRotation() { return rotation; }
-	void SetRotation(const glm::vec3 newRotation) { rotation = newRotation; }
+	glm::vec3& GetRotation() { return m_Rotation; }
+	void SetRotation(const glm::vec3 newRotation) { m_Rotation = newRotation; }
 
-	glm::vec3& GetColour() { return colour; }
-	void SetColour(const glm::vec3 newColour) { colour = newColour; }
-
-	float scaleFactor = 1;
+	glm::vec3& GetColour() { return m_Colour; }
+	void SetColour(const glm::vec3 newColour) { m_Colour = newColour; }
 
 private:
-	std::vector<Mesh> meshes;
-	std::vector<Mesh::Texture> loadedTextures;
+	std::vector<Mesh> m_Meshes;
+	std::vector<Mesh::Texture> m_LoadedTextures;
 
 	void FindFolder();
 	void CalculateRotationMatrix(glm::mat4& rotationMatrix);
@@ -53,18 +51,19 @@ private:
 	{
 		bool hasRougnessMap;
 		bool hasNormalMap;
-	}textureCheck;
+	}m_TextureCheck;
 
-	std::string filepath;
+	std::string m_Filepath;
 
-	ShaderManager* shaderManager;
-	FileManager* fileManager;
-	Texture* texture;
+	ShaderManager* m_ShaderManager;
+	FileManager* m_FileManager;
+	Texture* m_Texture;
 
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::vec3 rotation;
-	glm::vec3 colour;
-	glm::vec3 specular;
-	float shininess;
+	glm::vec3 m_Position;
+	glm::vec3 m_Scale;
+	glm::vec3 m_Rotation;
+	glm::vec3 m_Colour;
+	glm::vec3 m_Specular;
+	float m_Shininess;
+	float m_ScaleFactor = 1;
 };

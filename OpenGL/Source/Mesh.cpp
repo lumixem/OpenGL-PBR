@@ -5,18 +5,18 @@
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager)
 {
-	this->vertices = vertices;
-	this->indices = indices;
-	this->textures = textures;
+	this->m_Vertices = vertices;
+	this->m_Indices = indices;
+	this->m_Textures = textures;
 
-	vertexShader = shaderManager->LoadAndMakeShader(fileManager, GL_VERTEX_SHADER, "Resources/Shaders/vertShader.vert");
-	fragmentShader = shaderManager->LoadAndMakeShader(fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/fragShader.frag");
-	shaderProgram = shaderManager->CreateProgram(vertexShader, fragmentShader);
+	m_VertexShader = shaderManager->LoadAndMakeShader(fileManager, GL_VERTEX_SHADER, "Resources/Shaders/vertShader.vert");
+	m_FragmentShader = shaderManager->LoadAndMakeShader(fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/fragShader.frag");
+	m_ShaderProgram = shaderManager->CreateProgram(m_VertexShader, m_FragmentShader);
 
-	this->translationMatrix = glm::mat4(1.f);
-	this->scaleMatrix = glm::mat4(1.f);
-	this->rotationMatrix = glm::mat4(1.f);
-	this->modelMatrix = glm::mat4(1.f);
+	this->m_TranslationMatrix = glm::mat4(1.f);
+	this->m_ScaleMatrix = glm::mat4(1.f);
+	this->m_RotationMatrix = glm::mat4(1.f);
+	this->m_ModelMatrix = glm::mat4(1.f);
 
 	InitMesh();
 }
@@ -24,18 +24,18 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, st
 void Mesh::InitMesh()
 {
 //~~BUFFERS AND BINDING
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vertex), &m_Vertices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
 
-	glUseProgram(this->shaderProgram);
+	glUseProgram(this->m_ShaderProgram);
 
 //~~VERTEX ATTRIBUTES
 	/*
@@ -80,39 +80,39 @@ void Mesh::InitMesh()
 
 	for (int i = 0; i < 3; ++i)
 	{
-		shaderManager->SetFloat3(this->shaderProgram, std::string("offsets[" + std::to_string(i) + "]").c_str(), translations[i]);
+		m_ShaderManager->SetFloat3(this->m_ShaderProgram, std::string("offsets[" + std::to_string(i) + "]").c_str(), translations[i]);
 	}
 
 //~~CLEANUP
-	glDeleteShader(this->vertexShader);
-	glDeleteShader(this->fragmentShader);
+	glDeleteShader(this->m_VertexShader);
+	glDeleteShader(this->m_FragmentShader);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
 void Mesh::Draw(bool instanced)
 {
-	glUseProgram(this->shaderProgram);
+	glUseProgram(this->m_ShaderProgram);
 
-	for (size_t i = 0; i < textures.size(); ++i)
+	for (size_t i = 0; i < m_Textures.size(); ++i)
 	{
 		glActiveTexture(GL_TEXTURE0 + static_cast<int>(i));
 
-		std::string name = textures[i].type;
+		std::string name = m_Textures[i].type;
 		std::string uniform = "material." + name;
-		shaderManager->SetInt1(this->shaderProgram, uniform.c_str(), static_cast<int>(i));
+		m_ShaderManager->SetInt1(this->m_ShaderProgram, uniform.c_str(), static_cast<int>(i));
 
-		glBindTexture(GL_TEXTURE_2D, textures[i].textureID);
+		glBindTexture(GL_TEXTURE_2D, m_Textures[i].textureID);
 	}
 	glActiveTexture(GL_TEXTURE0);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_VAO);
 	if (!instanced)
 	{
-		glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, static_cast<int>(m_Indices.size()), GL_UNSIGNED_INT, 0);
 	}
 	else
 	{
-		glDrawElementsInstanced(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, 0, 3);
+		glDrawElementsInstanced(GL_TRIANGLES, static_cast<int>(m_Indices.size()), GL_UNSIGNED_INT, 0, 3);
 	}
 }

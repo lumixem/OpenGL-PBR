@@ -32,21 +32,19 @@ public:
 
 	void Draw(bool instanced);
 
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
+	std::vector<Vertex> m_Vertices;
+	std::vector<unsigned int> m_Indices;
+	std::vector<Texture> m_Textures;
 
-	unsigned int GetShaderProgram() { return shaderProgram; }
+	unsigned int GetShaderProgram() { return m_ShaderProgram; }
 
-	float scaleFactor = 1;
-
-	glm::mat4x4 scaleMatrix, translationMatrix, rotationMatrix, modelMatrix;
+	glm::mat4x4 m_ScaleMatrix, m_TranslationMatrix, m_RotationMatrix, m_ModelMatrix;
 
 private:
 	void InitMesh();
 
-	GLuint VBO, VAO, EBO;
-	GLuint vertexShader, fragmentShader, shaderProgram;
+	GLuint m_VBO, m_VAO, m_EBO;
+	GLuint m_VertexShader, m_FragmentShader, m_ShaderProgram;
 
-	ShaderManager* shaderManager;
+	ShaderManager* m_ShaderManager;
 };

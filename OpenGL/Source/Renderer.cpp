@@ -17,71 +17,71 @@ const unsigned int SCR_HEIGHT = 600;
 void Renderer::Init()
 {
 	//Window::Init initializes the Window and also OpenGL that's why it should be called first before any OpenGL calls
-	window = new Window();
-	window->Init(SCR_WIDTH, SCR_HEIGHT);
+	m_Window = new Window();
+	m_Window->Init(SCR_WIDTH, SCR_HEIGHT);
 
-	imGui = new ImGuiManager();
-	shaderManager = new ShaderManager();
-	fileManager = new FileManager();
-	camera = new Camera();
-	light = new Light(LightType::Point);
+	m_ImGui = new ImGuiManager();
+	m_ShaderManager = new ShaderManager();
+	m_FileManager = new FileManager();
+	m_Camera = new Camera();
+	m_Light = new Light(LightType::Point);
 
-	imGui->ImGui_CreateContext(window->glfwWindow);
+	m_ImGui->ImGui_CreateContext(m_Window->glfwWindow);
 
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
-	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", shaderManager, fileManager);
+	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", m_ShaderManager, m_FileManager);
 	model->SetPosition(glm::vec3(0.f, 0.7f, 0.f));
 	model->SetRotation(glm::vec3(45.f, 0.f, 0.f));
-	models.push_back(model);
+	m_Models.push_back(model);
 }
 
 void Renderer::Render()
 {
-	while (!window->WindowShouldClose())
+	while (!m_Window->WindowShouldClose())
 	{
-		glClearColor(colour.x, colour.y, colour.z , 1.0f);
+		glClearColor(m_BackgroundColour.x, m_BackgroundColour.y, m_BackgroundColour.z , 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (wireframe)
+		if (m_WireframeEnabled)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		imGui->ImGui_NewFrame();
-		camera->Update();
+		m_ImGui->ImGui_NewFrame();
+		m_Camera->Update();
 
-		imGui->ImGui_DrawMenu();
+		m_ImGui->ImGui_DrawMenu();
 
-		for (const auto& model : models)
+		for (const auto& model : m_Models)
 		{
-			model->Draw(camera, light, false);
-			if (imGui->m_Menu.showModels)
+			model->Draw(m_Camera, m_Light, false);
+			if (m_ImGui->m_Menu.showModels)
 				model->DrawImGui();
 		}
 
-		if (imGui->m_Menu.showSettings)
+		if (m_ImGui->m_Menu.showSettings)
 		{
-			imGui->Slider3f("Background", colour, 0.f, 1.f);
+			m_ImGui->Slider3f("Background", m_BackgroundColour, 0.f, 1.f);
 			//ImGui::Checkbox("Blinn-Phong", )
-			ImGui::Checkbox("Wireframe", &wireframe);
+			ImGui::Checkbox("Wireframe", &m_WireframeEnabled);
 		}
 
-		if(imGui->m_Menu.showLight)
-			light->DrawImGui();
+		if(m_ImGui->m_Menu.showLight)
+			m_Light->DrawImGui();
 
-		if(imGui->m_Menu.showCamera)
-			camera->DrawImGui();
+		if(m_ImGui->m_Menu.showCamera)
+			m_Camera->DrawImGui();
 
-		imGui->ImGui_Render();
+		m_ImGui->ImGui_Render();
 
-		window->Update();
+		m_Window->Update();
 	}
 }
 
 void Renderer::Shutdown()
 {
-	imGui->ImGui_Shutdown();
-	window->Shutdown();
+	m_ImGui->ImGui_Shutdown();
+	m_Window->Shutdown();
 }

@@ -22,18 +22,16 @@ public:
 	void Render();
 	void Shutdown();
 
-	ShaderManager* shaderManager;
-	FileManager* fileManager;
-	Camera* camera;
-	Texture* texture;
-	ModelLibrary* modelLibrary;
-	Light* light;
-	Window* window;
-	ImGuiManager* imGui;
+	ShaderManager* m_ShaderManager;
+	FileManager* m_FileManager;
+	Camera* m_Camera;
+	Light* m_Light;
+	Window* m_Window;
+	ImGuiManager* m_ImGui;
 
-	std::vector<BaseObject*> objects;
-	std::vector<Model*> models;
+	std::vector<BaseObject*> m_Objects;
+	std::vector<Model*> m_Models;
 
-	glm::vec3 colour = glm::vec3(0.f, 0.f, 0.f);
-	bool wireframe = false;
+	glm::vec3 m_BackgroundColour = glm::vec3(0.f, 0.f, 0.f);
+	bool m_WireframeEnabled = false;
 };
