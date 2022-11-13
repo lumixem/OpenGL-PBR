@@ -23,11 +23,13 @@ Light::Light(LightType lt)
     }
     else if(m_LightType == LightType::Point)
     {
-        m_Position = glm::vec3(glm::vec3(0.f, 2.f, 1.f));
+        m_Position = glm::vec3(0.f, 2.f, 1.f);
     }
     else if(m_LightType == LightType::Spot)
     {
-	    
+        m_Position = glm::vec3(0.f, 0.f, 2.f);
+        m_LightDirection = glm::vec3(0.f, 0.f, -1.f);
+        m_CutoffAngle = glm::cos(glm::radians(12.f));
     }
 }
 

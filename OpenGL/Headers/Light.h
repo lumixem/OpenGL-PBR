@@ -58,6 +58,7 @@ private:
 	GLuint m_VertexShader, m_FragmentShader, m_ShaderProgram;
 
 	float m_ScaleFactor = 0.5;
+	float m_CutoffAngle;
 
 	glm::vec3 m_Position = glm::vec3(0.f, 0.f, 0.f);
 	glm::vec3 m_Scale;

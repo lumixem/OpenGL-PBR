@@ -31,6 +31,7 @@ struct Light
 	vec3 direction;
 
 	uint lightType;
+	float cutoffAngle;
 };
 
 uniform TextureCheck textureCheck;
@@ -64,6 +65,11 @@ void main()
 	lightDirection = normalize(light.position - fragmentPos);
 	float dist = length(light.position - fragmentPos);
 	attenuation = 1.0 / (constant + linear * dist + quadratic * (dist * dist));
+   }
+   if(light.lightType == uint(2)) //Spot Light
+   {
+	lightDirection = normalize(light.position - fragmentPos);
+	float theta = dot(lightDirection, normalize(light.direction));
    }
    vec3 viewDirection = normalize(cameraPos - fragmentPos);
    vec3 halfwayDir = normalize(lightDirection + viewDirection);
