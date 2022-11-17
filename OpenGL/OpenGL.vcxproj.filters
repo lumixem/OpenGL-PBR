@@ -420,4 +420,8 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="External\assimp\assimp-vc143-mt.dll" />
+    <CopyFileToFolders Include="External\assimp\assimp-vc143-mtd.dll" />
+  </ItemGroup>
 </Project>
