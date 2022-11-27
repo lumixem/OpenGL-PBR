@@ -161,6 +161,7 @@
     <None Include="Resources\Shaders\fragShader.frag" />
     <None Include="Resources\Shaders\lightFS.frag" />
     <None Include="Resources\Shaders\lightVS.vert" />
+    <None Include="Resources\Shaders\pbr_frag.frag" />
     <None Include="Resources\Shaders\vertShader.vert" />
   </ItemGroup>
   <ItemGroup>

@@ -414,6 +414,7 @@
     </None>
     <None Include="Resources\Shaders\lightFS.frag" />
     <None Include="Resources\Shaders\lightVS.vert" />
+    <None Include="Resources\Shaders\pbr_frag.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Textures\rainbow.jpg">
