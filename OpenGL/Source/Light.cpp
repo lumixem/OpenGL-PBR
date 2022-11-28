@@ -16,6 +16,7 @@ Light::Light(LightType lt)
     m_Diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
     m_Ambient = glm::vec3(0.5f, 0.5f, 0.5f);
     m_Specular = glm::vec3(1.0f, 1.0f, 1.0f);
+    m_LightColour = glm::vec3(0.5f, 0.2f, 0.3f);
 
     if(m_LightType == LightType::Directional)
     {
@@ -128,9 +129,10 @@ void Light::DrawImGui()
 {
 	ImGui::Begin("Light");
 	ImGui::SliderFloat3("Position", &m_Position[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Direction", &m_LightDirection[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Diffuse", &m_Diffuse[0], 0.f, 1.f);
-	ImGui::SliderFloat3("Ambient", &m_Ambient[0], 0.f, 1.f);
-	ImGui::SliderFloat3("Specular", &m_Specular[0], 0.f, 1.f);
+	ImGui::SliderFloat3("Colour", &m_LightColour[0], 0.f, 1.f);
+	//ImGui::SliderFloat3("Direction", &m_LightDirection[0], -10.f, 10.f);
+	//ImGui::SliderFloat3("Diffuse", &m_Diffuse[0], 0.f, 1.f);
+	//ImGui::SliderFloat3("Ambient", &m_Ambient[0], 0.f, 1.f);
+	//ImGui::SliderFloat3("Specular", &m_Specular[0], 0.f, 1.f);
     ImGui::End();
 }

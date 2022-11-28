@@ -10,7 +10,7 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, st
 	this->m_Textures = textures;
 
 	m_VertexShader = shaderManager->LoadAndMakeShader(fileManager, GL_VERTEX_SHADER, "Resources/Shaders/vertShader.vert");
-	m_FragmentShader = shaderManager->LoadAndMakeShader(fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/fragShader.frag");
+	m_FragmentShader = shaderManager->LoadAndMakeShader(fileManager, GL_FRAGMENT_SHADER, "Resources/Shaders/pbr_frag.frag");
 	m_ShaderProgram = shaderManager->CreateProgram(m_VertexShader, m_FragmentShader);
 
 	this->m_TranslationMatrix = glm::mat4(1.f);

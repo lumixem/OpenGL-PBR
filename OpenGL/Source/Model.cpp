@@ -61,6 +61,16 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "material.shininess", m_Shininess);
 
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "cameraPos", camera->GetPosition());
+
+		// PBR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "lightColour", light->GetLightColour());
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "lightPos", light->GetPosition());
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "albedo", m_Albedo);
+		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "ambientOcclusion", m_AmbientOcclusion);
+		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "metallic", m_Metallic);
+		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "roughness", m_Roughness);
+		// PBR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.position", light->GetPosition());
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.ambient", light->GetAmbient());
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.diffuse", light->GetDiffuse());
@@ -234,6 +244,12 @@ void Model::DrawImGui()
 	ImGui::SliderFloat3("Rotation", &m_Rotation[0], -90.f, 90.f);
 	ImGui::SliderFloat3("Scale", &m_Scale[0], -10.f, 10.f);
 	ImGui::SliderFloat("ScaleFactor", &m_ScaleFactor, -5.f, 5.f);
+
+	//PBR
+	ImGui::SliderFloat3("Albedo", &m_Albedo[0], 0.f, 1.f);
+	ImGui::SliderFloat("Metallic", &m_Metallic, 0.f, 1.f);
+	ImGui::SliderFloat("Roughness", &m_Roughness, 0.f, 1.f);
+	ImGui::SliderFloat("Ambient Occlusion", &m_AmbientOcclusion, 0.f, 1.f);
 	ImGui::End();
 }
 
