@@ -11,8 +11,8 @@
 #include <imgui.h>
 
 // Settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1440;
+const unsigned int SCR_HEIGHT = 1080;
 
 void Renderer::Init()
 {
