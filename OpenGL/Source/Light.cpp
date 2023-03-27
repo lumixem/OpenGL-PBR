@@ -131,7 +131,7 @@ void Light::DrawImGui()
 {
 	ImGui::Begin("Light");
 	ImGui::SliderFloat3("Position", &m_Position[0], -10.f, 10.f);
-	ImGui::SliderFloat3("Colour", &m_LightColour[0], 0.f, 1.f);
+	ImGui::ColorEdit3("Colour", &m_LightColour[0]);
 	//ImGui::SliderFloat3("Direction", &m_LightDirection[0], -10.f, 10.f);
 	//ImGui::SliderFloat3("Diffuse", &m_Diffuse[0], 0.f, 1.f);
 	//ImGui::SliderFloat3("Ambient", &m_Ambient[0], 0.f, 1.f);

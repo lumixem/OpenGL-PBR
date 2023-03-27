@@ -32,8 +32,17 @@ void ImGuiManager::ImGui_Render()
 
 void ImGuiManager::ImGui_DrawMenu()
 {
+	if (m_Menu.showAll)
+	{
+		m_Menu.showSettings = true;
+		m_Menu.showCamera = true;
+		m_Menu.showModels = true;
+		m_Menu.showLight = true;
+	}
+
 	if(ImGui::BeginMainMenuBar())
 	{
+		ImGui::Checkbox("Open All Menus", &m_Menu.showAll);
 		ImGui::Checkbox("Settings", &m_Menu.showSettings);
 		ImGui::Checkbox("Models", &m_Menu.showModels);
 		ImGui::Checkbox("Camera", &m_Menu.showCamera);
@@ -48,14 +57,4 @@ void ImGuiManager::ImGui_Shutdown()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-}
-
-void ImGuiManager::Slider1f(const char* name, float& value, float min, float max)
-{
-	ImGui::SliderFloat(name, &value, min, max);
-}
-
-void ImGuiManager::Slider3f(const char* name, glm::vec3& vec, float min, float max)
-{
-	ImGui::SliderFloat3(name, glm::value_ptr(vec), min, max);
 }

@@ -63,9 +63,10 @@ void Renderer::Render()
 
 		if (m_ImGui->m_Menu.showSettings)
 		{
-			m_ImGui->Slider3f("Background", m_BackgroundColour, 0.f, 1.f);
-			//ImGui::Checkbox("Blinn-Phong", )
+			ImGui::Begin("Settings");
+			ImGui::ColorEdit3("Background", &m_BackgroundColour[0]);
 			ImGui::Checkbox("Wireframe", &m_WireframeEnabled);
+			ImGui::End();
 		}
 
 		if(m_ImGui->m_Menu.showLight)

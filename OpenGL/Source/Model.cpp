@@ -198,7 +198,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) != 0)
 		{
-			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT_OCCLUSION, "texture_ambientOcclusion");
+			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT, "texture_ambientOcclusion");
 			if (!maps.empty()) m_TextureCheck.hasAmbientOcclusionMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
@@ -251,13 +251,28 @@ void Model::DrawImGui()
 	ImGui::SliderFloat3("Position", &m_Position[0], -10.f, 10.f);
 	ImGui::SliderFloat3("Rotation", &m_Rotation[0], -90.f, 90.f);
 	ImGui::SliderFloat3("Scale", &m_Scale[0], -10.f, 10.f);
-	ImGui::SliderFloat("ScaleFactor", &m_ScaleFactor, -5.f, 5.f);
+	ImGui::SliderFloat("Scale Factor", &m_ScaleFactor, -5.f, 5.f);
+	ImGui::NewLine();
 
 	//PBR
-	ImGui::SliderFloat3("Albedo", &m_Albedo[0], 0.f, 1.f);
-	ImGui::SliderFloat("Metallic", &m_Metallic, 0.f, 1.f);
-	ImGui::SliderFloat("Roughness", &m_Roughness, 0.f, 1.f);
-	ImGui::SliderFloat("Ambient Occlusion", &m_AmbientOcclusion, 0.f, 1.f);
+	if (!m_LoadedTextures.empty())
+		ImGui::Text("Albedo map present");
+	else
+		ImGui::ColorEdit3("Albedo", &m_Albedo[0]);
+
+	if (m_TextureCheck.hasRougnessMap)
+		ImGui::Text("Metallic/Rougness map present");
+	else
+	{
+		ImGui::SliderFloat("Metallic", &m_Metallic, 0.f, 1.f);
+		ImGui::SliderFloat("Roughness", &m_Roughness, 0.f, 1.f);
+	}
+
+	if (m_TextureCheck.hasAmbientOcclusionMap)
+		ImGui::Text("Ambient Occlusion map present");
+	else
+		ImGui::SliderFloat("Ambient Occlusion", &m_AmbientOcclusion, 0.f, 1.f);
+
 	ImGui::End();
 }
 
