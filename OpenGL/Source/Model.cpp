@@ -80,6 +80,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasRoughnessMap", m_TextureCheck.hasRougnessMap);
 		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasNormalMap", m_TextureCheck.hasNormalMap);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasAmbientOcclusionMap", m_TextureCheck.hasAmbientOcclusionMap);
 	}
 }
 
