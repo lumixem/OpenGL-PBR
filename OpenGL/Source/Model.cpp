@@ -86,7 +86,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 bool Model::LoadModel(const char* filename)
 {
-	printf("Model Filepath: %s\n", filename);
+	printf("\nModel Filepath: %s\n", filename);
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate /*| aiProcess_FlipUVs*/ | aiProcess_JoinIdenticalVertices | aiProcess_CalcTangentSpace);
 

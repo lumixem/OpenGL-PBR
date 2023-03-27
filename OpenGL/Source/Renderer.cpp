@@ -7,7 +7,6 @@
 #include "Model.h"
 #include "Light.h"
 #include "Texture.h"
-#include "ModelLibrary.h"
 #include <imgui.h>
 
 // Settings
@@ -53,6 +52,7 @@ void Renderer::Render()
 		m_Camera->Update();
 
 		m_ImGui->ImGui_DrawMenu();
+		m_ImGui->ImGui_DrawModelSelector(m_Models, m_ShaderManager, m_FileManager);
 
 		for (const auto& model : m_Models)
 		{

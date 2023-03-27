@@ -1,7 +1,11 @@
 #pragma once
 #include "glm/vec3.hpp"
+#include <vector>
 
 struct GLFWwindow;
+class Model;
+class FileManager;
+class ShaderManager;
 
 class ImGuiManager
 {
@@ -10,6 +14,7 @@ public:
 	void ImGui_NewFrame();
 	void ImGui_Render();
 	void ImGui_DrawMenu();
+	void ImGui_DrawModelSelector(std::vector<Model*>& models, ShaderManager* shaderManager, FileManager* fileManager);
 	void ImGui_Shutdown();
 
 	struct Menu

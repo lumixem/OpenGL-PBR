@@ -1,10 +1,13 @@
 #include "ImGuiManager.h"
+#include "Model.h"
 #pragma warning(push, 0) 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <glm/gtc/type_ptr.hpp>
 #pragma warning(pop)
+#include <string>
+#include <filesystem>
 
 void ImGuiManager::ImGui_CreateContext(GLFWwindow* window)
 {
@@ -50,6 +53,68 @@ void ImGuiManager::ImGui_DrawMenu()
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+std::vector<std::string> GetGltfFiles(const std::string& path)
+{
+	std::vector<std::string> gltfFiles;
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(path))
+	{
+		if (entry.is_regular_file() && entry.path().extension() == ".gltf")
+		{
+			gltfFiles.push_back(entry.path().string());
+		}
+	}
+
+	for (auto& file : gltfFiles)
+	{
+		std::replace(file.begin(), file.end(), '\\', '/');
+	}
+
+	return gltfFiles;
+}
+
+std::vector<std::string> GetModelNames(const std::vector<std::string>& files)
+{
+	std::vector<std::string> names;
+
+	for (const auto& file : files)
+	{
+		size_t lastSlash = file.find_last_of("/");
+		std::string name = file.substr(lastSlash + 1, file.size());
+
+		size_t lastDot = name.find_last_of(".");
+		name = name.substr(0, lastDot);
+		names.push_back(name);
+	}
+
+	return names;
+}
+
+void ImGuiManager::ImGui_DrawModelSelector(std::vector<Model*>& models, ShaderManager* shaderManager, FileManager* fileManager)
+{
+	const std::string path = "Resources/Models";
+	std::vector<std::string> gltfFiles = GetGltfFiles(path);
+	std::vector<std::string> names = GetModelNames(gltfFiles);
+
+	ImGui::Begin("Select Model");
+
+	for (size_t i = 0; i < names.size(); ++i)
+	{
+		if (ImGui::Button(names[i].c_str()))
+		{
+			if (!models.empty())
+			{
+				models.clear();
+				models.shrink_to_fit();
+			}
+			Model* model = new Model(gltfFiles[i].c_str(), shaderManager, fileManager);
+
+			models.push_back(model);
+		}
+	}
+
+	ImGui::End();
 }
 
 void ImGuiManager::ImGui_Shutdown()
