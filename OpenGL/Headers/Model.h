@@ -51,6 +51,7 @@ private:
 	{
 		bool hasRougnessMap;
 		bool hasNormalMap;
+		bool hasAmbientOcclusionMap;
 	}m_TextureCheck;
 
 	std::string m_Filepath;

@@ -30,9 +30,9 @@ void Renderer::Init()
 
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
-	Model* model = new Model("Resources/Models/DamagedHelmet/DamagedHelmet.gltf", m_ShaderManager, m_FileManager);
-	model->SetPosition(glm::vec3(0.f, 0.7f, 0.f));
-	model->SetRotation(glm::vec3(45.f, 0.f, 0.f));
+	Model* model = new Model("Resources/Models/SciFiHelmet/SciFiHelmet.gltf", m_ShaderManager, m_FileManager);
+	model->SetPosition(glm::vec3(0.f, 0.0f, -1.2f));
+	model->SetRotation(glm::vec3(-30.f, 0.f, 0.f));
 	m_Models.push_back(model);
 }
 

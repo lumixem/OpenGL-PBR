@@ -16,11 +16,11 @@ Light::Light(LightType lt)
     m_Diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
     m_Ambient = glm::vec3(0.5f, 0.5f, 0.5f);
     m_Specular = glm::vec3(1.0f, 1.0f, 1.0f);
-    m_LightColour = glm::vec3(0.5f, 0.2f, 0.3f);
+    m_LightColour = glm::vec3(0.5f, 0.1f, 0.6f);
 
     if(m_LightType == LightType::Directional)
     {
-        m_LightDirection = glm::vec3(2.f, 1.f, 3.f);
+        m_LightDirection = glm::vec3(0.5f, 2.f, 1.f);
     }
     else if(m_LightType == LightType::Point)
     {
@@ -30,6 +30,8 @@ Light::Light(LightType lt)
     {
 	    
     }
+
+    m_ShaderManager = nullptr;
 }
 
 Light::Light(ShaderManager* _shaderManager, FileManager* _fileManager, glm::vec3 colour)

@@ -19,7 +19,7 @@ void main()
 {
    vec3 offset = offsets[gl_InstanceID];
    gl_Position = projection * view * model * vec4(a_position + offset, 1.0);
-   fragmentPos = vec3(model * vec4(a_position, 1.0));
+   fragmentPos = mat3(model) * a_position;
    textureCoords = a_textureCoords;
 
    //TODO: Calculate normal matrix on CPU and send as uniform instead of calculating on GPU

@@ -183,7 +183,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
-			std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_specular");
+			std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_roughness/specular");
 			if (!specularMaps.empty()) m_TextureCheck.hasRougnessMap = true;
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 		}
@@ -193,6 +193,13 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
 			if (!normalMaps.empty()) m_TextureCheck.hasNormalMap = true;
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		}
+
+		if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) != 0)
+		{
+			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT_OCCLUSION, "texture_ambientOcclusion");
+			if (!maps.empty()) m_TextureCheck.hasAmbientOcclusionMap = true;
+			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
 	}
 

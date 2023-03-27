@@ -51,22 +51,22 @@ public:
 	glm::vec3& GetDirection() { return m_LightDirection; }
 	void SetDirection(const glm::vec3 newDirection) { m_Position = newDirection; }
 
-	LightType m_LightType;
+	LightType m_LightType = {};
 
 private:
-	GLuint m_VBO, m_VAO, m_EBO;
-	GLuint m_VertexShader, m_FragmentShader, m_ShaderProgram;
+	GLuint m_VBO = 0, m_VAO = 0, m_EBO = 0;
+	GLuint m_VertexShader = 0, m_FragmentShader = 0, m_ShaderProgram = 0;
 
-	float m_ScaleFactor = 0.5;
+	float m_ScaleFactor = 0.5f;
 
-	glm::vec3 m_Position = glm::vec3(0.f, 0.f, 0.f);
-	glm::vec3 m_Scale;
-	glm::vec3 m_Rotation;
+	glm::vec3 m_Position = glm::vec3(0.f);
+	glm::vec3 m_Scale = glm::vec3(1.f);;
+	glm::vec3 m_Rotation = glm::vec3(0.f);;
 
-	glm::vec3 m_LightColour;
-	glm::vec3 m_Diffuse;
-	glm::vec3 m_Ambient;
-	glm::vec3 m_Specular;
+	glm::vec3 m_LightColour = glm::vec3(0.f);;
+	glm::vec3 m_Diffuse = glm::vec3(0.f);;
+	glm::vec3 m_Ambient = glm::vec3(0.f);;
+	glm::vec3 m_Specular = glm::vec3(0.f);;
 	glm::vec3 m_LightDirection = glm::vec3(0.f, 0.f, 0.f); //For directional light
 
 	ShaderManager* m_ShaderManager;

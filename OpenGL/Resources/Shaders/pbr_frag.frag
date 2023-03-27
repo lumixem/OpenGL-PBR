@@ -1,15 +1,26 @@
 #version 330 core
 out vec4 fragColor;
+
 in vec2 textureCoords;
 in vec3 fragmentPos;
 in vec3 normals;
+in mat3 TBN;
 
 uniform vec3 cameraPos;
 
-uniform vec3 albedo;
-uniform float metallic;
-uniform float roughness;
+//uniform vec3 albedo;
+//uniform float metallic;
+//uniform float roughness;
 uniform float ambientOcclusion;
+
+struct Material
+{
+	sampler2D texture_diffuse;
+	sampler2D texture_specular;
+	sampler2D texture_normal;
+	float shininess;
+};
+uniform Material material;
 
 uniform vec3 lightPos;
 uniform vec3 lightColour;
@@ -46,21 +57,43 @@ float GeometrySchlickGGX(float NdotV, float roughness)
     return nom / denom;
 }
 
-float GeometrySmith(vec3 n, vec3 v, vec3 l, float rougness)
+float GeometrySmith(vec3 n, vec3 v, vec3 l, float ro)
 {
 	float NdotV = max(dot(n, v), 0.0);
     float NdotL = max(dot(n, l), 0.0);
 
-	float ggx2  = GeometrySchlickGGX(NdotV, roughness);
-    float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+	float ggx2  = GeometrySchlickGGX(NdotV, ro);
+    float ggx1  = GeometrySchlickGGX(NdotL, ro);
 	
     return ggx1 * ggx2;
+}
+
+vec3 getNormalFromMap()
+{
+    vec3 tangentNormal = texture(material.texture_normal, textureCoords).xyz * 2.0 - 1.0;
+
+    vec3 Q1  = dFdx(fragmentPos);
+    vec3 Q2  = dFdy(fragmentPos);
+    vec2 st1 = dFdx(textureCoords);
+    vec2 st2 = dFdy(textureCoords);
+
+    vec3 N   = normalize(normals);
+    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+    vec3 B  = -normalize(cross(N, T));
+    mat3 TBN = mat3(T, B, N);
+
+    return normalize(TBN * tangentNormal);
 }
 
 void main()
 {		
     vec3 normal = normalize(normals);
     vec3 viewDirection = normalize(cameraPos - fragmentPos);
+
+    vec3 albedo = texture(material.texture_diffuse, textureCoords).rgb;
+    normal = getNormalFromMap();
+    float metallic = texture(material.texture_specular, textureCoords).b;
+    float roughness = texture(material.texture_specular, textureCoords).g;
   
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, albedo, metallic);
@@ -88,7 +121,7 @@ void main()
 
     float NdotL = max(dot(normal, lightDirection), 0.0);        
     Lo += (kD * albedo / PI + specular) * radiance * NdotL;
-     
+
     vec3 ambient = vec3(0.03) * albedo * ambientOcclusion;
     vec3 color = ambient + Lo;
     color = color / (color + vec3(1.0));
