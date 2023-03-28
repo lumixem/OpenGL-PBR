@@ -63,8 +63,8 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "cameraPos", camera->GetPosition());
 
 		// PBR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "lightColour", light->GetLightColour());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "lightPos", light->GetPosition());
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "pointLight.lightColour", light->GetLightColour());
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "pointLight.lightPos", light->GetPosition());
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "albedo", m_Albedo);
 		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "ambientOcclusion", m_AmbientOcclusion);
 		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "metallic", m_Metallic);

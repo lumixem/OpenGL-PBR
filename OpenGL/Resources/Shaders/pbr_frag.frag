@@ -31,6 +31,16 @@ struct TextureCheck
 };
 uniform TextureCheck textureCheck;
 
+struct PointLight {
+    vec3 lightPos;  
+    vec3 lightColour;
+	
+    float constant;
+    float linear;
+    float quadratic;
+};
+uniform PointLight pointLight;
+
 uniform vec3 lightPos;
 uniform vec3 lightColour;
 
@@ -126,12 +136,12 @@ void main()
     F0 = mix(F0, albedo, m);
 
     vec3 Lo = vec3(0.0);
-	vec3 lightDirection = normalize(lightPos - fragmentPos);
+	vec3 lightDirection = normalize(pointLight.lightPos - fragmentPos);
 	vec3 halfwayVector = normalize(viewDirection + lightDirection);
    
-    float dist = length(lightPos - fragmentPos);
+    float dist = length(pointLight.lightPos - fragmentPos);
     float attenuation = 1.0 / (dist * dist);
-    vec3 radiance = lightColour * attenuation;
+    vec3 radiance = pointLight.lightColour * attenuation;
 
     // Cook-Torrance BRDF
     float normalDistributionFuntion = DistributionGGX(normal, halfwayVector, r);   
