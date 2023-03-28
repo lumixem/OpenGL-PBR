@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/vec3.hpp"
 #include <vector>
+#include <string>
 
 struct GLFWwindow;
 class Model;
@@ -10,6 +11,7 @@ class ShaderManager;
 class ImGuiManager
 {
 public:
+	void Init();
 	void ImGui_CreateContext(GLFWwindow* glfwWindow);
 	void ImGui_NewFrame();
 	void ImGui_Render();
@@ -26,4 +28,7 @@ public:
 		bool showLight = false;
 		bool showAll = false;
 	}m_Menu;
+
+	std::vector<std::string> m_GltfFiles;
+	std::vector<std::string> m_Names;
 };

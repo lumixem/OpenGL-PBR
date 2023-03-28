@@ -6,7 +6,6 @@
 #include <imgui_impl_opengl3.h>
 #include <glm/gtc/type_ptr.hpp>
 #pragma warning(pop)
-#include <string>
 #include <filesystem>
 
 void ImGuiManager::ImGui_CreateContext(GLFWwindow* window)
@@ -93,24 +92,26 @@ std::vector<std::string> GetModelNames(const std::vector<std::string>& files)
 	return names;
 }
 
+void ImGuiManager::Init()
+{
+	m_GltfFiles = GetGltfFiles("Resources/Models");
+	m_Names = GetModelNames(m_GltfFiles);
+}
+
 void ImGuiManager::ImGui_DrawModelSelector(std::vector<Model*>& models, ShaderManager* shaderManager, FileManager* fileManager)
 {
-	const std::string path = "Resources/Models";
-	const std::vector<std::string> gltfFiles = GetGltfFiles(path);
-	const std::vector<std::string> names = GetModelNames(gltfFiles);
-
 	ImGui::Begin("Select Model");
 
-	for (size_t i = 0; i < names.size(); ++i)
+	for (size_t i = 0; i < m_Names.size(); ++i)
 	{
-		if (ImGui::Button(names[i].c_str()))
+		if (ImGui::Button(m_Names[i].c_str()))
 		{
 			if (!models.empty())
 			{
 				models.clear();
 				models.shrink_to_fit();
 			}
-			Model* model = new Model(gltfFiles[i].c_str(), shaderManager, fileManager);
+			Model* model = new Model(m_GltfFiles[i].c_str(), shaderManager, fileManager);
 
 			models.push_back(model);
 		}
