@@ -40,6 +40,7 @@ void ImGuiManager::ImGui_DrawMenu()
 		m_Menu.showSettings = true;
 		m_Menu.showCamera = true;
 		m_Menu.showModels = true;
+		m_Menu.showModelSelector = true;
 		m_Menu.showLight = true;
 	}
 
@@ -47,6 +48,7 @@ void ImGuiManager::ImGui_DrawMenu()
 	{
 		ImGui::Checkbox("Open All Menus", &m_Menu.showAll);
 		ImGui::Checkbox("Settings", &m_Menu.showSettings);
+		ImGui::Checkbox("Model Selector", &m_Menu.showModelSelector);
 		ImGui::Checkbox("Models", &m_Menu.showModels);
 		ImGui::Checkbox("Camera", &m_Menu.showCamera);
 		ImGui::Checkbox("Light", &m_Menu.showLight);
@@ -94,8 +96,8 @@ std::vector<std::string> GetModelNames(const std::vector<std::string>& files)
 void ImGuiManager::ImGui_DrawModelSelector(std::vector<Model*>& models, ShaderManager* shaderManager, FileManager* fileManager)
 {
 	const std::string path = "Resources/Models";
-	std::vector<std::string> gltfFiles = GetGltfFiles(path);
-	std::vector<std::string> names = GetModelNames(gltfFiles);
+	const std::vector<std::string> gltfFiles = GetGltfFiles(path);
+	const std::vector<std::string> names = GetModelNames(gltfFiles);
 
 	ImGui::Begin("Select Model");
 

@@ -22,6 +22,7 @@ public:
 		bool showSettings = false;
 		bool showCamera = false;
 		bool showModels = false;
+		bool showModelSelector = true;
 		bool showLight = false;
 		bool showAll = false;
 	}m_Menu;

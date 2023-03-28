@@ -52,7 +52,9 @@ void Renderer::Render()
 		m_Camera->Update();
 
 		m_ImGui->ImGui_DrawMenu();
-		m_ImGui->ImGui_DrawModelSelector(m_Models, m_ShaderManager, m_FileManager);
+
+		if(m_ImGui->m_Menu.showModelSelector)
+			m_ImGui->ImGui_DrawModelSelector(m_Models, m_ShaderManager, m_FileManager);
 
 		for (const auto& model : m_Models)
 		{
