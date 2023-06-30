@@ -88,4 +88,10 @@ void Renderer::Shutdown()
 {
 	m_ImGui->ImGui_Shutdown();
 	m_Window->Shutdown();
+
+	delete m_ImGui;
+	delete m_ShaderManager;
+	delete m_FileManager;
+	delete m_Camera;
+	delete m_Light;
 }

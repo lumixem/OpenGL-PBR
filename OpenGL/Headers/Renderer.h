@@ -8,11 +8,7 @@ class ShaderManager;
 class FileManager;
 class Camera;
 class Texture;
-class ModelLibrary;
 class Light;
-class BaseObject;
-class Player;
-class Wall;
 class ImGuiManager;
 
 class Renderer
@@ -29,7 +25,6 @@ public:
 	Window* m_Window;
 	ImGuiManager* m_ImGui;
 
-	std::vector<BaseObject*> m_Objects;
 	std::vector<Model*> m_Models;
 
 	glm::vec3 m_BackgroundColour = glm::vec3(0.f, 0.f, 0.f);

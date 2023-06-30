@@ -3,11 +3,11 @@
 #include "FileManager.h"
 #include "Camera.h"
 #include "ImGuiManager.h"
-#include "imgui.h"
+#include <imgui.h>
 #pragma warning(push, 0)
 #include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 #pragma warning(pop)
 
 Light::Light(LightType lt)
