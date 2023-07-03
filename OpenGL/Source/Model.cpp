@@ -173,33 +173,33 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];		
 
-		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
-			std::vector<Mesh::Texture> roughnessMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_roughness/specular");
+			std::vector<Mesh::Texture> roughnessMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS);
 			if (!roughnessMaps.empty()) m_TextureCheck.hasRougnessMap = true;
 			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_NORMALS) != 0)
 		{
-			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS, "texture_normal");
+			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS);
 			if (!normalMaps.empty()) m_TextureCheck.hasNormalMap = true;
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) != 0)
 		{
-			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT, "texture_ambientOcclusion");
+			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT_OCCLUSION);
 			if (!maps.empty()) m_TextureCheck.hasAmbientOcclusionMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_EMISSIVE) != 0)
 		{
-			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_EMISSIVE, "texture_emissive");
+			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_EMISSIVE);
 			if (!maps.empty()) m_TextureCheck.hasEmissiveMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
@@ -229,7 +229,31 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh{ vertices, indices, textures, factors, m_ShaderManager, m_FileManager };
 }
 
-std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureType type, const char* name)
+void GetTextureType(std::string& s, const aiTextureType type)
+{
+	switch (type)	
+	{
+	case aiTextureType_DIFFUSE:
+		s = "Diffuse";
+		break;
+	case aiTextureType_DIFFUSE_ROUGHNESS:
+		s = "MetallicRoughness";
+		break;
+	case aiTextureType_NORMALS:
+		s = "Normal";
+		break;
+	case aiTextureType_AMBIENT_OCCLUSION:
+		s = "AmbientOcclusion";
+		break;
+	case aiTextureType_EMISSIVE:
+		s = "Emissive";
+		break;
+	default:
+		break;
+	}
+}
+
+std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureType type)
 {
 	std::vector<Mesh::Texture> textures;
 
@@ -252,13 +276,13 @@ std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureT
 		if (!skip)
 		{
 			Mesh::Texture t;
-			if (type == aiTextureType_DIFFUSE)
+			if (type == aiTextureType_DIFFUSE || type == aiTextureType_EMISSIVE)
 				m_Texture->m_SrgbFormat = true;
 			else
 				m_Texture->m_SrgbFormat = false;
 			t.textureID = m_Texture->CreateTexture(path.C_Str(), m_Filepath);
-			t.type = name;
 			t.path = path.C_Str();
+			GetTextureType(t.type, type);
 			textures.push_back(t);
 			m_LoadedTextures.push_back(t);
 		}

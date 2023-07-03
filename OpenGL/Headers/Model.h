@@ -45,7 +45,7 @@ private:
 	void CalculateRotationMatrix(glm::mat4& rotationMatrix);
 	void ProcessNode(aiNode* node, const aiScene* scene);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type, const char* name);
+	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type);
 
 	struct TextureCheck
 	{
