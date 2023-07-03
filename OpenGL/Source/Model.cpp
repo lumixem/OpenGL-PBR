@@ -68,17 +68,12 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.specular", light->GetSpecular());
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.direction", light->GetDirection());
 		m_ShaderManager->SetUnsignedInt1(m_Meshes[i].m_ShaderProgram, "light.lightType", static_cast<unsigned int>(light->m_LightType));
-
-		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasRoughnessMap", m_TextureCheck.hasRougnessMap);
-		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasNormalMap", m_TextureCheck.hasNormalMap);
-		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasAmbientOcclusionMap", m_TextureCheck.hasAmbientOcclusionMap);
-		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasEmissiveMap", m_TextureCheck.hasEmissiveMap);
 	}
 }
 
 bool Model::LoadModel(const char* filename)
 {
-	printf("\nModel Filepath: %s\n", filename);
+	printf("Model Filepath: %s\n", filename);
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate /*| aiProcess_FlipUVs*/ | aiProcess_JoinIdenticalVertices | aiProcess_CalcTangentSpace);
 
@@ -110,6 +105,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Mesh::Vertex> vertices;
 	std::vector<Mesh::Texture> textures;
 	std::vector<unsigned int> indices;
+
+	aiString name = mesh->mName;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -167,40 +164,42 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
-	Mesh::Factors factors;
+	Mesh::ShadingParameters params;
 
 	if (mesh->mMaterialIndex >= static_cast<unsigned int>(0))
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];		
 
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) == 0)
+			printf("No diffuse texture loaded for mesh %s\n", name.C_Str());
 		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
 			std::vector<Mesh::Texture> roughnessMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS);
-			if (!roughnessMaps.empty()) m_TextureCheck.hasRougnessMap = true;
+			if (!roughnessMaps.empty()) params.hasRougnessMap = true;
 			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_NORMALS) != 0)
 		{
 			std::vector<Mesh::Texture> normalMaps = LoadTextures(material, aiTextureType_NORMALS);
-			if (!normalMaps.empty()) m_TextureCheck.hasNormalMap = true;
+			if (!normalMaps.empty()) params.hasNormalMap = true;
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) != 0)
 		{
 			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_AMBIENT_OCCLUSION);
-			if (!maps.empty()) m_TextureCheck.hasAmbientOcclusionMap = true;
+			if (!maps.empty()) params.hasAmbientOcclusionMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_EMISSIVE) != 0)
 		{
 			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_EMISSIVE);
-			if (!maps.empty()) m_TextureCheck.hasEmissiveMap = true;
+			if (!maps.empty()) params.hasEmissiveMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
 
@@ -218,15 +217,15 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		material->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor);
 		//material->Get(ai_matkey_, occlusionFactor); //TODO find key for occlusion factor
 
-		factors.baseColorFactor = glm::vec3(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2]);
-		factors.emissiveFactor = glm::vec3(emissiveFactor[0], emissiveFactor[1], emissiveFactor[2]);
-		factors.specularFactor = glm::vec3(specularFactor[0], specularFactor[1], specularFactor[2]);
-		factors.metallicFactor = metallicFactor;
-		factors.roughnessFactor = roughnessFactor;
+		params.baseColorFactor = glm::vec3(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2]);
+		params.emissiveFactor = glm::vec3(emissiveFactor[0], emissiveFactor[1], emissiveFactor[2]);
+		params.specularFactor = glm::vec3(specularFactor[0], specularFactor[1], specularFactor[2]);
+		params.metallicFactor = metallicFactor;
+		params.roughnessFactor = roughnessFactor;
 		//factors.ambientOcclusionFactor = occlusionFactor;
 	}
 
-	return Mesh{ vertices, indices, textures, factors, m_ShaderManager, m_FileManager };
+	return Mesh{ vertices, indices, textures, params, m_ShaderManager, m_FileManager };
 }
 
 void GetTextureType(std::string& s, const aiTextureType type)

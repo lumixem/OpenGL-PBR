@@ -29,8 +29,13 @@ public:
 		std::string path;
 	};
 
-	struct Factors
+	struct ShadingParameters
 	{
+		bool hasRougnessMap = false;
+		bool hasNormalMap = false;
+		bool hasAmbientOcclusionMap = false;
+		bool hasEmissiveMap = false;
+
 		glm::vec3 baseColorFactor = glm::vec3(1.f);
 		glm::vec3 emissiveFactor = glm::vec3(1.f);
 		glm::vec3 specularFactor = glm::vec3(1.f);
@@ -39,7 +44,7 @@ public:
 		float roughnessFactor = 0.5f;
 	};
 
-	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, Factors& factors, ShaderManager* shaderManager, FileManager* fileManager);
+	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShadingParameters& params, ShaderManager* shaderManager, FileManager* fileManager);
 
 	void Draw(bool instanced, Light& light);
 
@@ -56,7 +61,7 @@ private:
 	glm::mat4x4 m_ScaleMatrix, m_TranslationMatrix, m_RotationMatrix, m_ModelMatrix;
 
 	ShaderManager* m_ShaderManager;
-	Factors m_Factors;
+	ShadingParameters m_ShadingParameters;
 
 	friend class Model; //So the Model class can access the private matrices and the shader program
 };

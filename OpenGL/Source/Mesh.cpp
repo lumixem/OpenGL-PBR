@@ -4,8 +4,8 @@
 #include "Light.h"
 #include <string>
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, Factors& factors, ShaderManager* shaderManager, FileManager* fileManager) :
-	m_Factors(factors)
+Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShadingParameters& params, ShaderManager* shaderManager, FileManager* fileManager) :
+	m_ShadingParameters(params)
 {
 	m_Vertices = vertices;
 	m_Indices = indices;
@@ -88,10 +88,14 @@ void Mesh::Draw(bool instanced, Light& light)
 
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", light.GetLightColour());
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", light.GetPosition());
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "albedo", m_Factors.baseColorFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusion", m_Factors.ambientOcclusionFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallic", m_Factors.metallicFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughness", m_Factors.roughnessFactor);
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "albedo", m_ShadingParameters.baseColorFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusion", m_ShadingParameters.ambientOcclusionFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallic", m_ShadingParameters.metallicFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughness", m_ShadingParameters.roughnessFactor);
+	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasRoughnessMap", m_ShadingParameters.hasRougnessMap);
+	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasNormalMap", m_ShadingParameters.hasNormalMap);
+	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasAmbientOcclusionMap", m_ShadingParameters.hasAmbientOcclusionMap);
+	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasEmissiveMap", m_ShadingParameters.hasEmissiveMap);
 
 	glBindVertexArray(m_VAO);
 	if (!instanced)

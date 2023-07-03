@@ -47,14 +47,6 @@ private:
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Mesh::Texture> LoadTextures(aiMaterial* mat, aiTextureType type);
 
-	struct TextureCheck
-	{
-		bool hasRougnessMap;
-		bool hasNormalMap;
-		bool hasAmbientOcclusionMap;
-		bool hasEmissiveMap;
-	}m_TextureCheck;
-
 	std::string m_Filepath;
 
 	ShaderManager* m_ShaderManager;
