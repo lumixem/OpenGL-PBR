@@ -86,13 +86,18 @@ void Mesh::Draw(bool instanced, Light& light)
 	}
 	glActiveTexture(GL_TEXTURE0);
 
+	//Light
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", light.GetLightColour());
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", light.GetPosition());
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "albedo", m_ShadingParameters.baseColorFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusion", m_ShadingParameters.ambientOcclusionFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallic", m_ShadingParameters.metallicFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughness", m_ShadingParameters.roughnessFactor);
-	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasRoughnessMap", m_ShadingParameters.hasRougnessMap);
+	//Factors
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "baseColorFactor", m_ShadingParameters.baseColorFactor);
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "emissiveFactor", m_ShadingParameters.emissiveFactor);
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "specularFactor", m_ShadingParameters.specularFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusionFactor", m_ShadingParameters.ambientOcclusionFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallicFactor", m_ShadingParameters.metallicFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughnessFactor", m_ShadingParameters.roughnessFactor);
+	//Texture checks
+	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasRoughnessMap", m_ShadingParameters.hasRoughnessMap);
 	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasNormalMap", m_ShadingParameters.hasNormalMap);
 	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasAmbientOcclusionMap", m_ShadingParameters.hasAmbientOcclusionMap);
 	m_ShaderManager->SetBool(m_ShaderProgram, "textureCheck.hasEmissiveMap", m_ShadingParameters.hasEmissiveMap);

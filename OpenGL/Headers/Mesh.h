@@ -31,7 +31,7 @@ public:
 
 	struct ShadingParameters
 	{
-		bool hasRougnessMap = false;
+		bool hasRoughnessMap = false;
 		bool hasNormalMap = false;
 		bool hasAmbientOcclusionMap = false;
 		bool hasEmissiveMap = false;

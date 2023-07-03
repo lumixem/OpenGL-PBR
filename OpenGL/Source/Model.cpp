@@ -178,7 +178,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
 			std::vector<Mesh::Texture> roughnessMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS);
-			if (!roughnessMaps.empty()) params.hasRougnessMap = true;
+			if (!roughnessMaps.empty()) params.hasRoughnessMap = true;
 			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 		}
 
@@ -233,19 +233,19 @@ void GetTextureType(std::string& s, const aiTextureType type)
 	switch (type)	
 	{
 	case aiTextureType_DIFFUSE:
-		s = "Diffuse";
+		s = "texture_diffuse";
 		break;
 	case aiTextureType_DIFFUSE_ROUGHNESS:
-		s = "MetallicRoughness";
+		s = "texture_roughness";
 		break;
 	case aiTextureType_NORMALS:
-		s = "Normal";
+		s = "texture_normal";
 		break;
 	case aiTextureType_AMBIENT_OCCLUSION:
-		s = "AmbientOcclusion";
+		s = "texture_ambientOcclusion";
 		break;
 	case aiTextureType_EMISSIVE:
-		s = "Emissive";
+		s = "texture_emissive";
 		break;
 	default:
 		break;

@@ -20,9 +20,10 @@ uniform vec3 cameraPos;
 struct Material
 {
 	sampler2D texture_diffuse;
-	sampler2D texture_specular;
+	sampler2D texture_roughness;
 	sampler2D texture_normal;
     sampler2D texture_ambientOcclusion;
+    sampler2D texture_emissive;
 	float shininess;
 };
 uniform Material material;
@@ -169,6 +170,7 @@ void main()
 //    color = color / (color + vec3(1.0));
 //    color = pow(color, vec3(1.0/2.2)); 
 
-    fragColor = vec4(1.0);
+    vec3 albedo = texture(material.texture_diffuse, UV).rgb;
+    fragColor = vec4(albedo, 1.0);
     //fragColor = vec4(color, 1.0);
 }
