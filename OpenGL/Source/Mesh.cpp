@@ -88,10 +88,10 @@ void Mesh::Draw(bool instanced, Light& light)
 
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", light.GetLightColour());
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", light.GetPosition());
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "albedo", m_Factors.m_AlbedoFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusion", m_Factors.m_AmbientOcclusionFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallic", m_Factors.m_MetallicFactor);
-	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughness", m_Factors.m_RoughnessFactor);
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "albedo", m_Factors.baseColorFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "ambientOcclusion", m_Factors.ambientOcclusionFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "metallic", m_Factors.metallicFactor);
+	m_ShaderManager->SetFloat1(m_ShaderProgram, "roughness", m_Factors.roughnessFactor);
 
 	glBindVertexArray(m_VAO);
 	if (!instanced)
