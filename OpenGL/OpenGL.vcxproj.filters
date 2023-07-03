@@ -417,11 +417,6 @@
     <None Include="Resources\Shaders\pbr_frag.frag" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Textures\rainbow.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <CopyFileToFolders Include="External\assimp\assimp-vc143-mt.dll" />
     <CopyFileToFolders Include="External\assimp\assimp-vc143-mtd.dll" />
   </ItemGroup>

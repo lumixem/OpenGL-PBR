@@ -164,9 +164,6 @@
     <None Include="Resources\Shaders\pbr_frag.frag" />
     <None Include="Resources\Shaders\vertShader.vert" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\Textures\rainbow.jpg" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
