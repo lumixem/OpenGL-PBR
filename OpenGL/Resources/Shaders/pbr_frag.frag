@@ -1,18 +1,21 @@
 #version 330 core
 out vec4 fragColor;
 
-in vec3 w_Position; //World space
-in vec3 w_Normal;	//World space
+in vec3 w_Position;	    //World space
+in vec3 w_Normal;		//World space
+in vec3 w_Tangent;		//World space
+in vec3 w_BiTangent;	//World space
 in vec2 UV;
 in mat3 TBN;
-in vec3 cameraPosition;
+
+uniform vec3 baseColorFactor;
+uniform vec3 emissiveFactor;
+uniform vec3 specularFactor;
+uniform float ambientOcclusionFactor;
+uniform float metallicFactor;
+uniform float roughnessFactor;
 
 uniform vec3 cameraPos;
-
-uniform vec3 albedo;
-uniform float metallic;
-uniform float roughness;
-uniform float ambientOcclusion;
 
 struct Material
 {

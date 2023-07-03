@@ -178,9 +178,9 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) != 0)
 		{
-			std::vector<Mesh::Texture> specularMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_roughness/specular");
-			if (!specularMaps.empty()) m_TextureCheck.hasRougnessMap = true;
-			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+			std::vector<Mesh::Texture> roughnessMaps = LoadTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_roughness/specular");
+			if (!roughnessMaps.empty()) m_TextureCheck.hasRougnessMap = true;
+			textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
 		}
 
 		if (material->GetTextureCount(aiTextureType_NORMALS) != 0)

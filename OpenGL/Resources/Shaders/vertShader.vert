@@ -10,8 +10,10 @@ uniform mat4 u_view;
 uniform mat4 u_model;
 uniform vec3 u_cameraPosition;
 
-out vec3 w_Position; //World space
-out vec3 w_Normal;	 //World space
+out vec3 w_Position;	//World space
+out vec3 w_Normal;		//World space
+out vec3 w_Tangent;		//World space
+out vec3 w_BiTangent;	//World space
 out vec2 UV;
 out mat3 TBN;
 
@@ -20,6 +22,8 @@ void main()
    gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
    w_Position = mat3(u_model) * a_position;
    w_Normal = mat3(u_model) * a_normals;
+   w_Tangent = mat3(u_model) * a_tangents; 
+   w_BiTangent = mat3(u_model) * a_biTangents; 
    UV = a_textureCoords;
 
 //   vec3 T = normalize(vec3(model * vec4(a_tangents, 0.0)));
