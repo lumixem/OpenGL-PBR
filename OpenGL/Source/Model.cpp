@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Texture.h"
-#include "imgui.h"
+#include <imgui.h>
 #pragma warning(push, 0)
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -46,7 +46,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 	for (size_t i = 0; i < m_Meshes.size(); ++i)
 	{
-		m_Meshes[i].Draw(instanced);
+		m_Meshes[i].Draw(instanced, *light);
 		m_Meshes[i].m_TranslationMatrix = glm::translate(translationMatrix, m_Position);
 		m_Meshes[i].m_ScaleMatrix = glm::scale(scaleMatrix, m_Scale * m_ScaleFactor);
 		m_Meshes[i].m_RotationMatrix = rotationMatrix;
@@ -54,22 +54,13 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		//~~MVP
 		m_Meshes[i].m_ModelMatrix = m_Meshes[i].m_TranslationMatrix * m_Meshes[i].m_RotationMatrix * m_Meshes[i].m_ScaleMatrix;
 
-		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "projection", camera->GetProjection());
-		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "view", camera->GetView());
-		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "model", m_Meshes[i].m_ModelMatrix);
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_projection", camera->GetProjection());
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_view", camera->GetView());
+		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_model", m_Meshes[i].m_ModelMatrix);
 
 		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "material.shininess", m_Shininess);
 
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "cameraPos", camera->GetPosition());
-
-		// PBR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "pointLight.lightColour", light->GetLightColour());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "pointLight.lightPos", light->GetPosition());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "albedo", m_Albedo);
-		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "ambientOcclusion", m_AmbientOcclusion);
-		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "metallic", m_Metallic);
-		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "roughness", m_Roughness);
-		// PBR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "u_cameraPos", camera->GetPosition());
 
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.position", light->GetPosition());
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.ambient", light->GetAmbient());
@@ -81,6 +72,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasRoughnessMap", m_TextureCheck.hasRougnessMap);
 		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasNormalMap", m_TextureCheck.hasNormalMap);
 		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasAmbientOcclusionMap", m_TextureCheck.hasAmbientOcclusionMap);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureCheck.hasEmissiveMap", m_TextureCheck.hasEmissiveMap);
 	}
 }
 
@@ -175,9 +167,11 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
+	Mesh::Factors factors;
+
 	if (mesh->mMaterialIndex >= static_cast<unsigned int>(0))
 	{
-		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];		
 
 		std::vector<Mesh::Texture> diffuseMaps = LoadTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -202,9 +196,37 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			if (!maps.empty()) m_TextureCheck.hasAmbientOcclusionMap = true;
 			textures.insert(textures.end(), maps.begin(), maps.end());
 		}
+
+		if (material->GetTextureCount(aiTextureType_EMISSIVE) != 0)
+		{
+			std::vector<Mesh::Texture> maps = LoadTextures(material, aiTextureType_EMISSIVE, "texture_emissive");
+			if (!maps.empty()) m_TextureCheck.hasEmissiveMap = true;
+			textures.insert(textures.end(), maps.begin(), maps.end());
+		}
+
+		aiColor3D baseColorFactor;
+		aiColor3D emissiveFactor;
+		aiColor3D specularFactor;
+		ai_real metallicFactor;
+		ai_real roughnessFactor;
+		//ai_real occlusionFactor;
+
+		material->Get(AI_MATKEY_BASE_COLOR, baseColorFactor);
+		material->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveFactor);
+		material->Get(AI_MATKEY_SPECULAR_FACTOR, specularFactor);
+		material->Get(AI_MATKEY_METALLIC_FACTOR, metallicFactor);
+		material->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughnessFactor);
+		//material->Get(ai_matkey_, occlusionFactor); //TODO find key for occlusion factor
+
+		factors.baseColorFactor = glm::vec3(baseColorFactor[0], baseColorFactor[1], baseColorFactor[2]);
+		factors.emissiveFactor = glm::vec3(emissiveFactor[0], emissiveFactor[1], emissiveFactor[2]);
+		factors.specularFactor = glm::vec3(specularFactor[0], specularFactor[1], specularFactor[2]);
+		factors.metallicFactor = metallicFactor;
+		factors.roughnessFactor = roughnessFactor;
+		//factors.ambientOcclusionFactor = occlusionFactor;
 	}
 
-	return Mesh{ vertices, indices, textures, m_ShaderManager, m_FileManager };
+	return Mesh{ vertices, indices, textures, factors, m_ShaderManager, m_FileManager };
 }
 
 std::vector<Mesh::Texture> Model::LoadTextures(aiMaterial* mat, const aiTextureType type, const char* name)
@@ -254,24 +276,24 @@ void Model::DrawImGui()
 	ImGui::SliderFloat("Scale Factor", &m_ScaleFactor, -5.f, 5.f);
 	ImGui::NewLine();
 
-	//PBR
-	if (!m_LoadedTextures.empty())
-		ImGui::Text("Albedo map present");
-	else
-		ImGui::ColorEdit3("Albedo", &m_Albedo[0]);
+	////PBR
+	//if (!m_LoadedTextures.empty())
+	//	ImGui::Text("Albedo map present");
+	//else
+	//	ImGui::ColorEdit3("Albedo", &m_Albedo[0]);
 
-	if (m_TextureCheck.hasRougnessMap)
-		ImGui::Text("Metallic/Rougness map present");
-	else
-	{
-		ImGui::SliderFloat("Metallic", &m_Metallic, 0.f, 1.f);
-		ImGui::SliderFloat("Roughness", &m_Roughness, 0.f, 1.f);
-	}
+	//if (m_TextureCheck.hasRougnessMap)
+	//	ImGui::Text("Metallic/Rougness map present");
+	//else
+	//{
+	//	ImGui::SliderFloat("Metallic", &m_MetallicFactor, 0.f, 1.f);
+	//	ImGui::SliderFloat("Roughness", &m_RoughnessFactor, 0.f, 1.f);
+	//}
 
-	if (m_TextureCheck.hasAmbientOcclusionMap)
-		ImGui::Text("Ambient Occlusion map present");
-	else
-		ImGui::SliderFloat("Ambient Occlusion", &m_AmbientOcclusion, 0.f, 1.f);
+	//if (m_TextureCheck.hasAmbientOcclusionMap)
+	//	ImGui::Text("Ambient Occlusion map present");
+	//else
+	//	ImGui::SliderFloat("Ambient Occlusion", &m_AmbientOcclusionFactor, 0.f, 1.f);
 
 	ImGui::End();
 }

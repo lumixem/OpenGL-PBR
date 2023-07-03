@@ -5,28 +5,25 @@ layout(location = 2) in vec3 a_normals;
 layout(location = 3) in vec3 a_tangents;
 layout(location = 4) in vec3 a_biTangents;
 
-uniform mat4 projection;
-uniform mat4 view;
-uniform mat4 model;
-uniform vec3 offsets[3];
+uniform mat4 u_projection;
+uniform mat4 u_view;
+uniform mat4 u_model;
+uniform vec3 u_cameraPosition;
 
-out vec2 textureCoords;
-out vec3 fragmentPos;
-out vec3 normals;
+out vec3 w_Position; //World space
+out vec3 w_Normal;	 //World space
+out vec2 UV;
 out mat3 TBN;
 
 void main()
 {
-   vec3 offset = offsets[gl_InstanceID];
-   gl_Position = projection * view * model * vec4(a_position + offset, 1.0);
-   fragmentPos = mat3(model) * a_position;
-   textureCoords = a_textureCoords;
+   gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
+   w_Position = mat3(u_model) * a_position;
+   w_Normal = mat3(u_model) * a_normals;
+   UV = a_textureCoords;
 
-   //TODO: Calculate normal matrix on CPU and send as uniform instead of calculating on GPU
-   normals = mat3(transpose(inverse(model))) * a_normals;
-
-   vec3 T = normalize(vec3(model * vec4(a_tangents, 0.0)));
-   vec3 B = normalize(vec3(model * vec4(a_biTangents, 0.0)));
-   vec3 N = normalize(vec3(model * vec4(a_normals, 0.0)));
-   TBN = mat3(T, B, N);
+//   vec3 T = normalize(vec3(model * vec4(a_tangents, 0.0)));
+//   vec3 B = normalize(vec3(model * vec4(a_biTangents, 0.0)));
+//   vec3 N = normalize(vec3(model * vec4(a_normals, 0.0)));
+//   TBN = mat3(T, B, N);
 };

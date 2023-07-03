@@ -8,6 +8,7 @@
 
 class FileManager;
 class ShaderManager;
+class Light;
 
 class Mesh
 {
@@ -28,9 +29,19 @@ public:
 		std::string path;
 	};
 
-	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, ShaderManager* shaderManager, FileManager* fileManager);
+	struct Factors
+	{
+		glm::vec3 baseColorFactor = glm::vec3(1.f);
+		glm::vec3 emissiveFactor = glm::vec3(1.f);
+		glm::vec3 specularFactor = glm::vec3(1.f);
+		float ambientOcclusionFactor = 1.f;
+		float metallicFactor = 0.5f;
+		float roughnessFactor = 0.5f;
+	};
 
-	void Draw(bool instanced);
+	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, Factors& factors, ShaderManager* shaderManager, FileManager* fileManager);
+
+	void Draw(bool instanced, Light& light);
 
 	std::vector<Vertex> m_Vertices;
 	std::vector<unsigned int> m_Indices;
@@ -45,6 +56,7 @@ private:
 	glm::mat4x4 m_ScaleMatrix, m_TranslationMatrix, m_RotationMatrix, m_ModelMatrix;
 
 	ShaderManager* m_ShaderManager;
+	Factors m_Factors;
 
 	friend class Model; //So the Model class can access the private matrices and the shader program
 };

@@ -52,6 +52,7 @@ private:
 		bool hasRougnessMap;
 		bool hasNormalMap;
 		bool hasAmbientOcclusionMap;
+		bool hasEmissiveMap;
 	}m_TextureCheck;
 
 	std::string m_Filepath;
@@ -67,10 +68,4 @@ private:
 	glm::vec3 m_Specular;
 	float m_Shininess;
 	float m_ScaleFactor = 1;
-
-	//PBR
-	glm::vec3 m_Albedo = glm::vec3(0.5f, 0.f, 0.f);
-	float m_AmbientOcclusion = 1.f;
-	float m_Metallic = 0.5f;
-	float m_Roughness = 0.5f;
 };

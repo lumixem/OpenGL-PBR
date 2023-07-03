@@ -1,10 +1,11 @@
 #version 330 core
 out vec4 fragColor;
 
-in vec2 textureCoords;
-in vec3 fragmentPos;
-in vec3 normals;
+in vec3 w_Position; //World space
+in vec3 w_Normal;	//World space
+in vec2 UV;
 in mat3 TBN;
+in vec3 cameraPosition;
 
 uniform vec3 cameraPos;
 
@@ -28,6 +29,7 @@ struct TextureCheck
 	bool hasRoughnessMap;
 	bool hasNormalMap;
     bool hasAmbientOcclusionMap;
+    bool hasEmissiveMap;
 };
 uniform TextureCheck textureCheck;
 
@@ -87,82 +89,83 @@ float GeometrySmith(vec3 n, vec3 v, vec3 l, float ro)
     return ggx1 * ggx2;
 }
 
-vec3 getNormalFromMap()
-{
-    vec3 tangentNormal = texture(material.texture_normal, textureCoords).xyz * 2.0 - 1.0;
-
-    vec3 Q1 = dFdx(fragmentPos);
-    vec3 Q2 = dFdy(fragmentPos);
-    vec2 st1 = dFdx(textureCoords);
-    vec2 st2 = dFdy(textureCoords);
-
-    vec3 N = normalize(normals);
-    vec3 T = normalize(Q1*st2.t - Q2*st1.t);
-    vec3 B = -normalize(cross(N, T));
-    mat3 TBN = mat3(T, B, N);
-
-    return normalize(TBN * tangentNormal);
-}
+//vec3 getNormalFromMap()
+//{
+//    vec3 tangentNormal = texture(material.texture_normal, textureCoords).xyz * 2.0 - 1.0;
+//
+//    vec3 Q1 = dFdx(fragmentPos);
+//    vec3 Q2 = dFdy(fragmentPos);
+//    vec2 st1 = dFdx(textureCoords);
+//    vec2 st2 = dFdy(textureCoords);
+//
+//    vec3 N = normalize(normals);
+//    vec3 T = normalize(Q1*st2.t - Q2*st1.t);
+//    vec3 B = -normalize(cross(N, T));
+//    mat3 TBN = mat3(T, B, N);
+//
+//    return normalize(TBN * tangentNormal);
+//}
 
 void main()
 {		
-    vec3 normal = normalize(normals);
-    vec3 viewDirection = normalize(cameraPos - fragmentPos);
+//    vec3 normal = normalize(normals);
+//    vec3 viewDirection = normalize(cameraPos - fragmentPos);
+//
+//    vec3 albedo = texture(material.texture_diffuse, textureCoords).rgb;
+//
+//    if(textureCheck.hasNormalMap)
+//    {
+//        normal = getNormalFromMap();
+//    }
+//
+//    float m = metallic;
+//    float r = roughness;
+//    
+//    if(textureCheck.hasRoughnessMap)
+//    {
+//        m = texture(material.texture_specular, textureCoords).b;
+//        r = texture(material.texture_specular, textureCoords).g;
+//    }
+//
+//    float ao = ambientOcclusion;
+//
+//    if(textureCheck.hasAmbientOcclusionMap)
+//    {
+//        ao = texture(material.texture_ambientOcclusion, textureCoords).r;
+//    }
+//  
+//    vec3 F0 = vec3(0.04); 
+//    F0 = mix(F0, albedo, m);
+//
+//    vec3 Lo = vec3(0.0);
+//	vec3 lightDirection = normalize(pointLight.lightPos - fragmentPos);
+//	vec3 halfwayVector = normalize(viewDirection + lightDirection);
+//   
+//    float dist = length(pointLight.lightPos - fragmentPos);
+//    float attenuation = 1.0 / (dist * dist);
+//    vec3 radiance = pointLight.lightColour * attenuation;
+//
+//    // Cook-Torrance BRDF
+//    float normalDistributionFuntion = DistributionGGX(normal, halfwayVector, r);   
+//    float geometryFunction = GeometrySmith(normal, viewDirection, lightDirection, r);      
+//    vec3 fresnel = FresnelSchlick(clamp(dot(halfwayVector, viewDirection), 0.0, 1.0), F0);
+//       
+//    vec3 numerator = normalDistributionFuntion * geometryFunction * fresnel;
+//    float denominator = 4.0 * max(dot(normal, viewDirection), 0.0) * max(dot(normal, lightDirection), 0.0) + 0.0001;
+//    vec3 specular = numerator / denominator;
+//    
+//    vec3 kS = fresnel;
+//    vec3 kD = vec3(1.0) - kS;
+//    kD *= 1.0 - m;	  
+//
+//    float NdotL = max(dot(normal, lightDirection), 0.0);        
+//    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
+//
+//    vec3 ambient = vec3(0.03) * albedo * ambientOcclusion;
+//    vec3 color = ambient + Lo;
+//    color = color / (color + vec3(1.0));
+//    color = pow(color, vec3(1.0/2.2)); 
 
-    vec3 albedo = texture(material.texture_diffuse, textureCoords).rgb;
-
-    if(textureCheck.hasNormalMap)
-    {
-        normal = getNormalFromMap();
-    }
-
-    float m = metallic;
-    float r = roughness;
-    
-    if(textureCheck.hasRoughnessMap)
-    {
-        m = texture(material.texture_specular, textureCoords).b;
-        r = texture(material.texture_specular, textureCoords).g;
-    }
-
-    float ao = ambientOcclusion;
-
-    if(textureCheck.hasAmbientOcclusionMap)
-    {
-        ao = texture(material.texture_ambientOcclusion, textureCoords).r;
-    }
-  
-    vec3 F0 = vec3(0.04); 
-    F0 = mix(F0, albedo, m);
-
-    vec3 Lo = vec3(0.0);
-	vec3 lightDirection = normalize(pointLight.lightPos - fragmentPos);
-	vec3 halfwayVector = normalize(viewDirection + lightDirection);
-   
-    float dist = length(pointLight.lightPos - fragmentPos);
-    float attenuation = 1.0 / (dist * dist);
-    vec3 radiance = pointLight.lightColour * attenuation;
-
-    // Cook-Torrance BRDF
-    float normalDistributionFuntion = DistributionGGX(normal, halfwayVector, r);   
-    float geometryFunction = GeometrySmith(normal, viewDirection, lightDirection, r);      
-    vec3 fresnel = FresnelSchlick(clamp(dot(halfwayVector, viewDirection), 0.0, 1.0), F0);
-       
-    vec3 numerator = normalDistributionFuntion * geometryFunction * fresnel;
-    float denominator = 4.0 * max(dot(normal, viewDirection), 0.0) * max(dot(normal, lightDirection), 0.0) + 0.0001;
-    vec3 specular = numerator / denominator;
-    
-    vec3 kS = fresnel;
-    vec3 kD = vec3(1.0) - kS;
-    kD *= 1.0 - m;	  
-
-    float NdotL = max(dot(normal, lightDirection), 0.0);        
-    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
-
-    vec3 ambient = vec3(0.03) * albedo * ambientOcclusion;
-    vec3 color = ambient + Lo;
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2)); 
-
-    fragColor = vec4(color, 1.0);
+    fragColor = vec4(1.0);
+    //fragColor = vec4(color, 1.0);
 }

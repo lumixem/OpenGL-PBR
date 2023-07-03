@@ -1,6 +1,6 @@
 #include "Texture.h"
-#include <glad/glad.h>
 #include "FileManager.h"
+#include <glad/glad.h>
 
 Texture::Texture(FileManager* fileManager) :
 m_FileManager(fileManager)
