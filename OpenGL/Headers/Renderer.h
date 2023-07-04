@@ -10,6 +10,7 @@ class Camera;
 class Texture;
 class Light;
 class ImGuiManager;
+class InputManager;
 
 class Renderer
 {
@@ -24,6 +25,7 @@ public:
 	Light* m_Light;
 	Window* m_Window;
 	ImGuiManager* m_ImGui;
+	InputManager* m_InputManager;
 
 	std::vector<Model*> m_Models;
 

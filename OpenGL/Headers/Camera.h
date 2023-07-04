@@ -1,10 +1,12 @@
 #pragma once
 #include <glm/glm.hpp>
 
+struct MouseState;
+
 class Camera
 {
 public:
-	Camera();
+	Camera(MouseState& mouse);
 
 	void Update();
 	void DrawImGui();
@@ -24,5 +26,13 @@ private:
 
 	glm::mat4 m_View = glm::mat4(1.f);
 	glm::mat4 m_Projection = glm::mat4(1.f);
+
+	glm::vec2 m_MousePos{};
+	float m_MouseScroll = 0.f;
+	float m_MouseX = 0.f;
+	float m_MouseY = 0.f;
+	float m_Radius = 8.f;
+
+	MouseState& m_Mouse;
 };
 

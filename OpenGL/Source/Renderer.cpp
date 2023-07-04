@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Light.h"
 #include "Texture.h"
+#include "InputManager.h"
 #include <imgui.h>
 
 // Settings
@@ -22,7 +23,9 @@ void Renderer::Init()
 	m_ImGui = new ImGuiManager();
 	m_ShaderManager = new ShaderManager();
 	m_FileManager = new FileManager();
-	m_Camera = new Camera();
+	m_InputManager = new InputManager(m_Window->m_GlfwWindow);
+	MouseState& mouse = m_InputManager->GetMouseState();
+	m_Camera = new Camera(mouse);
 	m_Light = new Light(LightType::Point);
 
 	m_ImGui->ImGui_CreateContext(m_Window->m_GlfwWindow);
@@ -50,6 +53,7 @@ void Renderer::Render()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		m_ImGui->ImGui_NewFrame();
+		m_InputManager->Update();
 		m_Camera->Update();
 
 		m_ImGui->ImGui_DrawMenu();
