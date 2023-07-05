@@ -37,6 +37,32 @@ struct TextureCheck
 };
 uniform TextureCheck textureCheck;
 
+struct ShadingParameters
+{
+	vec3 w_Position;
+	vec3 normal;
+	vec3 tangent;
+	vec3 bitangent;
+	mat3 TBN;
+
+	vec3 viewDir;
+	float NdotV;
+};
+
+struct MaterialInputs
+{
+	vec3 baseColor;
+	vec3 emissive;
+	float perceptualRoughness;
+	float alphaRoughness;
+	float metallic;
+	float occlusion;
+
+	vec3 c_diff;
+	vec3 f0;
+	vec3 f90;
+};
+
 struct PointLight {
     vec3 lightPos;  
     vec3 lightColour;
@@ -52,124 +78,49 @@ uniform vec3 lightColour;
 
 const float PI = 3.14159265358979323846264338327950288;
 
-vec3 FresnelSchlick(float cosTheta, vec3 F0)
+vec3 F_Schlick(vec3 f0, vec3 f90, float VdotH)
 {
-    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+    return f0 + (f90 - f0) * pow(clamp(1.0 - VdotH, 0.0, 1.0), 5.0);
 }
 
-float DistributionGGX(vec3 n, vec3 h, float roughness)
+vec3 BRDF_lambertian(const MaterialInputs inputs, const float VdotH)
 {
-    float a = roughness*roughness;
-    float a2 = a*a;
-    float normalDotHalfway = max(dot(n, h), 0.0);
-    float normalDotHalfwaySquared = normalDotHalfway * normalDotHalfway;
-
-    float nom   = a2;
-    float denom = (normalDotHalfwaySquared * (a2 - 1.0) + 1.0);
-    denom = PI * denom * denom;
-
-    return nom / denom;
+    return (1.0 - F_Schlick(inputs.f0, inputs.f90, VdotH)) * (inputs.c_diff / PI);
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness)
+float V_GGX(float NdotL, float NdotV, float alphaRoughness)
 {
-    float r = roughness + 1.0;
-    float k = (r*r) / 8.0;
+    float alphaRoughnessSq = alphaRoughness * alphaRoughness;
 
-    float nom   = NdotV;
-    float denom = NdotV * (1.0 - k) + k;
+    float GGXV = NdotL * sqrt(NdotV * NdotV * (1.0 - alphaRoughnessSq) + alphaRoughnessSq);
+    float GGXL = NdotV * sqrt(NdotL * NdotL * (1.0 - alphaRoughnessSq) + alphaRoughnessSq);
 
-    return nom / denom;
+    float GGX = GGXV + GGXL;
+    if (GGX > 0.0)
+    {
+        return 0.5 / GGX;
+    }
+    return 0.0;
 }
 
-float GeometrySmith(vec3 n, vec3 v, vec3 l, float ro)
+float D_GGX(float NdotH, float alphaRoughness)
 {
-	float NdotV = max(dot(n, v), 0.0);
-    float NdotL = max(dot(n, l), 0.0);
-
-	float ggx2  = GeometrySchlickGGX(NdotV, ro);
-    float ggx1  = GeometrySchlickGGX(NdotL, ro);
-	
-    return ggx1 * ggx2;
+    float alphaRoughnessSq = alphaRoughness * alphaRoughness;
+    float f = (NdotH * NdotH) * (alphaRoughnessSq - 1.0) + 1.0;
+    return alphaRoughnessSq / (PI * f * f);
 }
 
-//vec3 getNormalFromMap()
-//{
-//    vec3 tangentNormal = texture(material.texture_normal, textureCoords).xyz * 2.0 - 1.0;
-//
-//    vec3 Q1 = dFdx(fragmentPos);
-//    vec3 Q2 = dFdy(fragmentPos);
-//    vec2 st1 = dFdx(textureCoords);
-//    vec2 st2 = dFdy(textureCoords);
-//
-//    vec3 N = normalize(normals);
-//    vec3 T = normalize(Q1*st2.t - Q2*st1.t);
-//    vec3 B = -normalize(cross(N, T));
-//    mat3 TBN = mat3(T, B, N);
-//
-//    return normalize(TBN * tangentNormal);
-//}
+vec3 BRDF_specularGGX(const MaterialInputs inputs, float VdotH, float NdotL, float NdotV, float NdotH)
+{
+    float D = D_GGX(NdotH, inputs.alphaRoughness);
+    float Vis = V_GGX(NdotL, NdotV, inputs.alphaRoughness);
+    vec3 F = F_Schlick(inputs.f0, inputs.f90, VdotH);
+
+    return F * Vis * D;
+}
 
 void main()
 {		
-//    vec3 normal = normalize(normals);
-//    vec3 viewDirection = normalize(cameraPos - fragmentPos);
-//
-//    vec3 albedo = texture(material.texture_diffuse, textureCoords).rgb;
-//
-//    if(textureCheck.hasNormalMap)
-//    {
-//        normal = getNormalFromMap();
-//    }
-//
-//    float m = metallic;
-//    float r = roughness;
-//    
-//    if(textureCheck.hasRoughnessMap)
-//    {
-//        m = texture(material.texture_specular, textureCoords).b;
-//        r = texture(material.texture_specular, textureCoords).g;
-//    }
-//
-//    float ao = ambientOcclusion;
-//
-//    if(textureCheck.hasAmbientOcclusionMap)
-//    {
-//        ao = texture(material.texture_ambientOcclusion, textureCoords).r;
-//    }
-//  
-//    vec3 F0 = vec3(0.04); 
-//    F0 = mix(F0, albedo, m);
-//
-//    vec3 Lo = vec3(0.0);
-//	vec3 lightDirection = normalize(pointLight.lightPos - fragmentPos);
-//	vec3 halfwayVector = normalize(viewDirection + lightDirection);
-//   
-//    float dist = length(pointLight.lightPos - fragmentPos);
-//    float attenuation = 1.0 / (dist * dist);
-//    vec3 radiance = pointLight.lightColour * attenuation;
-//
-//    // Cook-Torrance BRDF
-//    float normalDistributionFuntion = DistributionGGX(normal, halfwayVector, r);   
-//    float geometryFunction = GeometrySmith(normal, viewDirection, lightDirection, r);      
-//    vec3 fresnel = FresnelSchlick(clamp(dot(halfwayVector, viewDirection), 0.0, 1.0), F0);
-//       
-//    vec3 numerator = normalDistributionFuntion * geometryFunction * fresnel;
-//    float denominator = 4.0 * max(dot(normal, viewDirection), 0.0) * max(dot(normal, lightDirection), 0.0) + 0.0001;
-//    vec3 specular = numerator / denominator;
-//    
-//    vec3 kS = fresnel;
-//    vec3 kD = vec3(1.0) - kS;
-//    kD *= 1.0 - m;	  
-//
-//    float NdotL = max(dot(normal, lightDirection), 0.0);        
-//    Lo += (kD * albedo / PI + specular) * radiance * NdotL;
-//
-//    vec3 ambient = vec3(0.03) * albedo * ambientOcclusion;
-//    vec3 color = ambient + Lo;
-//    color = color / (color + vec3(1.0));
-//    color = pow(color, vec3(1.0/2.2)); 
-
     vec3 albedo = texture(material.texture_diffuse, UV).rgb;
     fragColor = vec4(albedo, 1.0);
     //fragColor = vec4(color, 1.0);

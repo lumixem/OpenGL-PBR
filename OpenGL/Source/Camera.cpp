@@ -10,7 +10,7 @@ Camera::Camera(MouseState& mouse) :
 	m_Mouse(mouse)
 {
 	m_Position = glm::vec3(0.f, 1.5f, 2.f);
-	m_Target = glm::vec3(0.f, 0.0f, 0.f);
+	m_Target = glm::vec3(0.f, 0.f, 0.f);
 	m_Direction = glm::normalize(m_Position - m_Target);
 	m_Up = glm::vec3(0.f, 1.f, 0.f);
 	m_Right = glm::normalize(glm::cross(m_Up, m_Direction));
