@@ -27,7 +27,7 @@ void Renderer::Init()
 	MouseState& mouse = m_InputManager->GetMouseState();
 	m_Camera = new Camera(mouse);
 
-	m_Light = new Light(LightType::Point);
+	m_Light = new Light(LightType::Point, glm::vec3(4.f, 2.f, 0.f));
 	m_Lights.push_back(m_Light);
 
 	m_ImGui->ImGui_CreateContext(m_Window->m_GlfwWindow);
