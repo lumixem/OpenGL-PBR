@@ -28,6 +28,7 @@ public:
 	InputManager* m_InputManager;
 
 	std::vector<Model*> m_Models;
+	std::vector<Light*> m_Lights;
 
 	glm::vec3 m_BackgroundColour = glm::vec3(0.f, 0.f, 0.f);
 	bool m_WireframeEnabled = false;

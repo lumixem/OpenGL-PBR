@@ -70,7 +70,7 @@ void Mesh::InitMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(bool instanced, Light& light)
+void Mesh::Draw(bool instanced, std::vector<Light*>& lights)
 {
 	glUseProgram(m_ShaderProgram);
 
@@ -87,8 +87,8 @@ void Mesh::Draw(bool instanced, Light& light)
 	glActiveTexture(GL_TEXTURE0);
 
 	//Light
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", light.GetLightColour());
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", light.GetPosition());
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", lights[0]->GetLightColour());
+	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", lights[0]->GetPosition());
 	//Factors
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "baseColorFactor", m_ShadingParameters.baseColorFactor);
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "emissiveFactor", m_ShadingParameters.emissiveFactor);

@@ -35,7 +35,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	}
 }
 
-void Model::Draw(Camera* camera, Light* light, bool instanced)
+void Model::Draw(Camera* camera, std::vector<Light*>& lights, bool instanced)
 {
 	glm::mat4 translationMatrix = glm::mat4(1.f);
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
@@ -46,7 +46,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 
 	for (size_t i = 0; i < m_Meshes.size(); ++i)
 	{
-		m_Meshes[i].Draw(instanced, *light);
+		m_Meshes[i].Draw(instanced, lights);
 		m_Meshes[i].m_TranslationMatrix = glm::translate(translationMatrix, m_Position);
 		m_Meshes[i].m_ScaleMatrix = glm::scale(scaleMatrix, m_Scale * m_ScaleFactor);
 		m_Meshes[i].m_RotationMatrix = rotationMatrix;
@@ -58,16 +58,7 @@ void Model::Draw(Camera* camera, Light* light, bool instanced)
 		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_view", camera->GetView());
 		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_model", m_Meshes[i].m_ModelMatrix);
 
-		m_ShaderManager->SetFloat1(m_Meshes[i].m_ShaderProgram, "material.shininess", m_Shininess);
-
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "u_cameraPos", camera->GetPosition());
-
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.position", light->GetPosition());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.ambient", light->GetAmbient());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.diffuse", light->GetDiffuse());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.specular", light->GetSpecular());
-		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "light.direction", light->GetDirection());
-		m_ShaderManager->SetUnsignedInt1(m_Meshes[i].m_ShaderProgram, "light.lightType", static_cast<unsigned int>(light->m_LightType));
 	}
 }
 

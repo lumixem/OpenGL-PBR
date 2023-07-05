@@ -26,7 +26,9 @@ void Renderer::Init()
 	m_InputManager = new InputManager(m_Window->m_GlfwWindow);
 	MouseState& mouse = m_InputManager->GetMouseState();
 	m_Camera = new Camera(mouse);
+
 	m_Light = new Light(LightType::Point);
+	m_Lights.push_back(m_Light);
 
 	m_ImGui->ImGui_CreateContext(m_Window->m_GlfwWindow);
 	m_ImGui->Init();
@@ -63,7 +65,7 @@ void Renderer::Render()
 
 		for (const auto& model : m_Models)
 		{
-			model->Draw(m_Camera, m_Light, false);
+			model->Draw(m_Camera, m_Lights, false);
 			if (m_ImGui->m_Menu.showModels)
 				model->DrawImGui();
 		}
