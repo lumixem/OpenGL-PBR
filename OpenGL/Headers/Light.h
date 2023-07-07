@@ -12,7 +12,7 @@ enum class LightType
 class Light
 {
 public:
-	Light(LightType lightType, glm::vec3 pos);
+	Light(LightType lightType, const glm::vec3& pos, const float innerAngle = 1.f, const float outerAngle = 10.f);
 
 	void Move();
 	void DrawImGui();
@@ -26,13 +26,16 @@ public:
 	glm::vec3& GetDirection() { return m_LightDirection; }
 	void SetDirection(const glm::vec3 newDirection) { m_Position = newDirection; }
 
+	float GetIntensity() { return m_Intensity; }
+	void SetIntensity(const float newIntensity) { m_Intensity = newIntensity; }
+
 	LightType m_LightType{};
 
 private:
 	glm::vec3 m_Position = glm::vec3(0.f);
 	glm::vec3 m_LightColour = glm::vec3(1.f);
 	glm::vec3 m_LightDirection = glm::vec3(0.f);
-	float m_Intensity = 0.f;
+	float m_Intensity = 10.f;
 	float m_InnerAngle = 0.f;
 	float m_OuterAngle = 0.f;
 };

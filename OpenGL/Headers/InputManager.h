@@ -17,9 +17,10 @@ public:
 	InputManager(GLFWwindow* glfwWindow);
 	void Update();
 	MouseState& GetMouseState() const { return m_Mouse; };
-	static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 private:
+	static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+
 	static MouseState m_Mouse;
 	GLFWwindow* m_GlfwWindow;
 };

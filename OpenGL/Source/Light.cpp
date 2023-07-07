@@ -6,20 +6,23 @@
 #include <glm/gtc/matrix_transform.hpp>
 #pragma warning(pop)
 
-Light::Light(LightType lt, glm::vec3 pos) :
-    m_LightType(lt), m_Position(pos)
+Light::Light(LightType lt, const glm::vec3& pos, const float innerAngle, const float outerAngle) :
+    m_LightType(lt)
 {
-    if(m_LightType == LightType::Directional)
+    switch (lt)
     {
+    case LightType::Directional:
         m_LightDirection = glm::vec3(0.5f, 2.f, 1.f);
-    }
-    else if(m_LightType == LightType::Point)
-    {
-        m_Position = glm::vec3(glm::vec3(0.f, 2.f, 1.f));
-    }
-    else if(m_LightType == LightType::Spot)
-    {
-	    
+        break;
+    case LightType::Point:
+        m_Position = pos;
+        break;
+    case LightType::Spot:
+        m_InnerAngle = innerAngle;
+        m_OuterAngle = outerAngle;
+        break;
+    default:
+        break;
     }
 }
 

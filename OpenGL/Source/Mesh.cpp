@@ -87,8 +87,22 @@ void Mesh::Draw(bool instanced, std::vector<Light*>& lights)
 	glActiveTexture(GL_TEXTURE0);
 
 	//Light
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightColour", lights[0]->GetLightColour());
-	m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLight.lightPos", lights[0]->GetPosition());
+	for (int i = 0; i < lights.size(); i++)
+	{
+		switch (lights[i]->m_LightType)
+		{
+		case LightType::Point:
+			m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLights[i].lightColour", lights[i]->GetLightColour());
+			m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLights[i].lightPos", lights[i]->GetPosition());
+			m_ShaderManager->SetFloat1(m_ShaderProgram, "pointLights[i].intensity", lights[i]->GetIntensity());
+		case LightType::Directional:
+			break;
+		case LightType::Spot:
+			break;
+		default:
+			break;
+		}
+	}
 	//Factors
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "baseColorFactor", m_ShadingParameters.baseColorFactor);
 	m_ShaderManager->SetFloat3(m_ShaderProgram, "emissiveFactor", m_ShadingParameters.emissiveFactor);
