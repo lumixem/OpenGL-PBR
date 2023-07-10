@@ -11,7 +11,6 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 {
 	std::string filename = textureName;
 	filename = filepath + filename;
-	printf("Texture filepath: %s\n", filename.c_str());
 
 	unsigned int texture;
 	glGenTextures(1, &texture);
@@ -22,17 +21,31 @@ unsigned int Texture::CreateTexture(const char* textureName, const std::string& 
 	if(data)
 	{
 		GLint format = {};
+		std::string strFormat;
 		if (m_SrgbFormat)
+		{
 			format = GL_SRGB;
+			strFormat = "SRGB";
+		}
 		else if (channels == 1)
+		{
 			format = GL_RED;
+			strFormat = "RED";
+		}
 		else if (channels == 3)
+		{
 			format = GL_RGB;
+			strFormat = "RGB";
+		}
 		else if (channels == 4)
+		{
 			format = GL_RGBA;
+			strFormat = "RGBA";
+		}
 		else
 			printf("\nTEXTURE ERROR: Incorrect texture format\n");
 
+		printf("Texture filepath: %s, format: %s\n", filename.c_str(), strFormat.c_str());
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);

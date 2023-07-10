@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Texture.h"
+#include "Renderer.h"
 #include <imgui.h>
 #pragma warning(push, 0)
 #include <assimp/Importer.hpp>
@@ -35,7 +36,7 @@ Model::Model(const char* filename, ShaderManager* _shaderManager, FileManager* _
 	}
 }
 
-void Model::Draw(Camera* camera, std::vector<Light*>& lights, bool instanced)
+void Model::Draw(Camera* camera, std::vector<Light*>& lights, TextureDebug& textureDebug, bool instanced)
 {
 	glm::mat4 translationMatrix = glm::mat4(1.f);
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
@@ -59,6 +60,14 @@ void Model::Draw(Camera* camera, std::vector<Light*>& lights, bool instanced)
 		m_ShaderManager->SetMatrix4f(m_Meshes[i].m_ShaderProgram, "u_model", m_Meshes[i].m_ModelMatrix);
 
 		m_ShaderManager->SetFloat3(m_Meshes[i].m_ShaderProgram, "u_cameraPos", camera->GetPosition());
+
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.baseColor", textureDebug.baseColor);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.normals", textureDebug.normals);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.normalMap", textureDebug.normalMap);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.metallic", textureDebug.metallic);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.roughness", textureDebug.roughness);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.emissive", textureDebug.emissive);
+		m_ShaderManager->SetBool(m_Meshes[i].m_ShaderProgram, "textureDebug.occlusion", textureDebug.occlusion);
 	}
 }
 

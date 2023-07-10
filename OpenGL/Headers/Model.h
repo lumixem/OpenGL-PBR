@@ -9,6 +9,7 @@ class Mesh;
 class Camera;
 class Light;
 class Texture;
+struct TextureDebug;
 struct Vertex;
 struct aiNode;
 struct aiScene;
@@ -21,7 +22,7 @@ class Model
 public:
 	Model(const char* filename, ShaderManager* shaderManager, FileManager* fileManager);
 
-	void Draw(Camera* camera, std::vector<Light*>&, bool instanced);
+	void Draw(Camera* camera, std::vector<Light*>& lights, TextureDebug& textureDebug, bool instanced);
 	bool LoadModel(const char* filename);
 	void DrawImGui();
 

@@ -63,6 +63,18 @@ struct MaterialInputs
 	vec3 f90;
 };
 
+struct TextureDebug
+{
+	bool baseColor;
+	bool normals;
+	bool normalMap;
+	bool metallic;
+	bool roughness;
+	bool emissive;
+	bool occlusion;
+};
+uniform TextureDebug textureDebug;
+
 struct PointLight
 {
     vec3 lightPos;  
@@ -243,7 +255,25 @@ void main()
 	ShadingParameters params;
 	CalculateShadingParameters(params);
 
-    vec3 albedo = texture(material.texture_diffuse, UV).rgb;
-    fragColor = vec4(albedo, 1.0);
+	vec3 result = texture(material.texture_diffuse, UV).rgb;
+
+	if(textureDebug.baseColor)
+		result = mat.baseColor;
+    if(textureDebug.normals)
+        result = params.normal;
+    if(textureDebug.normalMap && textureCheck.hasNormalMap)
+        result = texture(material.texture_normal, UV).rgb;
+    if(textureDebug.metallic)
+        result = vec3(mat.metallic);
+    if(textureDebug.roughness)
+        result = vec3(mat.alphaRoughness);
+    if(textureDebug.metallic && textureDebug.roughness)
+        result = vec3(0.0, mat.alphaRoughness, mat.metallic);
+    if(textureDebug.occlusion)
+        result = vec3(mat.occlusion);
+    if(textureDebug.emissive)
+        result = vec3(mat.emissive);
+
+    fragColor = vec4(result, 1.0);
     //fragColor = vec4(color, 1.0);
 }

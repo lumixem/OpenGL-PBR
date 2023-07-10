@@ -63,19 +63,26 @@ void Renderer::Render()
 		if(m_ImGui->m_Menu.showModelSelector)
 			m_ImGui->ImGui_DrawModelSelector(m_Models, m_ShaderManager, m_FileManager);
 
-		for (const auto& model : m_Models)
-		{
-			model->Draw(m_Camera, m_Lights, false);
-			if (m_ImGui->m_Menu.showModels)
-				model->DrawImGui();
-		}
-
 		if (m_ImGui->m_Menu.showSettings)
 		{
 			ImGui::Begin("Settings");
 			ImGui::ColorEdit3("Background", &m_BackgroundColour[0]);
 			ImGui::Checkbox("Wireframe", &m_WireframeEnabled);
+			ImGui::Checkbox("BaseColor", &m_TextureDebug.baseColor);
+			ImGui::Checkbox("Normals", &m_TextureDebug.normals);
+			ImGui::Checkbox("NormalMap", &m_TextureDebug.normalMap);
+			ImGui::Checkbox("Metallic", &m_TextureDebug.metallic);
+			ImGui::Checkbox("Roughness", &m_TextureDebug.roughness);
+			ImGui::Checkbox("Emissive", &m_TextureDebug.emissive);
+			ImGui::Checkbox("Occlusion", &m_TextureDebug.occlusion);
 			ImGui::End();
+		}
+
+		for (const auto& model : m_Models)
+		{
+			model->Draw(m_Camera, m_Lights, m_TextureDebug, false);
+			if (m_ImGui->m_Menu.showModels)
+				model->DrawImGui();
 		}
 
 		if(m_ImGui->m_Menu.showLight)

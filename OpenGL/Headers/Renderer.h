@@ -12,6 +12,17 @@ class Light;
 class ImGuiManager;
 class InputManager;
 
+struct TextureDebug
+{
+	bool baseColor = false;
+	bool normals = false;
+	bool normalMap = false;
+	bool metallic = false;
+	bool roughness = false;
+	bool emissive = false;
+	bool occlusion = false;
+};
+
 class Renderer
 {
 public:
@@ -30,6 +41,7 @@ public:
 	std::vector<Model*> m_Models;
 	std::vector<Light*> m_Lights;
 
+	TextureDebug m_TextureDebug;
 	glm::vec3 m_BackgroundColour = glm::vec3(0.f, 0.f, 0.f);
 	bool m_WireframeEnabled = false;
 };
