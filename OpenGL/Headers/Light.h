@@ -35,7 +35,7 @@ private:
 	glm::vec3 m_Position = glm::vec3(0.f);
 	glm::vec3 m_LightColour = glm::vec3(1.f);
 	glm::vec3 m_LightDirection = glm::vec3(0.f);
-	float m_Intensity = 10.f;
+	float m_Intensity = 15.f;
 	float m_InnerAngle = 0.f;
 	float m_OuterAngle = 0.f;
 };

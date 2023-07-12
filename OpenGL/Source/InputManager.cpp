@@ -1,5 +1,6 @@
 #include "InputManager.h"
 #include <GLFW/glfw3.h>
+#include <imgui.h>
 
 MouseState InputManager::m_Mouse;
 
@@ -16,6 +17,10 @@ void InputManager::ScrollCallback(GLFWwindow*, double, double yoffset)
 
 void InputManager::Update()
 {
+	const auto& io = ImGui::GetIO();
+	if (io.WantCaptureMouse || io.WantCaptureKeyboard)
+		return;
+
 	double mx, my;
 	glfwGetCursorPos(m_GlfwWindow, &mx, &my);
 	m_Mouse.position.x = static_cast<float>(mx);

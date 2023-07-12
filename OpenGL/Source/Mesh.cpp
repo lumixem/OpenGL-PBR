@@ -92,9 +92,12 @@ void Mesh::Draw(bool instanced, std::vector<Light*>& lights)
 		switch (lights[i]->m_LightType)
 		{
 		case LightType::Point:
-			m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLights[i].lightColour", lights[i]->GetLightColour());
-			m_ShaderManager->SetFloat3(m_ShaderProgram, "pointLights[i].lightPos", lights[i]->GetPosition());
-			m_ShaderManager->SetFloat1(m_ShaderProgram, "pointLights[i].intensity", lights[i]->GetIntensity());
+		{
+			m_ShaderManager->SetFloat3(m_ShaderProgram, std::string("pointLights[" + std::to_string(i) + "].lightColor").c_str(), lights[i]->GetLightColour());
+			m_ShaderManager->SetFloat3(m_ShaderProgram, std::string("pointLights[" + std::to_string(i) + "].lightPos").c_str(), lights[i]->GetPosition());
+			m_ShaderManager->SetFloat1(m_ShaderProgram, std::string("pointLights[" + std::to_string(i) + "].intensity").c_str(), lights[i]->GetIntensity());
+			break;
+		}
 		case LightType::Directional:
 			break;
 		case LightType::Spot:

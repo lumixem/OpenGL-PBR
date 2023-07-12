@@ -39,5 +39,6 @@ void Light::DrawImGui()
 	ImGui::Begin("Light");
 	ImGui::SliderFloat3("Position", &m_Position[0], -10.f, 10.f);
 	ImGui::ColorEdit3("Colour", &m_LightColour[0]);
+    ImGui::SliderFloat("Intensity", &m_Intensity, 10.f, 100.f);
     ImGui::End();
 }

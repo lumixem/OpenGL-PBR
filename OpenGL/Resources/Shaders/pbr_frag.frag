@@ -254,7 +254,12 @@ void main()
 	ShadingParameters params;
 	CalculateShadingParameters(params);
 
-	vec3 result = texture(material.texture_diffuse, UV).rgb;
+	if(textureCheck.hasEmissiveMap)
+    {
+        mat.emissive *= texture(material.texture_emissive, UV);
+    }
+
+	vec3 result = EvaluateLights(mat, params);
 
 	if(textureDebug.baseColor)
 		result = mat.baseColor;
@@ -273,6 +278,6 @@ void main()
     if(textureDebug.emissive)
         result = vec3(mat.emissive);
 
-    fragColor = vec4(result, 1.0);
+    fragColor = vec4(result + mat.emissive, 1.0);
     //fragColor = vec4(color, 1.0);
 }
