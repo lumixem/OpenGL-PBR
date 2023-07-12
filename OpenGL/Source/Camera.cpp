@@ -15,6 +15,7 @@ Camera::Camera(MouseState& mouse) :
 	m_Up = glm::vec3(0.f, 1.f, 0.f);
 	m_Right = glm::normalize(glm::cross(m_Up, m_Direction));
 
+	m_MouseX = -glm::half_pi<float>();
 	m_MouseY = glm::half_pi<float>();
 	m_MouseScroll = mouse.wheel;
 }

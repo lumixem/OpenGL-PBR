@@ -136,7 +136,6 @@ void CalculateShadingParameters(out ShadingParameters params)
 		params.tangent = normalize(params.tangent - params.normal * dot(params.normal, params.tangent));
         params.bitangent = normalize(cross(params.tangent, params.normal) + 0.0001);
         params.TBN = mat3(params.tangent, params.bitangent, params.normal);
-        params.TBN = transpose(params.TBN);
 
         params.normal = texture(material.texture_normal, UV).rgb;
         params.normal = normalize(params.normal * 2.0 - 1.0);

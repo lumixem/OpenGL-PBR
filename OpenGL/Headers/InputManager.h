@@ -6,7 +6,7 @@ struct GLFWwindow;
 struct MouseState
 {
 	glm::vec2 position;
-	float wheel = 0.0f;
+	float wheel = 0.f;
 	bool buttonDown[3] = { false, false, false };
 	bool IsValid = true;
 };

@@ -21,10 +21,10 @@ public:
 
 	struct Menu
 	{
-		bool showSettings = false;
+		bool showSettings = true;
 		bool showCamera = false;
 		bool showModels = false;
-		bool showModelSelector = true;
+		bool showModelSelector = false;
 		bool showLight = false;
 		bool showAll = false;
 	}m_Menu;
