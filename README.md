@@ -1,13 +1,8 @@
 # OpenGL-PBR
-### **WORK-IN-PROGRESS**
 
-A personal project through which I want to learn Physical Based Rendering.  
-The project is written using OpenGL and GLSL. It's based on my [OpenGL Template](https://github.com/lumixem/OpenGL_Template).
+A personal project through which I want to learn the theory of physically based rendering.
 
-This project was supposed to be a game created using OpenGL at first but I decided to learn PBR Rendering first. Maybe I will create a simple game in the future using
-this renderer to show its features.
-
-### Libraries/Tools used:
+#### Libraries/Tools used:
 - [GLFW](https://www.glfw.org/)
 - [GLAD](https://glad.dav1d.de/)
 - [assimp](https://github.com/assimp/assimp)
@@ -15,8 +10,18 @@ this renderer to show its features.
 - [glm](https://glm.g-truc.net/0.9.9/)
 - [stb_image](https://github.com/nothings/stb)
 
-### Resources:
-- https://learnopengl.com/
-- http://www.opengl-tutorial.org/
+#### OpenGL Resources Used:
+- [LearnOpenGL](https://learnopengl.com/)
+
+#### PBR Resources Used:
+- [Filament](https://google.github.io/filament/Filament.md.html)
+- [Real Shading in Unreal Engine 4](https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf)(paper)
+
+#### Some Screenshots:
+![image](https://github.com/lumixem/OpenGL-PBR/assets/78048342/cffd9f90-7d45-4df5-babf-8308003d7b83)
+![image](https://github.com/lumixem/OpenGL-PBR/assets/78048342/4353f1b4-6ecb-45d7-b2a6-5d222e4aabea)
+![image](https://github.com/lumixem/OpenGL-PBR/assets/78048342/43075ddc-57bc-4f64-8cad-fdf1f63e3518)
+
+
 
 This project is licensed under the terms of the MIT license.
